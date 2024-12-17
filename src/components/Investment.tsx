@@ -17,10 +17,10 @@ export const Investment: React.FC<InvestmentProps> = ({ services, grandTotal }) 
     <h2 className="text-2xl font-bold mb-6">INVESTMENT</h2>
     
     <div className="overflow-x-auto">
-      <table className="min-w-full divide-y divide-gray-200">
+      <table className="min-w-full divide-y divide-gray-200 shadow-sm rounded-lg overflow-hidden">
         <thead>
           <tr>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th className="px-6 py-4 text-left text-sm font-medium bg-brand-sage text-white uppercase tracking-wider">
               Service
             </th>
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
