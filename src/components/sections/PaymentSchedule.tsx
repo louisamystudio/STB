@@ -11,7 +11,7 @@ export const PaymentSchedule: React.FC = () => (
       </h2>
       
       <div className="relative max-w-3xl mx-auto mb-16">
-        <div className="absolute top-5 left-0 w-full h-0.5 bg-gray-200"/>
+        <div className="absolute top-14 left-0 w-full h-0.5 bg-gray-200"/>
         <div className="relative flex justify-between">
           {paymentSchedule.map(({ percentage, description }, index) => (
             <motion.div 
@@ -21,12 +21,11 @@ export const PaymentSchedule: React.FC = () => (
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.2 }}
             >
-              <div className="w-10 h-10 bg-[#f04e3e] rounded-full flex items-center justify-center text-white font-bold mb-3 relative z-10">
-                {index + 1}
+              <div className="w-28 h-28 bg-[#F5F5F5] rounded-full flex items-center justify-center shadow-md relative z-10 mb-6">
+                <div className="w-20 h-20 bg-[#f04e3e] rounded-full flex items-center justify-center">
+                  <span className="text-2xl font-bold text-white">{percentage}%</span>
+                </div>
               </div>
-              <h3 className="font-italiana text-lg text-[#333333] mb-1 text-center">
-                {percentage}%
-              </h3>
               <p className="font-montserrat text-sm text-[#737D74] text-center">
                 {description}
               </p>
