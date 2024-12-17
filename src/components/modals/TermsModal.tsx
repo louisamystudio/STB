@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -86,6 +85,7 @@ export const TermsModal: React.FC<TermsModalProps> = ({ isOpen, onClose }) => {
                     title="Intellectual Property Rights & Ownership"
                     isOpen={openAccordionId === 'ip-rights'}
                     onToggle={() => setOpenAccordionId(openAccordionId === 'ip-rights' ? null : 'ip-rights')}
+                  >
                     <p className="text-[#737D74] leading-relaxed">
                       All copyrights, patents, and intellectual property rights in the <strong>Instruments of Service</strong> are irrevocably retained by the CONSULTANT. The CLIENT may utilize the deliverables solely for their intended purpose as outlined in this proposal.<br /><br />
                       Any reuse, reproduction, or repurposing of the deliverables without the CONSULTANT's explicit written consent is strictly prohibited.
