@@ -4,13 +4,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 interface AccordionItemProps {
   title: string;
   children: React.ReactNode;
-}
-
-interface AccordionItemProps {
-  title: string;
-  children: React.ReactNode;
   isOpen: boolean;
   onToggle: () => void;
+  id: string;
 }
 
 const AccordionItem: React.FC<AccordionItemProps> = ({ title, children, isOpen, onToggle }) => {
@@ -82,6 +78,7 @@ export const TermsModal: React.FC<TermsModalProps> = ({ isOpen, onClose }) => {
               <>
                 <div className="space-y-2">
                   <AccordionItem 
+                    id="ip-rights"
                     title="Intellectual Property Rights & Ownership"
                     isOpen={openAccordionId === 'ip-rights'}
                     onToggle={() => setOpenAccordionId(openAccordionId === 'ip-rights' ? null : 'ip-rights')}
@@ -92,7 +89,12 @@ export const TermsModal: React.FC<TermsModalProps> = ({ isOpen, onClose }) => {
                     </p>
                   </AccordionItem>
 
-                  <AccordionItem title="Written Approval for Changes">
+                  <AccordionItem 
+                    id="written-approval"
+                    title="Written Approval for Changes"
+                    isOpen={openAccordionId === 'written-approval'}
+                    onToggle={() => setOpenAccordionId(openAccordionId === 'written-approval' ? null : 'written-approval')}
+                  >
                     <p className="text-[#737D74] leading-relaxed">
                       Any modifications, additions, or changes to the project scope post-initial completion require the CLIENT's written approval. Associated fees for these amendments will be estimated and agreed upon before the CONSULTANT proceeds with the work.
                     </p>
