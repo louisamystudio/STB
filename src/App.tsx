@@ -7,6 +7,7 @@ import { Investment } from '@/components/sections/Investment';
 import { PaymentSchedule } from '@/components/sections/PaymentSchedule';
 import { Footer } from '@/components/sections/Footer';
 import { useStartupMetrics } from '@/hooks/useStartupMetrics';
+import { HowWeWork } from './components/sections/HowWeWork';
 
 const services = [
   {
@@ -39,6 +40,7 @@ function App() {
           services={services}
           grandTotal="$8,000"
         />
+        <HowWeWork />
         <PaymentSchedule />
         <Footer />
       </div>
