@@ -10,12 +10,18 @@ export const Header: React.FC = () => (
       
       <div className="max-w-2xl mx-auto">
         <div className="text-left space-y-2 text-gray-700">
-          <p className="font-semibold">To:</p>
-          <p>Mr. Carlos A. Díaz Pizarro</p>
-          <p>School Principal</p>
-          <p>Escuela Intermedia Nueva 2024</p>
-          <p>Department of Education</p>
-          <p>Municipality of Caguas</p>
+          <p className="font-semibold">Project Details:</p>
+          <p>Historic Building Laser Scan to BIM Model</p>
+          <div className="mt-4">
+            <p className="font-semibold">Requested by:</p>
+            <p>Ingeniero Eliseo Toledo</p>
+            <p>ETR ENGENIERING, PSC</p>
+          </div>
+          <div className="mt-4">
+            <p className="font-semibold">Project:</p>
+            <p>MOOG006 - Post Office - San Juan</p>
+            <p>Fortaleza 63 San Juan Puerto Rico, 00902</p>
+          </div>
         </div>
       </div>
     </div>
