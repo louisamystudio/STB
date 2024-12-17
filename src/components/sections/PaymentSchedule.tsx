@@ -4,32 +4,31 @@ import { paymentSchedule, projectTimeline } from '@/types/payment';
 
 export const PaymentSchedule: React.FC = () => (
   <section className="py-16 px-4 bg-white">
-    <div className="max-w-6xl mx-auto text-center">
-      <h2 className="font-italiana text-4xl text-[#333333] mb-12">
+    <div className="max-w-6xl mx-auto">
+      <h2 className="font-italiana text-4xl text-[#333333] mb-12 text-center">
         Payment Schedule
       </h2>
       
-      <div className="flex flex-col md:flex-row justify-center gap-8 max-w-5xl mx-auto mb-12">
-        {paymentSchedule.map(({ percentage, description }) => (
-          <div key={percentage} className="flex-1 text-center">
-            <div className="w-24 h-24 bg-[#f5f5f5] rounded-full mx-auto flex items-center justify-center shadow-md">
-              <span className="font-montserrat text-2xl font-bold text-[#f04e3e]">
+      <div className="relative max-w-3xl mx-auto mb-16">
+        <div className="absolute top-5 left-0 w-full h-0.5 bg-gray-200"/>
+        <div className="relative flex justify-between">
+          {paymentSchedule.map(({ percentage, description }, index) => (
+            <div key={percentage} className="flex flex-col items-center w-32">
+              <div className="w-10 h-10 bg-[#f04e3e] rounded-full flex items-center justify-center text-white font-bold mb-3 relative z-10">
+                {index + 1}
+              </div>
+              <h3 className="font-italiana text-lg text-[#333333] mb-1 text-center">
                 {percentage}%
-              </span>
+              </h3>
+              <p className="font-montserrat text-sm text-[#737D74] text-center">
+                {description}
+              </p>
             </div>
-            <h3 className="font-italiana text-xl text-[#333333] mt-4 mb-2">
-              {description}
-            </h3>
-            <p className="font-montserrat text-[#737D74] text-base leading-relaxed">
-              {percentage === 50 && "Initial payment to begin project preparation and scheduling."}
-              {percentage === 30 && "Payment upon completion and delivery of high-resolution scan data."}
-              {percentage === 20 && "Payment upon handover of certified BIM models and documentation."}
-            </p>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
 
-      <div className="mt-10">
+      <div className="mt-10 text-center">
         <p className="font-montserrat text-[#333333] text-base">
           <strong>Project Timeline:</strong>
           {projectTimeline.map((phase, index) => (
