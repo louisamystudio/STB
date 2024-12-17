@@ -2,8 +2,8 @@ import React from 'react';
 import { motion } from 'framer-motion';
 
 export const Hero: React.FC = () => (
-  <section className="relative min-h-[60vh] flex items-center justify-center overflow-hidden bg-white">
-    <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/40" />
+  <section className="relative section-dark-gradient min-h-[60vh] flex items-center justify-center overflow-hidden">
+    <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/20" />
     
     <div className="container mx-auto px-4 py-20 relative z-10 text-center">
       <motion.h1 
