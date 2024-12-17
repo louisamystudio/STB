@@ -33,7 +33,6 @@ function App() {
           recipient="Arch. Ana Mediavilla"
           date="November 20, 2024"
         />
-        <Introduction />
         <PhysicalToDigital />
         <ScopeOfWork />
         <Investment 
