@@ -7,13 +7,18 @@ interface AccordionItemProps {
   children: React.ReactNode;
 }
 
-const AccordionItem: React.FC<AccordionItemProps> = ({ title, children }) => {
-  const [isOpen, setIsOpen] = useState(false);
+interface AccordionItemProps {
+  title: string;
+  children: React.ReactNode;
+  isOpen: boolean;
+  onToggle: () => void;
+}
 
+const AccordionItem: React.FC<AccordionItemProps> = ({ title, children, isOpen, onToggle }) => {
   return (
     <div className="mb-2">
       <button
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={onToggle}
         className="w-full bg-[#f5f5f5] text-[#333333] px-5 py-4 text-left text-lg font-bold cursor-pointer rounded-lg flex justify-between items-center"
       >
         {title}
@@ -44,6 +49,7 @@ export const TermsModal: React.FC<TermsModalProps> = ({ isOpen, onClose }) => {
   const [agreed, setAgreed] = useState(false);
   const [showEmailForm, setShowEmailForm] = useState(false);
   const [email, setEmail] = useState('');
+  const [openAccordionId, setOpenAccordionId] = useState<string | null>(null);
 
   const handleSubmit = () => {
     if (email) {
@@ -76,7 +82,10 @@ export const TermsModal: React.FC<TermsModalProps> = ({ isOpen, onClose }) => {
             {!showEmailForm ? (
               <>
                 <div className="space-y-2">
-                  <AccordionItem title="Intellectual Property Rights & Ownership">
+                  <AccordionItem 
+                    title="Intellectual Property Rights & Ownership"
+                    isOpen={openAccordionId === 'ip-rights'}
+                    onToggle={() => setOpenAccordionId(openAccordionId === 'ip-rights' ? null : 'ip-rights')}
                     <p className="text-[#737D74] leading-relaxed">
                       All copyrights, patents, and intellectual property rights in the <strong>Instruments of Service</strong> are irrevocably retained by the CONSULTANT. The CLIENT may utilize the deliverables solely for their intended purpose as outlined in this proposal.<br /><br />
                       Any reuse, reproduction, or repurposing of the deliverables without the CONSULTANT's explicit written consent is strictly prohibited.
