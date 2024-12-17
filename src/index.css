@@ -58,16 +58,11 @@ h1, h2, h3 {
   line-height: 1.6;
 }
 
-.remittent-item {
-  padding-bottom: 1.5rem;
+.grid-cols-[200px_1fr] > div {
+  padding: 10px 0;
   border-bottom: 1px solid rgba(115, 125, 116, 0.1);
 }
 
-.remittent-item:last-child {
+.grid-cols-[200px_1fr] > div:nth-last-child(-n+2) {
   border-bottom: none;
-}
-
-.remittent-item:hover {
-  transition: all 0.3s ease;
-  background: rgba(115, 125, 116, 0.02);
 }

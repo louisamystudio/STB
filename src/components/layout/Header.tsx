@@ -23,16 +23,28 @@ export const Header: React.FC = () => (
         </motion.div>
 
         <motion.div 
-          className="max-w-3xl mx-auto"
+          className="max-w-3xl mx-auto bg-white p-10"
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.4, duration: 0.6 }}
         >
-          <div className="grid grid-cols-2 gap-x-8 gap-y-6">
-            <div className="remittent-item">
-              <h3 className="font-italiana text-[#737D74] text-lg mb-2">Project Details</h3>
-              <p className="font-montserrat text-gray-900">Historic Building Laser Scan to BIM Model</p>
-            </div>
+          <div className="grid grid-cols-[200px_1fr] gap-y-4">
+            <div className="font-montserrat font-bold text-[16px] text-[#737D74]">Project Details:</div>
+            <div className="font-montserrat text-[18px] text-[#333333]">Historic Building Laser Scan to BIM Model</div>
+            
+            <div className="font-montserrat font-bold text-[16px] text-[#737D74]">Requested By:</div>
+            <div className="font-montserrat text-[18px] text-[#333333]">Ingeniero Eliseo Toledo</div>
+            
+            <div className="font-montserrat font-bold text-[16px] text-[#737D74]">Company Name:</div>
+            <div className="font-montserrat text-[18px] text-[#333333]">ETR ENGINEERING, PSC</div>
+            
+            <div className="font-montserrat font-bold text-[16px] text-[#737D74]">Project Name:</div>
+            <div className="font-montserrat text-[18px] text-[#333333]">MOOG006 - Post Office - San Juan</div>
+            
+            <div className="font-montserrat font-bold text-[16px] text-[#737D74]">Project Address:</div>
+            <div className="font-montserrat text-[18px] text-[#333333]">Fortaleza 63, San Juan, Puerto Rico, 00902</div>
+          </div>
+        </motion.div>
 
             <div className="remittent-item">
               <h3 className="font-italiana text-[#737D74] text-lg mb-2">Requested By</h3>
