@@ -17,6 +17,18 @@
   --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* Luxury Backgrounds */
+.section-dark-gradient {
+  background: linear-gradient(to bottom, #333333, #4a4a4a);
+  color: #f5f5f5;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.section-subtle-gradient {
+  background: linear-gradient(45deg, #f9f9f9, #ffffff);
+  box-shadow: 0 2px 10px rgba(115, 125, 116, 0.08);
+}
+
 /* Luxury Animations */
 @keyframes fadeInUp {
   from {

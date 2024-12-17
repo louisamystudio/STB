@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 
 export const Hero: React.FC = () => (
-  <section className="relative bg-brand-sage min-h-[60vh] flex items-center justify-center overflow-hidden">
+  <section className="relative section-dark-gradient min-h-[60vh] flex items-center justify-center overflow-hidden">
     <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/20" />
     
     <div className="container mx-auto px-4 py-20 relative z-10 text-center">
