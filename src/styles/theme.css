@@ -66,8 +66,13 @@
   background: white;
   border-radius: 0.75rem;
   padding: 2rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 15px rgba(115, 125, 116, 0.08);
   transition: var(--transition-smooth);
+  border: 1px solid rgba(115, 125, 116, 0.1);
+}
+
+.elegant-card:hover {
+  box-shadow: 0 8px 25px rgba(115, 125, 116, 0.12);
 }
 
 .elegant-card:hover {
