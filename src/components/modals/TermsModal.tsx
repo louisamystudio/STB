@@ -2,6 +2,39 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
+interface AccordionItemProps {
+  title: string;
+  children: React.ReactNode;
+}
+
+const AccordionItem: React.FC<AccordionItemProps> = ({ title, children }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div className="mb-2">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full bg-[#f5f5f5] text-[#333333] px-5 py-4 text-left text-lg font-bold cursor-pointer rounded-lg flex justify-between items-center"
+      >
+        {title}
+        <span>{isOpen ? '-' : '+'}</span>
+      </button>
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            className="bg-[#fafafa] p-4 rounded-lg mt-1"
+          >
+            {children}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
+
 interface TermsModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -14,7 +47,6 @@ export const TermsModal: React.FC<TermsModalProps> = ({ isOpen, onClose }) => {
 
   const handleSubmit = () => {
     if (email) {
-      // Here you would typically handle the email submission
       alert(`Thank you! An email confirmation has been sent to: ${email}`);
       onClose();
     } else {
@@ -35,23 +67,59 @@ export const TermsModal: React.FC<TermsModalProps> = ({ isOpen, onClose }) => {
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
-            className="bg-white max-w-[600px] rounded-lg p-10 m-4"
+            className="bg-white max-w-[1000px] rounded-lg p-10 m-4 max-h-[90vh] overflow-y-auto"
           >
+            <h2 className="font-italiana text-[36px] text-center text-[#333333] mb-10">
+              Terms of Agreement
+            </h2>
+
             {!showEmailForm ? (
               <>
-                <h2 className="font-italiana text-[28px] text-center text-[#333333] mb-6">
-                  Terms of Agreement
-                </h2>
-                <div className="text-[#737D74] mb-6 leading-relaxed">
-                  <p className="mb-4">By proceeding, you agree to the following terms:</p>
-                  <ul className="list-disc pl-6 space-y-2">
-                    <li>On-site laser scanning of specified areas.</li>
-                    <li>Delivery of high-resolution point cloud and BIM models.</li>
-                    <li>Quality control, validation, and two rounds of revisions.</li>
-                    <li>Intellectual property ownership transfers to the client upon final payment.</li>
-                  </ul>
+                <div className="space-y-2">
+                  <AccordionItem title="Intellectual Property Rights & Ownership">
+                    <p className="text-[#737D74] leading-relaxed">
+                      All copyrights, patents, and intellectual property rights in the <strong>Instruments of Service</strong> are irrevocably retained by the CONSULTANT. The CLIENT may utilize the deliverables solely for their intended purpose as outlined in this proposal.<br /><br />
+                      Any reuse, reproduction, or repurposing of the deliverables without the CONSULTANT's explicit written consent is strictly prohibited.
+                    </p>
+                  </AccordionItem>
+
+                  <AccordionItem title="Written Approval for Changes">
+                    <p className="text-[#737D74] leading-relaxed">
+                      Any modifications, additions, or changes to the project scope post-initial completion require the CLIENT's written approval. Associated fees for these amendments will be estimated and agreed upon before the CONSULTANT proceeds with the work.
+                    </p>
+                  </AccordionItem>
+
+                  <AccordionItem title="Consultant Fee Compensation">
+                    <div className="text-[#737D74] leading-relaxed">
+                      <p>The CLIENT agrees to timely payments of all invoices within <strong>seven (7) days</strong> of presentation. Failure to comply grants the CONSULTANT the right to:</p>
+                      <ul className="list-disc pl-6 space-y-2 mt-2">
+                        <li>Impose a monthly service charge of ten percent (10%) of the total amount owed.</li>
+                        <li>Suspend all work until payment is received.</li>
+                        <li>Terminate any unperformed portion of this Agreement.</li>
+                      </ul>
+                    </div>
+                  </AccordionItem>
+
+                  <AccordionItem title="Information Review Timeline">
+                    <p className="text-[#737D74] leading-relaxed">
+                      Requests for information or review by the CONSULTANT shall allow for a minimum review period of <strong>two (2) weeks</strong>.
+                    </p>
+                  </AccordionItem>
+
+                  <AccordionItem title="Indemnification">
+                    <p className="text-[#737D74] leading-relaxed">
+                      The CLIENT agrees to indemnify and hold harmless the CONSULTANT from any claims, damages, losses, or expenses, including attorney's fees, arising from the use of the CONSULTANT's documents when the CONSULTANT is not actively rendering services on the project.
+                    </p>
+                  </AccordionItem>
+
+                  <AccordionItem title="Project Documentation Post-Construction">
+                    <p className="text-[#737D74] leading-relaxed">
+                      Upon project completion, the CONSULTANT reserves the right to document the work performed. This may include visits to the CLIENT's property to capture virtual twins, LiDAR scans, measurements, photographs, and video recordings under reasonable circumstances.
+                    </p>
+                  </AccordionItem>
                 </div>
-                <label className="flex items-center gap-3 mb-6 text-[#333333]">
+
+                <label className="flex items-center gap-3 mt-8 mb-6 text-[#333333]">
                   <input
                     type="checkbox"
                     className="w-5 h-5"
@@ -60,6 +128,7 @@ export const TermsModal: React.FC<TermsModalProps> = ({ isOpen, onClose }) => {
                   />
                   <span>I have read and agree to the terms and conditions.</span>
                 </label>
+
                 <button
                   onClick={() => setShowEmailForm(true)}
                   disabled={!agreed}
