@@ -10,8 +10,15 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     }
   },
+  build: {
+    outDir: 'dist'
+  },
   server: {
-    host: true,
-    port: 5173
+    host: '0.0.0.0',
+    port: 5173,
+    strictPort: true,
+    hmr: {
+      clientPort: 443
+    }
   }
 });
