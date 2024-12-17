@@ -174,6 +174,23 @@ export const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
               </div>
             </AccordionItem>
           </div>
+          
+          <div className="mt-6 p-4 border-t border-gray-200">
+            <label className="flex items-center space-x-2">
+              <input 
+                type="checkbox" 
+                className="form-checkbox h-5 w-5 text-[#F04E3E]" 
+                onChange={(e) => {
+                  if (e.target.checked) {
+                    setTimeout(() => {
+                      onClose();
+                    }, 500);
+                  }
+                }}
+              />
+              <span className="text-[#737D74]">I accept the terms and conditions</span>
+            </label>
+          </div>
         </div>
       </div>
     </div>
