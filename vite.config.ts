@@ -1,24 +1,16 @@
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react-swc';
-import { resolve } from 'path';
+
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react-swc'
+import path from 'path'
 
 export default defineConfig({
   plugins: [react()],
+  server: {
+    host: '0.0.0.0'
+  },
   resolve: {
     alias: {
-      '@': resolve(__dirname, './src'),
-    },
-  },
-  server: {
-    warmup: {
-      clientFiles: ['./src/components/**/*.tsx', './src/pages/**/*.tsx'],
-    },
-  },
-  optimizeDeps: {
-    include: ['react', 'react-dom'],
-  },
-  esbuild: {
-    loader: 'tsx',
-    include: /src\/.*\.[tj]sx?$/,
-  },
-});
+      '@': path.resolve(__dirname, './src')
+    }
+  }
+})
