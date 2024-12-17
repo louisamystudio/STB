@@ -1,0 +1,48 @@
+/* Introduction Section Styles */
+.intro-section {
+  @apply py-20 bg-white;
+}
+
+.intro-container {
+  @apply container mx-auto px-4 max-w-4xl;
+}
+
+.intro-header {
+  @apply mb-12 text-center;
+}
+
+.intro-title {
+  @apply font-italiana text-4xl tracking-wider text-brand-dark mb-4;
+}
+
+.intro-divider {
+  @apply w-24 h-1 bg-brand-accent mx-auto;
+}
+
+.intro-content {
+  @apply prose max-w-none;
+}
+
+.intro-text {
+  @apply text-lg leading-relaxed text-brand-dark mb-8;
+}
+
+.capability-list {
+  @apply my-12;
+}
+
+.capability-item {
+  @apply flex items-start space-x-3;
+}
+
+.capability-bullet {
+  @apply w-2 h-2 mt-2 bg-brand-accent rounded-full flex-shrink-0;
+}
+
+.closing-statement {
+  @apply mt-12 text-center;
+}
+
+.tagline {
+  @apply font-italiana text-2xl text-brand-accent tracking-wide;
+}

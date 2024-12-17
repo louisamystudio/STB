@@ -1,0 +1,76 @@
+@import url('https://fonts.googleapis.com/css2?family=Italiana:wght@400&family=Montserrat:wght@300;400;500&display=swap');
+
+:root {
+  --color-sage: #737D74;
+  --color-dark: #333333;
+  --color-accent: #f04e3e;
+  --color-light: #f5f5f5;
+  
+  --font-italiana: 'Italiana', Georgia, serif;
+  --font-montserrat: 'Montserrat', Arial, sans-serif;
+  
+  --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Luxury Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+/* Refined Typography */
+.heading-xl {
+  font-family: var(--font-italiana);
+  font-size: 4.5rem;
+  letter-spacing: 0.3em;
+  line-height: 1.2;
+  color: var(--color-dark);
+}
+
+.heading-lg {
+  font-family: var(--font-italiana);
+  font-size: 2.5rem;
+  letter-spacing: 0.1em;
+  margin-bottom: 2rem;
+}
+
+/* Luxury Components */
+.luxury-button {
+  background-color: var(--color-accent);
+  color: white;
+  padding: 1rem 2.5rem;
+  border-radius: 0.5rem;
+  font-family: var(--font-montserrat);
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  transition: var(--transition-smooth);
+}
+
+.luxury-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(240, 78, 62, 0.2);
+}
+
+/* Elegant Cards */
+.elegant-card {
+  background: white;
+  border-radius: 0.75rem;
+  padding: 2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  transition: var(--transition-smooth);
+}
+
+.elegant-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
