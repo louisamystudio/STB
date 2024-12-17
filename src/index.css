@@ -9,10 +9,73 @@ body {
   font-family: 'Montserrat', Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  color: #333333;
+  line-height: 1.6;
+}
+
+.section {
+  margin: 3rem 0;
+  padding: 3rem 0;
+  border-top: 1px solid rgba(115, 125, 116, 0.1);
 }
 
 h1, h2, h3 {
   font-family: 'Italiana', Georgia, serif;
+  letter-spacing: 0.05em;
+  color: #333333;
+}
+
+.service-card {
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  padding: 2rem;
+}
+
+.service-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.luxury-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.luxury-table th {
+  background: var(--color-sage);
+  color: #ffffff;
+  padding: 1rem;
+  font-weight: 500;
+}
+
+.luxury-table tr:nth-child(even) {
+  background: #f9f9f9;
+}
+
+.luxury-table tfoot tr {
+  background: var(--color-accent);
+  color: #ffffff;
+  font-weight: 500;
+}
+
+.cta-button {
+  background: var(--color-accent);
+  color: #ffffff;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.cta-button:hover {
+  background: #dc2626;
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(240, 78, 62, 0.2);
+}
 
 /* Luxury Styling */
 .luxury-title {
