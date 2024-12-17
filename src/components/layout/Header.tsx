@@ -45,28 +45,6 @@ export const Header: React.FC = () => (
             <div className="font-montserrat text-[18px] text-[#333333]">Fortaleza 63, San Juan, Puerto Rico, 00902</div>
           </div>
         </motion.div>
-
-            <div className="remittent-item">
-              <h3 className="font-italiana text-[#737D74] text-lg mb-2">Requested By</h3>
-              <p className="font-montserrat text-gray-900">Ingeniero Eliseo Toledo</p>
-            </div>
-
-            <div className="remittent-item">
-              <h3 className="font-italiana text-[#737D74] text-lg mb-2">Company Name</h3>
-              <p className="font-montserrat text-gray-900">ETR ENGINEERING, PSC</p>
-            </div>
-
-            <div className="remittent-item">
-              <h3 className="font-italiana text-[#737D74] text-lg mb-2">Project Name</h3>
-              <p className="font-montserrat text-gray-900">MOOG006 - Post Office - San Juan</p>
-            </div>
-
-            <div className="remittent-item col-span-2">
-              <h3 className="font-italiana text-[#737D74] text-lg mb-2">Project Address</h3>
-              <p className="font-montserrat text-gray-900">Fortaleza 63, San Juan, Puerto Rico, 00902</p>
-            </div>
-          </div>
-        </motion.div>
       </div>
     </motion.section>
   </>
