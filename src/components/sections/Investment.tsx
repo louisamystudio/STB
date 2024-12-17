@@ -1,4 +1,3 @@
-
 import React from 'react';
 import type { InvestmentProps } from '@/types/layout';
 import { motion } from 'framer-motion';
@@ -60,14 +59,6 @@ export const Investment: React.FC<InvestmentProps> = ({ services, grandTotal }) 
             Total: {grandTotal}
           </p>
         </motion.div>
-      </div>
-      <div className="text-center mt-10">
-        <a
-          href="mailto:info@louisamy.com"
-          className="inline-block bg-[#F04E3E] text-white font-montserrat px-8 py-4 rounded-lg hover:shadow-lg transition-all duration-300"
-        >
-          Approve Proposal & Start Project
-        </a>
       </div>
     </div>
   </section>
