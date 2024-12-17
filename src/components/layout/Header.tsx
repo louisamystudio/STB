@@ -1,72 +1,41 @@
 
 import React from 'react';
-import { motion } from 'framer-motion';
-import { brandConfig } from '@/config/brand';
+import { CompanyLogo } from '../shared/CompanyLogo';
 
 export const Header: React.FC = () => (
-  <section className="bg-white py-12">
-    <div className="max-w-6xl mx-auto px-4">
-      <motion.h1 
-        className="text-4xl mb-12 text-center"
-        style={{ fontFamily: brandConfig.fonts.primary }}
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-      >
-        Historic Building Laser Scan to BIM Model
-      </motion.h1>
+  <section className="project-details-section bg-gradient-to-b from-gray-50 to-gray-100 py-12">
+    <div className="container mx-auto px-6 text-center">
+      <CompanyLogo className="mx-auto mb-8 w-64" />
+      <div className="h-px w-32 mx-auto bg-brand-sage opacity-40 mb-8" />
       
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <motion.div 
-          className="card-elegant p-6 flex items-start space-x-4"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-        >
-          <span className="text-2xl text-[#737D74]">👤</span>
-          <div>
-            <h3 className="text-sm uppercase tracking-wider text-gray-500 mb-1">Requested by</h3>
-            <p className="text-lg text-gray-800">Ingeniero Eliseo Toledo</p>
-          </div>
-        </motion.div>
+      <h1 className="luxury-title text-3xl text-gray-900 mb-2">Scan to BIM Solutions</h1>
+      <p className="tagline text-gray-600 font-light italic mb-12">Precision. Innovation. Excellence.</p>
 
-        <motion.div 
-          className="card-elegant p-6 flex items-start space-x-4"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-        >
-          <span className="text-2xl text-[#737D74]">🏢</span>
-          <div>
-            <h3 className="text-sm uppercase tracking-wider text-gray-500 mb-1">Company Name</h3>
-            <p className="text-lg text-gray-800">ETR ENGINEERING, PSC</p>
-          </div>
-        </motion.div>
-
-        <motion.div 
-          className="card-elegant p-6 flex items-start space-x-4"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-        >
-          <span className="text-2xl text-[#737D74]">📁</span>
-          <div>
-            <h3 className="text-sm uppercase tracking-wider text-gray-500 mb-1">Project Name</h3>
-            <p className="text-lg text-gray-800">MOOG006 - Post Office - San Juan</p>
-          </div>
-        </motion.div>
-
-        <motion.div 
-          className="card-elegant p-6 flex items-start space-x-4"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-        >
-          <span className="text-2xl text-[#737D74]">📍</span>
-          <div>
-            <h3 className="text-sm uppercase tracking-wider text-gray-500 mb-1">Project Address</h3>
-            <p className="text-lg text-gray-800">Fortaleza 63, San Juan, Puerto Rico, 00902</p>
-          </div>
-        </motion.div>
+      <div className="project-details text-left max-w-3xl mx-auto">
+        <div className="mb-8">
+          <h3 className="section-title text-lg font-semibold text-gray-700 mb-2">Project Details:</h3>
+          <p className="description text-gray-600">Historic Building Laser Scan to BIM Model</p>
+        </div>
+        
+        <hr className="divider border-t border-gray-200 my-6" />
+        
+        <div className="mb-8">
+          <h3 className="section-title text-lg font-semibold text-gray-700 mb-2">Requested by:</h3>
+          <p className="description text-gray-600">
+            Ingeniero Eliseo Toledo<br />
+            ETR ENGENIERING, PSC
+          </p>
+        </div>
+        
+        <hr className="divider border-t border-gray-200 my-6" />
+        
+        <div>
+          <h3 className="section-title text-lg font-semibold text-gray-700 mb-2">Project:</h3>
+          <p className="description text-gray-600">
+            MOOG006 - Post Office - San Juan<br />
+            Fortaleza 63 San Juan Puerto Rico, 00902
+          </p>
+        </div>
       </div>
     </div>
   </section>
