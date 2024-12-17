@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { motion } from 'framer-motion';
 import { paymentSchedule, projectTimeline } from '@/types/payment';
 
 export const PaymentSchedule: React.FC = () => (
@@ -13,7 +14,13 @@ export const PaymentSchedule: React.FC = () => (
         <div className="absolute top-5 left-0 w-full h-0.5 bg-gray-200"/>
         <div className="relative flex justify-between">
           {paymentSchedule.map(({ percentage, description }, index) => (
-            <div key={percentage} className="flex flex-col items-center w-32">
+            <motion.div 
+              key={percentage} 
+              className="flex flex-col items-center w-32"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.2 }}
+            >
               <div className="w-10 h-10 bg-[#f04e3e] rounded-full flex items-center justify-center text-white font-bold mb-3 relative z-10">
                 {index + 1}
               </div>
@@ -23,22 +30,30 @@ export const PaymentSchedule: React.FC = () => (
               <p className="font-montserrat text-sm text-[#737D74] text-center">
                 {description}
               </p>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>
 
-      <div className="mt-10 text-center">
-        <p className="font-montserrat text-[#333333] text-base">
-          <strong>Project Timeline:</strong>
+      <div className="mt-10 bg-gray-50 p-6 rounded-lg">
+        <h3 className="font-italiana text-2xl text-[#333333] mb-6 text-center">Project Timeline</h3>
+        <div className="flex flex-col gap-4">
           {projectTimeline.map((phase, index) => (
-            <span key={phase.phase}>
-              {' '}
-              {phase.phase}: <span className="text-[#f04e3e]">{phase.duration}</span>
-              {index < projectTimeline.length - 1 ? ' |' : ''}
-            </span>
+            <motion.div 
+              key={phase.phase}
+              className="flex items-center gap-3"
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ delay: index * 0.2 }}
+            >
+              <div className="w-2 h-2 bg-[#f04e3e] rounded-full"/>
+              <p className="font-montserrat text-[#333333]">
+                <span className="font-semibold">{phase.phase}:</span>
+                <span className="text-[#f04e3e] ml-2">{phase.duration}</span>
+              </p>
+            </motion.div>
           ))}
-        </p>
+        </div>
       </div>
     </div>
   </section>
