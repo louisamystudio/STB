@@ -117,6 +117,42 @@ export const TermsModal: React.FC<TermsModalProps> = ({ isOpen, onClose }) => {
                       Upon project completion, the CONSULTANT reserves the right to document the work performed. This may include visits to the CLIENT's property to capture virtual twins, LiDAR scans, measurements, photographs, and video recordings under reasonable circumstances.
                     </p>
                   </AccordionItem>
+
+                  <AccordionItem title="Scope of Work and Additional Fees">
+                    <p className="text-[#737D74] leading-relaxed">
+                      Any alterations to the design or scope of work post-completion of the CONSULTANT's initial services will incur additional fees. The CONSULTANT will furnish an estimate for these additional fees, which require the CLIENT's written approval before proceeding.
+                    </p>
+                  </AccordionItem>
+
+                  <AccordionItem title="Waiver of Consequential Damages">
+                    <p className="text-[#737D74] leading-relaxed">
+                      Both CLIENT and CONSULTANT waive any claims for consequential damages resulting from disputes, claims, or matters related to this Agreement, including termination by either party.
+                    </p>
+                  </AccordionItem>
+
+                  <AccordionItem title="Costs of Changes & Reimbursement">
+                    <p className="text-[#737D74] leading-relaxed">
+                      The CLIENT shall bear the cost of any changes approved after a project stage is finalized. The CONSULTANT shall receive reimbursement for any reasonable and necessary expenses incurred while rendering services.
+                    </p>
+                  </AccordionItem>
+
+                  <AccordionItem title="Unforeseen Conditions & Services">
+                    <p className="text-[#737D74] leading-relaxed">
+                      Forensic engineering evaluations, including property material assessments and structural strengths, are outside the CONSULTANT's scope. Any unforeseen services will only be addressed upon mutual agreement and execution of an Additional Services Addendum.
+                    </p>
+                  </AccordionItem>
+
+                  <AccordionItem title="Limitation of Responsibility">
+                    <p className="text-[#737D74] leading-relaxed">
+                      The CONSULTANT is not liable for actions, errors, or omissions of contractors, subcontractors, suppliers, or other entities executing the work. The CONSULTANT also cannot be held responsible for their adherence to construction contract documents.
+                    </p>
+                  </AccordionItem>
+
+                  <AccordionItem title="Areas Not to be Scanned">
+                    <p className="text-[#737D74] leading-relaxed">
+                      Areas inaccessible or restricted by the property owner will not be scanned and will be excluded from the final model. Any exclusions will be documented and agreed upon prior to scanning commencement.
+                    </p>
+                  </AccordionItem>
                 </div>
 
                 <label className="flex items-center gap-3 mt-8 mb-6 text-[#333333]">
