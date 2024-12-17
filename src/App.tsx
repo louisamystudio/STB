@@ -1,7 +1,7 @@
 import React from 'react';
 import { Header } from '@/components/layout/Header';
 import { Introduction } from '@/components/sections/Introduction';
-
+import { PhysicalToDigital } from '@/components/sections/PhysicalToDigital';
 import { ScopeOfWork } from '@/components/sections/ScopeOfWork';
 import { Investment } from '@/components/sections/Investment';
 import { PaymentSchedule } from '@/components/sections/PaymentSchedule';
@@ -34,6 +34,7 @@ function App() {
           date="November 20, 2024"
         />
         <Introduction />
+        <PhysicalToDigital />
         <ScopeOfWork />
         <Investment 
           services={services}

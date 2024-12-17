@@ -1,5 +1,6 @@
 
 import { motion } from 'framer-motion';
+import React from 'react';
 
 export const PhysicalToDigital: React.FC = () => (
   <section className="bg-white py-16">
@@ -27,28 +28,13 @@ export const PhysicalToDigital: React.FC = () => (
               </li>
               <li className="flex items-center">
                 <span className="w-2 h-2 bg-[#f04e3e] rounded-full mr-3"></span>
-                <span className="font-bold text-[#f04e3e]">Efficiency</span>: Faster, more detailed results than manual methods.
+                <span className="font-bold text-[#f04e3e]">Efficiency</span>: Faster, detailed results than manual measurements.
               </li>
               <li className="flex items-center">
                 <span className="w-2 h-2 bg-[#f04e3e] rounded-full mr-3"></span>
-                <span className="font-bold text-[#f04e3e]">Innovation</span>: Seamless integration with tools like Revit and AutoCAD.
+                <span className="font-bold text-[#f04e3e]">Innovation</span>: Seamless integration with BIM tools like Revit, AutoCAD, and more.
               </li>
             </ul>
-          </div>
-        </motion.div>
-
-        <motion.div
-          className="relative"
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-        >
-          <div className="aspect-w-4 aspect-h-3 rounded-lg overflow-hidden shadow-lg">
-            <img
-              src="/scan-to-bim-example.jpg"
-              alt="Scan to BIM Example"
-              className="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all duration-500"
-            />
           </div>
         </motion.div>
       </div>
