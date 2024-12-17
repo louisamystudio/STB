@@ -2,7 +2,7 @@ import React from 'react';
 
 export const Introduction: React.FC = () => (
   <section className="p-8 bg-white">
-    <h2 className="text-2xl font-bold mb-6">LET'S CREATE SOMETHING SPECIAL TOGETHER</h2>
+    <h2 className="text-2xl font-bold mb-6">FROM THE PHYSICAL WORLD TO A DIGITAL REALITY</h2>
     <div className="prose max-w-none">
       <p>
         Louis Amy AE Studio is excited to present <strong>Scan to BIM Solutions</strong>
