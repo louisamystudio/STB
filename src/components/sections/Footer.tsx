@@ -1,5 +1,7 @@
-import React from 'react';
+
+import React, { useState } from 'react';
 import { contactDetails } from '@/config/company';
+import { TermsModal } from '../modals/TermsModal';
 
 export const Footer: React.FC = () => {
   const [showTerms, setShowTerms] = useState(false);
@@ -28,4 +30,3 @@ export const Footer: React.FC = () => {
     </footer>
   );
 };
-);
