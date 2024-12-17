@@ -7,10 +7,11 @@ export default {
   theme: {
     extend: {
       colors: {
-        'brand-sage': '#737D74',
-        'brand-dark': '#333333',
-        'brand-accent': '#f04e3e',
-        'brand-light': '#f5f5f5'
+        'brand-sage': '#8B9B8E',
+        'brand-dark': '#1C1C1C',
+        'brand-accent': '#E63946',
+        'brand-light': '#F5F5F5',
+        'brand-dark-gradient': 'linear-gradient(180deg, #232323 0%, #1C1C1C 100%)'
       },
       fontFamily: {
         italiana: ['Italiana', 'Georgia', 'serif'],
