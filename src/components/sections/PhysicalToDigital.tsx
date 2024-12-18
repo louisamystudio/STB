@@ -35,22 +35,8 @@ export const PhysicalToDigital: React.FC = () => (
             From the Physical World to a Digital Reality
           </h2>
           <p className="text-lg mb-4">
-            Louis Amy AE Studio is proud to present <span className="font-semibold">Scan to BIM Solutions</span> – a revolutionary service that combines <span className="text-brand-accent">terrestrial LiDAR scanning</span> with <span className="font-semibold">Building Information Modeling (BIM)</span>.
+            Louis Amy AE Studio is proud to present <span className="font-semibold">Scan to BIM Solutions</span>.
           </p>
-          <div className="space-y-4">
-            <div>
-              <h3 className="font-semibold text-xl mb-2">Precision:</h3>
-              <p>Millimeter-level accuracy.</p>
-            </div>
-            <div>
-              <h3 className="font-semibold text-xl mb-2">Efficiency:</h3>
-              <p>Faster, detailed results than manual measurements.</p>
-            </div>
-            <div>
-              <h3 className="font-semibold text-xl mb-2">Innovation:</h3>
-              <p>Seamless integration with BIM tools like Revit, AutoCAD, and more.</p>
-            </div>
-          </div>
         </div>
         <div className="h-[500px] bg-gradient-to-b from-gray-100 to-gray-200 rounded-lg overflow-hidden">
           <Canvas camera={{ position: [3, 3, 3], fov: 50 }}>
