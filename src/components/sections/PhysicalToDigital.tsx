@@ -10,7 +10,7 @@ function PointCloudModel() {
   
   const gltf = useLoader(
     GLTFLoader, 
-    './models/tikal_guatemala_point_cloud.glb',
+    './models/extSur/scene.gltf',
     undefined,
     (error) => {
       console.error('Error loading model:', error);
@@ -37,8 +37,8 @@ function PointCloudModel() {
     <primitive 
       ref={modelRef}
       object={gltf.scene} 
-      scale={0.015}
-      position={[0, -2, 0]}
+      scale={1.5}
+      position={[0, 0, 0]}
     />
   );
 }
