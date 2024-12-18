@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { motion } from 'framer-motion';
 
@@ -19,26 +18,28 @@ interface ServiceCardProps {
 
 const ServiceCard: React.FC<ServiceCardProps> = ({ imageSrc, title, description, showScanDetails }) => {
   const [isHoverVisible, setIsHoverVisible] = React.useState(false);
-  <motion.div
-    className="bg-[#F5F5F5] rounded-lg p-8 text-center transition-all duration-300 hover:shadow-lg hover:-translate-y-1 hover:border hover:border-[#737D74] relative"
-    initial={{ opacity: 0, y: 20 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true }}
-    onClick={() => showScanDetails && setIsHoverVisible(!isHoverVisible)}
-  >
-    {showScanDetails && (
-      <ScanDetailsHover 
-        isVisible={isHoverVisible} 
-        onClose={() => setIsHoverVisible(false)} 
-      />
-    )}
-    <div className="w-full h-48 mx-auto mb-6 rounded-lg overflow-hidden">
-      <img src={imageSrc} alt={title} className="w-full h-full object-cover" />
-    </div>
-    <h3 className="font-italiana text-2xl text-[#333333] mb-4">{title}</h3>
-    <p className="font-montserrat text-base text-[#737D74] leading-relaxed">{description}</p>
-  </motion.div>
-);
+  return (
+    <motion.div
+      className="bg-[#F5F5F5] rounded-lg p-8 text-center transition-all duration-300 hover:shadow-lg hover:-translate-y-1 hover:border hover:border-[#737D74] relative"
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      onClick={() => showScanDetails && setIsHoverVisible(!isHoverVisible)}
+    >
+      {showScanDetails && (
+        <ScanDetailsHover 
+          isVisible={isHoverVisible} 
+          onClose={() => setIsHoverVisible(false)} 
+        />
+      )}
+      <div className="w-full h-48 mx-auto mb-6 rounded-lg overflow-hidden">
+        <img src={imageSrc} alt={title} className="w-full h-full object-cover" />
+      </div>
+      <h3 className="font-italiana text-2xl text-[#333333] mb-4">{title}</h3>
+      <p className="font-montserrat text-base text-[#737D74] leading-relaxed">{description}</p>
+    </motion.div>
+  );
+};
 
 export const ScopeOfWork: React.FC = () => {
   const services = [
