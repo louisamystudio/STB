@@ -96,41 +96,106 @@ export const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
               isOpen={openAccordionId === 'ip-rights'}
               onToggle={() => setOpenAccordionId(openAccordionId === 'ip-rights' ? null : 'ip-rights')}
             >
-              <div className="text-[#737D74] leading-relaxed">
-                All copyrights, patents, and intellectual property rights remain with the consultant.
+              <div className="text-[#737D74] leading-relaxed space-y-2">
+                <p>All copyrights, patents, and intellectual property rights in the <strong>Instruments of Service</strong> are irrevocably retained by the CONSULTANT.</p>
+                <p>The CLIENT may utilize deliverables solely for their <strong>intended purpose</strong> as outlined in this proposal.</p>
+                <p>Ownership of Work Product, Proprietary Information, and Deliverables remains the exclusive property of the CONSULTANT.</p>
+                <p>Reuse, reproduction, or repurposing of deliverables without the CONSULTANT's <strong>explicit written consent</strong> is strictly prohibited.</p>
               </div>
             </AccordionItem>
 
             <AccordionItem 
-              id="confidentiality"
-              title="2. Confidentiality"
-              isOpen={openAccordionId === 'confidentiality'}
-              onToggle={() => setOpenAccordionId(openAccordionId === 'confidentiality' ? null : 'confidentiality')}
+              id="scope"
+              title="2. Scope of Work, Changes & Additional Fees"
+              isOpen={openAccordionId === 'scope'}
+              onToggle={() => setOpenAccordionId(openAccordionId === 'scope' ? null : 'scope')}
             >
-              <div className="text-[#737D74] leading-relaxed">
-                All information shared during the project will be kept strictly confidential and used solely for project purposes.
-              </div>
-            </AccordionItem>
-
-            <AccordionItem 
-              id="delivery"
-              title="3. Delivery & Timeline"
-              isOpen={openAccordionId === 'delivery'}
-              onToggle={() => setOpenAccordionId(openAccordionId === 'delivery' ? null : 'delivery')}
-            >
-              <div className="text-[#737D74] leading-relaxed">
-                Project timelines and deliverables will be as specified in the proposal document. Any modifications require written agreement.
+              <div className="text-[#737D74] leading-relaxed space-y-2">
+                <p>The CONSULTANT will deliver the agreed-upon services, which include on-site scanning, processing, and model creation.</p>
+                <p>Any alterations to the <strong>design or scope of work</strong> post-completion of initial services will incur additional fees.</p>
+                <p>Changes require the CLIENT's <strong>written approval</strong>, and an estimate for the additional fees will be provided beforehand.</p>
+                <p>Costs associated with changes or modifications made after project approval are the CLIENT's responsibility.</p>
               </div>
             </AccordionItem>
 
             <AccordionItem 
               id="payment"
-              title="4. Payment Terms"
+              title="3. Payment Obligations & Fee Compensation"
               isOpen={openAccordionId === 'payment'}
               onToggle={() => setOpenAccordionId(openAccordionId === 'payment' ? null : 'payment')}
             >
-              <div className="text-[#737D74] leading-relaxed">
-                Payment schedule and terms are as outlined in the proposal. Late payments may result in project delays.
+              <div className="text-[#737D74] leading-relaxed space-y-2">
+                <p>The CLIENT agrees to pay all fees within <strong>seven (7) days</strong> of invoice presentation.</p>
+                <p>Failure to comply grants the CONSULTANT the right to:</p>
+                <ul className="list-disc pl-6 space-y-1">
+                  <li>Impose a <strong>10% monthly service charge</strong> on the outstanding balance</li>
+                  <li>Suspend all work until payment is received</li>
+                  <li>Terminate any unperformed portion of this Agreement</li>
+                </ul>
+                <p>The CLIENT may not apply reductions, discounts, or set-offs to payments.</p>
+                <p>The CLIENT is responsible for reimbursing the CONSULTANT for all costs related to arbitration, collections, or legal action to recover outstanding amounts.</p>
+              </div>
+            </AccordionItem>
+
+            <AccordionItem 
+              id="client-responsibilities"
+              title="4. Client Responsibilities & Information Review"
+              isOpen={openAccordionId === 'client-responsibilities'}
+              onToggle={() => setOpenAccordionId(openAccordionId === 'client-responsibilities' ? null : 'client-responsibilities')}
+            >
+              <div className="text-[#737D74] leading-relaxed space-y-2">
+                <p>The CLIENT shall provide timely decisions, approvals, and necessary documentation to prevent delays.</p>
+                <p>Requests for Information submitted to the CONSULTANT must allow a minimum <strong>review period of two (2) weeks</strong>.</p>
+                <p>The CONSULTANT is entitled to rely on the <strong>accuracy and completeness</strong> of all information provided by the CLIENT. The CONSULTANT shall not be held liable for inaccuracies or discrepancies.</p>
+              </div>
+            </AccordionItem>
+
+            <AccordionItem 
+              id="limitations"
+              title="5. Limitations of Responsibility"
+              isOpen={openAccordionId === 'limitations'}
+              onToggle={() => setOpenAccordionId(openAccordionId === 'limitations' ? null : 'limitations')}
+            >
+              <div className="text-[#737D74] leading-relaxed space-y-2">
+                <p>The CONSULTANT is not responsible for the <strong>actions or omissions</strong> of contractors, subcontractors, suppliers, or any other entities executing the work.</p>
+                <p>The CONSULTANT is not liable for failure on their part to adhere to construction contract documents.</p>
+                <p>Areas that are inaccessible or restricted will <strong>not be scanned</strong> or included in the final deliverables unless mutually agreed upon and documented prior to the start of work.</p>
+              </div>
+            </AccordionItem>
+
+            <AccordionItem 
+              id="indemnification"
+              title="6. Indemnification & Waiver of Damages"
+              isOpen={openAccordionId === 'indemnification'}
+              onToggle={() => setOpenAccordionId(openAccordionId === 'indemnification' ? null : 'indemnification')}
+            >
+              <div className="text-[#737D74] leading-relaxed space-y-2">
+                <p>The CLIENT agrees to <strong>indemnify and hold harmless</strong> the CONSULTANT from any claims, damages, losses, or expenses (including attorney's fees) arising from the use of the CONSULTANT's deliverables when the CONSULTANT is not actively rendering services.</p>
+                <p>Both CLIENT and CONSULTANT waive any claims for <strong>consequential damages</strong> arising from disputes, claims, or matters related to this Agreement, including termination by either party.</p>
+              </div>
+            </AccordionItem>
+
+            <AccordionItem 
+              id="unforeseen"
+              title="7. Unforeseen Conditions & Services"
+              isOpen={openAccordionId === 'unforeseen'}
+              onToggle={() => setOpenAccordionId(openAccordionId === 'unforeseen' ? null : 'unforeseen')}
+            >
+              <div className="text-[#737D74] leading-relaxed space-y-2">
+                <p>Forensic engineering evaluations, assessments of materials, or structural strengths are <strong>outside the CONSULTANT's scope</strong>.</p>
+                <p>Any unforeseen circumstances requiring additional services will be subject to mutual agreement and an <strong>Additional Services Addendum</strong>.</p>
+              </div>
+            </AccordionItem>
+
+            <AccordionItem 
+              id="documentation"
+              title="8. Post-Construction Documentation"
+              isOpen={openAccordionId === 'documentation'}
+              onToggle={() => setOpenAccordionId(openAccordionId === 'documentation' ? null : 'documentation')}
+            >
+              <div className="text-[#737D74] leading-relaxed space-y-2">
+                <p>Upon project completion, the CONSULTANT reserves the right to <strong>document the work</strong> through virtual twins, LiDAR scans, photographs, and video recordings under reasonable circumstances.</p>
+                <p>The CLIENT agrees to allow access for post-construction documentation purposes.</p>
               </div>
             </AccordionItem>
           </div>
