@@ -5,9 +5,9 @@ import { OrbitControls } from '@react-three/drei';
 
 function Box() {
   return (
-    <mesh rotation={[0, 0, 0]}>
+    <mesh rotation={[0.5, 0.5, 0]}>
       <boxGeometry args={[2, 2, 2]} />
-      <meshStandardMaterial color="gray" />
+      <meshStandardMaterial color="gray" metalness={0.5} roughness={0.5} />
     </mesh>
   );
 }
@@ -41,11 +41,11 @@ export const PhysicalToDigital: React.FC = () => (
         <div className="h-[500px] bg-gray-100 rounded-lg overflow-hidden">
           <Canvas camera={{ position: [3, 3, 3] }}>
             <ambientLight intensity={0.5} />
-            <pointLight position={[10, 10, 10]} />
+            <pointLight position={[10, 10, 10]} intensity={1.5} />
             <Suspense fallback={null}>
               <Box />
             </Suspense>
-            <OrbitControls />
+            <OrbitControls enableZoom={true} enablePan={true} />
           </Canvas>
         </div>
       </div>
