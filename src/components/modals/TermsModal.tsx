@@ -219,7 +219,14 @@ export const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
             {accepted && (
               <div className="space-y-4">
                 <div className="relative">
-                  <p className="text-[#737D74] mb-4">Please enter your email address to receive a verification code:</p>
+                  <div className="bg-[#f5f5f5] p-4 rounded-lg mb-4">
+                    <h3 className="text-[#333333] font-bold mb-2">Verification Process:</h3>
+                    <ol className="list-decimal pl-4 text-[#737D74] space-y-2">
+                      <li>Enter your email address below</li>
+                      <li>Check your inbox for the verification code</li>
+                      <li>Enter the code to authenticate your agreement</li>
+                    </ol>
+                  </div>
                   <input 
                     type="email" 
                     placeholder="Enter your email" 
@@ -265,9 +272,14 @@ export const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
                       </div>
                     </div>
                     <div className="mt-4 p-4 bg-[#fff4f2] rounded-lg">
-                      <p className="text-[#333333] font-bold mb-2">This is a Legal Binding Contract</p>
-                      <p className="text-[#737D74] text-sm mb-4">By submitting, you acknowledge that you have read, understood, and agreed to the terms and conditions above. You authorize Louis Amy to proceed with the Proposed Services.</p>
-                      <p className="text-[#737D74] text-sm">A copy of this proposal will be sent to your email for your records.</p>
+                      <p className="text-[#333333] font-bold mb-2">THIS IS A LEGAL BINDING CONTRACT</p>
+                      <p className="text-[#737D74] text-sm mb-4">By entering the verification code and submitting, you:</p>
+                      <ul className="list-disc pl-4 text-[#737D74] text-sm mb-4">
+                        <li>Acknowledge that you have read, understood, and agreed to all terms and conditions above</li>
+                        <li>Authorize Louis Amy to proceed with the Proposed Services as outlined</li>
+                        <li>Enter into a legally binding agreement with Louis Amy AE Studio</li>
+                      </ul>
+                      <p className="text-[#737D74] text-sm font-bold">A copy of this signed proposal will be sent to your email for your records.</p>
                     </div>
                     <button 
                       onClick={handleAcceptTerms}
