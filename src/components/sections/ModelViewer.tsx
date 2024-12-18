@@ -5,7 +5,7 @@ import { OrbitControls } from '@react-three/drei';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
 function Model() {
-  const gltf = useLoader(GLTFLoader, '/models/tikal_guatemala_point_cloud.glb');
+  const gltf = useLoader(GLTFLoader, '/models/extSur/scene.gltf');
   
   useFrame((state, delta) => {
     // Optional: Add smooth rotation animation
@@ -30,12 +30,12 @@ function ModelViewer() {
     <div className="w-full h-[600px] relative">
       <Canvas
         camera={{
-          position: [10, 5, 10],
-          fov: 45,
+          position: [5, 2, 5],
+          fov: 60,
           near: 0.1,
           far: 1000
         }}
-        style={{ background: '#f5f5f5' }}
+        style={{ background: '#ffffff' }}
       >
         <ambientLight intensity={1} />
         <pointLight position={[10, 10, 10]} intensity={1.5} />
