@@ -5,13 +5,13 @@ import { OrbitControls } from '@react-three/drei';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
 function Model() {
-  const gltf = useLoader(GLTFLoader, '/models/tikal_guatemala_point_cloud.glb');
+  const gltf = useLoader(GLTFLoader, '/models/extSur/scene.gltf');
   
   useFrame((state) => {
     gltf.scene.rotation.y += 0.01;
   });
   
-  return <primitive object={gltf.scene} scale={0.015} position={[0, -2, 0]} />;
+  return <primitive object={gltf.scene} scale={1} />;
 }
 
 function LoadingSpinner() {
@@ -30,13 +30,13 @@ function ModelViewer() {
           position: [8, 5, 8],
           fov: 60,
           near: 0.1,
-          far: 2000
+          far: 1000
         }}
         style={{ background: '#ffffff' }}
       >
         <ambientLight intensity={1} />
         <pointLight position={[10, 10, 10]} intensity={1.5} />
-        <Suspense fallback={null}>
+        <Suspense fallback={<LoadingSpinner />}>
           <Model />
         </Suspense>
         <OrbitControls
@@ -48,7 +48,6 @@ function ModelViewer() {
           maxDistance={20}
         />
       </Canvas>
-      <Suspense fallback={<LoadingSpinner />} />
     </div>
   );
 }
