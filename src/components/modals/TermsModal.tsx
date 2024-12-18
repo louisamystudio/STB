@@ -100,6 +100,39 @@ export const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
                 All copyrights, patents, and intellectual property rights remain with the consultant.
               </div>
             </AccordionItem>
+
+            <AccordionItem 
+              id="confidentiality"
+              title="2. Confidentiality"
+              isOpen={openAccordionId === 'confidentiality'}
+              onToggle={() => setOpenAccordionId(openAccordionId === 'confidentiality' ? null : 'confidentiality')}
+            >
+              <div className="text-[#737D74] leading-relaxed">
+                All information shared during the project will be kept strictly confidential and used solely for project purposes.
+              </div>
+            </AccordionItem>
+
+            <AccordionItem 
+              id="delivery"
+              title="3. Delivery & Timeline"
+              isOpen={openAccordionId === 'delivery'}
+              onToggle={() => setOpenAccordionId(openAccordionId === 'delivery' ? null : 'delivery')}
+            >
+              <div className="text-[#737D74] leading-relaxed">
+                Project timelines and deliverables will be as specified in the proposal document. Any modifications require written agreement.
+              </div>
+            </AccordionItem>
+
+            <AccordionItem 
+              id="payment"
+              title="4. Payment Terms"
+              isOpen={openAccordionId === 'payment'}
+              onToggle={() => setOpenAccordionId(openAccordionId === 'payment' ? null : 'payment')}
+            >
+              <div className="text-[#737D74] leading-relaxed">
+                Payment schedule and terms are as outlined in the proposal. Late payments may result in project delays.
+              </div>
+            </AccordionItem>
           </div>
 
           <div className="mt-6 p-4 border-t border-gray-200">
