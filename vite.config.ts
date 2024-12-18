@@ -25,7 +25,9 @@ export default defineConfig({
     port: 3003,
     strictPort: true,
     hmr: {
-      clientPort: 443
+      clientPort: 443,
+      timeout: 120000,
+      port: 3003
     }
   }
 });
