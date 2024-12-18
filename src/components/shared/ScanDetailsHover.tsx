@@ -27,9 +27,9 @@ export const ScanDetailsHover: React.FC<ScanDetailsHoverProps> = ({ isVisible, o
       </ul>
       <div className="mt-4 pt-4 border-t border-gray-200">
         <p className="font-montserrat text-sm">
-          <span className="font-bold">Approximate scanning gross area:</span>
+          <span className="font-bold">Approximate Gross Area:</span>
           <br />
-          8,755.00 sq-ft
+          <span className="font-medium">8,755.00 sq-ft</span>
         </p>
       </div>
     </div>
