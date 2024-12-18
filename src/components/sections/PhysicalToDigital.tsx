@@ -5,15 +5,33 @@ import { OrbitControls, Environment, ContactShadows, Text } from '@react-three/d
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
 function PointCloudModel() {
-  const gltf = useLoader(GLTFLoader, '/models/tikal_guatemala_point_cloud.glb');
   const modelRef = useRef();
-  const [hovered, setHovered] = useState(false);
+  const [modelError, setModelError] = useState(false);
   
+  const gltf = useLoader(
+    GLTFLoader, 
+    './models/tikal_guatemala_point_cloud.glb',
+    undefined,
+    (error) => {
+      console.error('Error loading model:', error);
+      setModelError(true);
+    }
+  );
+
   useFrame((state) => {
     if (modelRef.current) {
       modelRef.current.rotation.y = state.clock.elapsedTime * 0.1;
     }
   });
+
+  if (modelError) {
+    return (
+      <mesh>
+        <boxGeometry args={[1, 1, 1]} />
+        <meshStandardMaterial color="red" />
+      </mesh>
+    );
+  }
 
   return (
     <primitive 
@@ -21,8 +39,6 @@ function PointCloudModel() {
       object={gltf.scene} 
       scale={0.015}
       position={[0, -2, 0]}
-      onPointerOver={() => setHovered(true)}
-      onPointerOut={() => setHovered(false)}
     />
   );
 }
