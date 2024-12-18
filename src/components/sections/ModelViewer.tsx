@@ -8,7 +8,7 @@ function Model() {
   const gltf = useLoader(GLTFLoader, '/models/tikal_guatemala_point_cloud.glb');
   
   useFrame((state) => {
-    gltf.scene.rotation.y = state.clock.getElapsedTime() * 0.1;
+    gltf.scene.rotation.y += 0.01;
   });
   
   return <primitive object={gltf.scene} scale={0.015} position={[0, -2, 0]} />;
