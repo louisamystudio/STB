@@ -22,11 +22,10 @@ export default defineConfig({
   publicDir: 'public',
   server: {
     host: '0.0.0.0',
-    port: 3003,
+    port: 3000,
     hmr: {
-      protocol: 'ws',
-      host: '0.0.0.0',
-      port: 3003
+      clientPort: 443,
+      host: '0.0.0.0'
     }
   }
 });

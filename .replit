@@ -9,5 +9,5 @@ channel = "stable-24_05"
 run = ["sh", "-c", "npm run build && npm run preview"]
 
 [[ports]]
-localPort = 3003
+localPort = 3000
 externalPort = 80
