@@ -8,13 +8,12 @@ function Model() {
   const gltf = useLoader(GLTFLoader, '/models/extSur/scene.gltf');
   
   useFrame((state, delta) => {
-    // Optional: Add smooth rotation animation
     if (gltf.scene) {
-      gltf.scene.rotation.y += delta * 0.1;
+      gltf.scene.rotation.y += delta * 0.05;
     }
   });
 
-  return <primitive object={gltf.scene} scale={0.5} />;
+  return <primitive object={gltf.scene} scale={1.5} position={[0, -2, 0]} />;
 }
 
 function LoadingSpinner() {
@@ -30,15 +29,15 @@ function ModelViewer() {
     <div className="w-full h-[600px] relative">
       <Canvas
         camera={{
-          position: [5, 2, 5],
-          fov: 60,
+          position: [8, 4, 8],
+          fov: 45,
           near: 0.1,
           far: 1000
         }}
-        style={{ background: '#ffffff' }}
+        style={{ background: '#f8f8f8' }}
       >
-        <ambientLight intensity={1} />
-        <pointLight position={[10, 10, 10]} intensity={1.5} />
+        <ambientLight intensity={1.2} />
+        <pointLight position={[10, 10, 10]} intensity={2} />
         <pointLight position={[-10, -10, -10]} intensity={0.5} />
         <Suspense fallback={null}>
           <Model />
