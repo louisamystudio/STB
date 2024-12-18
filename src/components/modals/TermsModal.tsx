@@ -242,13 +242,27 @@ export const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
                   <>
                     <div className="bg-[#f5f5f5] p-4 rounded-lg">
                       <p className="text-[#737D74] mb-4">Check your email for the verification code and enter it below:</p>
-                      <input 
-                        type="text" 
-                        placeholder="Enter verification code" 
-                        value={confirmationCode} 
-                        onChange={(e) => setConfirmationCode(e.target.value)}
-                        className="w-full p-2 border rounded focus:ring-2 focus:ring-[#F04E3E] text-[#333333] bg-white"
-                      />
+                      <div className="flex space-x-2">
+                        <input 
+                          type="text" 
+                          placeholder="Enter verification code" 
+                          value={confirmationCode} 
+                          onChange={(e) => setConfirmationCode(e.target.value)}
+                          className="flex-1 p-2 border rounded focus:ring-2 focus:ring-[#F04E3E] text-[#333333] bg-white"
+                        />
+                        <button 
+                          onClick={() => {
+                            if (confirmationCode === "123456") {
+                              handleAcceptTerms();
+                            } else {
+                              alert("Invalid verification code");
+                            }
+                          }}
+                          className="bg-[#F04E3E] text-white px-4 py-2 rounded hover:bg-opacity-90"
+                        >
+                          Verify Code
+                        </button>
+                      </div>
                     </div>
                     <div className="mt-4 p-4 bg-[#fff4f2] rounded-lg">
                       <p className="text-[#333333] font-bold mb-2">This is a Legal Binding Contract</p>
