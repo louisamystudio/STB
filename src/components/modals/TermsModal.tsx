@@ -66,8 +66,13 @@ export const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
 
     setIsSubmitting(true);
     try {
-      await sendFormattedProposal(email, confirmationCode);
-      onClose();
+      // Verify the test code
+      if (confirmationCode === "123456") {
+        await sendFormattedProposal(email, confirmationCode);
+        onClose();
+      } else {
+        alert("Invalid verification code. Please try again.");
+      }
     } catch (error) {
       alert("Error processing your request. Please try again.");
     } finally {
