@@ -214,6 +214,7 @@ export const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
             {accepted && (
               <div className="space-y-4">
                 <div className="relative">
+                  <p className="text-[#737D74] mb-4">Please enter your email address to receive a verification code:</p>
                   <input 
                     type="email" 
                     placeholder="Enter your email" 
@@ -234,13 +235,21 @@ export const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
 
                 {verificationSent && (
                   <>
-                    <input 
-                      type="text" 
-                      placeholder="Enter verification code" 
-                      value={confirmationCode} 
-                      onChange={(e) => setConfirmationCode(e.target.value)}
-                      className="w-full p-2 border rounded focus:ring-2 focus:ring-[#F04E3E] text-[#333333] bg-white"
-                    />
+                    <div className="bg-[#f5f5f5] p-4 rounded-lg">
+                      <p className="text-[#737D74] mb-4">Check your email for the verification code and enter it below:</p>
+                      <input 
+                        type="text" 
+                        placeholder="Enter verification code" 
+                        value={confirmationCode} 
+                        onChange={(e) => setConfirmationCode(e.target.value)}
+                        className="w-full p-2 border rounded focus:ring-2 focus:ring-[#F04E3E] text-[#333333] bg-white"
+                      />
+                    </div>
+                    <div className="mt-4 p-4 bg-[#fff4f2] rounded-lg">
+                      <p className="text-[#333333] font-bold mb-2">This is a Legal Binding Contract</p>
+                      <p className="text-[#737D74] text-sm mb-4">By submitting, you acknowledge that you have read, understood, and agreed to the terms and conditions above. You authorize Louis Amy to proceed with the Proposed Services.</p>
+                      <p className="text-[#737D74] text-sm">A copy of this proposal will be sent to your email for your records.</p>
+                    </div>
                     <button 
                       onClick={handleAcceptTerms}
                       disabled={isSubmitting}
