@@ -1,28 +1,29 @@
 
-import React, { Suspense, useRef } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
-import { OrbitControls, Environment, ContactShadows } from '@react-three/drei';
+import React, { Suspense, useRef, useState } from 'react';
+import { Canvas, useFrame, useLoader } from '@react-three/fiber';
+import { OrbitControls, Environment, ContactShadows, Text } from '@react-three/drei';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
-function Box() {
-  const meshRef = useRef();
+function PointCloudModel() {
+  const gltf = useLoader(GLTFLoader, '/models/tikal_guatemala_point_cloud.glb');
+  const modelRef = useRef();
+  const [hovered, setHovered] = useState(false);
   
   useFrame((state) => {
-    if (meshRef.current) {
-      meshRef.current.rotation.x = Math.sin(state.clock.elapsedTime) * 0.2;
-      meshRef.current.rotation.y += 0.01;
+    if (modelRef.current) {
+      modelRef.current.rotation.y = state.clock.elapsedTime * 0.1;
     }
   });
 
   return (
-    <mesh ref={meshRef} castShadow>
-      <boxGeometry args={[2, 2, 2]} />
-      <meshStandardMaterial
-        color="#444444"
-        metalness={0.8}
-        roughness={0.2}
-        envMapIntensity={1}
-      />
-    </mesh>
+    <primitive 
+      ref={modelRef}
+      object={gltf.scene} 
+      scale={0.015}
+      position={[0, -2, 0]}
+      onPointerOver={() => setHovered(true)}
+      onPointerOut={() => setHovered(false)}
+    />
   );
 }
 
@@ -53,8 +54,8 @@ export const PhysicalToDigital: React.FC = () => (
           </div>
         </div>
         <div className="h-[500px] bg-gradient-to-b from-gray-100 to-gray-200 rounded-lg overflow-hidden">
-          <Canvas camera={{ position: [3, 3, 3], fov: 50 }}>
-            <Environment preset="warehouse" />
+          <Canvas camera={{ position: [5, 2, 5], fov: 50 }}>
+            <Environment preset="sunset" />
             <ambientLight intensity={0.5} />
             <spotLight 
               position={[10, 10, 10]} 
@@ -64,9 +65,9 @@ export const PhysicalToDigital: React.FC = () => (
               castShadow 
             />
             <Suspense fallback={null}>
-              <Box />
+              <PointCloudModel />
               <ContactShadows
-                position={[0, -1, 0]}
+                position={[0, -2, 0]}
                 opacity={0.4}
                 scale={5}
                 blur={2}
@@ -77,6 +78,8 @@ export const PhysicalToDigital: React.FC = () => (
               enablePan={true}
               minPolarAngle={Math.PI / 4}
               maxPolarAngle={Math.PI / 1.5}
+              autoRotate
+              autoRotateSpeed={0.5}
             />
           </Canvas>
         </div>
