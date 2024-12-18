@@ -1,45 +1,28 @@
-import React, { Suspense, useRef, useState } from 'react';
-import { Canvas, useFrame, useLoader } from '@react-three/fiber';
-import { OrbitControls, Environment, ContactShadows, Text } from '@react-three/drei';
-import { GLTFLoader, MTLLoader, OBJLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
 
+import React, { Suspense, useRef } from 'react';
+import { Canvas, useFrame } from '@react-three/fiber';
+import { OrbitControls, Environment, ContactShadows } from '@react-three/drei';
 
-function PointCloudModel() {
-  const modelRef = useRef();
-  const [modelError, setModelError] = useState(false);
+function Box() {
+  const meshRef = useRef();
   
-  const materials = useLoader(MTLLoader, './models/veramodel/ebc6b5b6de2b4088bfbbe0d0fe4223f5.mtl');
-  const obj = useLoader(OBJLoader, './models/veramodel/ebc6b5b6de2b4088bfbbe0d0fe4223f5.obj', (loader) => {
-    materials.preload();
-    loader.setMaterials(materials);
-  }, (error) => {
-    console.error('Error loading model:', error);
-    setModelError(true);
-  });
-
   useFrame((state) => {
-    if (modelRef.current) {
-      modelRef.current.rotation.y = state.clock.elapsedTime * 0.1;
+    if (meshRef.current) {
+      meshRef.current.rotation.x = Math.sin(state.clock.elapsedTime) * 0.2;
+      meshRef.current.rotation.y += 0.01;
     }
   });
 
-  if (modelError) {
-    return (
-      <mesh>
-        <boxGeometry args={[1, 1, 1]} />
-        <meshStandardMaterial color="red" />
-      </mesh>
-    );
-  }
-
   return (
-    <primitive 
-      ref={modelRef}
-      object={obj} 
-      scale={1.5}
-      position={[0, 0, 0]}
-    />
+    <mesh ref={meshRef} castShadow>
+      <boxGeometry args={[2, 2, 2]} />
+      <meshStandardMaterial
+        color="#444444"
+        metalness={0.8}
+        roughness={0.2}
+        envMapIntensity={1}
+      />
+    </mesh>
   );
 }
 
@@ -70,8 +53,8 @@ export const PhysicalToDigital: React.FC = () => (
           </div>
         </div>
         <div className="h-[500px] bg-gradient-to-b from-gray-100 to-gray-200 rounded-lg overflow-hidden">
-          <Canvas camera={{ position: [5, 2, 5], fov: 50 }}>
-            <Environment preset="sunset" />
+          <Canvas camera={{ position: [3, 3, 3], fov: 50 }}>
+            <Environment preset="warehouse" />
             <ambientLight intensity={0.5} />
             <spotLight 
               position={[10, 10, 10]} 
@@ -81,9 +64,9 @@ export const PhysicalToDigital: React.FC = () => (
               castShadow 
             />
             <Suspense fallback={null}>
-              <PointCloudModel />
+              <Box />
               <ContactShadows
-                position={[0, -2, 0]}
+                position={[0, -1, 0]}
                 opacity={0.4}
                 scale={5}
                 blur={2}
@@ -94,8 +77,6 @@ export const PhysicalToDigital: React.FC = () => (
               enablePan={true}
               minPolarAngle={Math.PI / 4}
               maxPolarAngle={Math.PI / 1.5}
-              autoRotate
-              autoRotateSpeed={0.5}
             />
           </Canvas>
         </div>
