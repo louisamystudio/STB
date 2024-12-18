@@ -1,22 +1,22 @@
-
 import React, { Suspense, useRef, useState } from 'react';
 import { Canvas, useFrame, useLoader } from '@react-three/fiber';
 import { OrbitControls, Environment, ContactShadows, Text } from '@react-three/drei';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { GLTFLoader, MTLLoader, OBJLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
+
 
 function PointCloudModel() {
   const modelRef = useRef();
   const [modelError, setModelError] = useState(false);
   
-  const gltf = useLoader(
-    GLTFLoader, 
-    './models/extSur/scene.gltf',
-    undefined,
-    (error) => {
-      console.error('Error loading model:', error);
-      setModelError(true);
-    }
-  );
+  const materials = useLoader(MTLLoader, './models/veramodel/ebc6b5b6de2b4088bfbbe0d0fe4223f5.mtl');
+  const obj = useLoader(OBJLoader, './models/veramodel/ebc6b5b6de2b4088bfbbe0d0fe4223f5.obj', (loader) => {
+    materials.preload();
+    loader.setMaterials(materials);
+  }, (error) => {
+    console.error('Error loading model:', error);
+    setModelError(true);
+  });
 
   useFrame((state) => {
     if (modelRef.current) {
@@ -36,7 +36,7 @@ function PointCloudModel() {
   return (
     <primitive 
       ref={modelRef}
-      object={gltf.scene} 
+      object={obj} 
       scale={1.5}
       position={[0, 0, 0]}
     />
