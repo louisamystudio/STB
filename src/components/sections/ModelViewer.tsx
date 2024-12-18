@@ -7,7 +7,11 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 function Model() {
   const gltf = useLoader(GLTFLoader, '/models/tikal_guatemala_point_cloud.glb');
   
-  return <primitive object={gltf.scene} scale={0.02} position={[0, -1, 0]} />;
+  useFrame((state) => {
+    gltf.scene.rotation.y = state.clock.getElapsedTime() * 0.1;
+  });
+  
+  return <primitive object={gltf.scene} scale={0.015} position={[0, -2, 0]} />;
 }
 
 function LoadingSpinner() {
@@ -23,12 +27,12 @@ function ModelViewer() {
     <div className="w-full h-[600px] relative">
       <Canvas
         camera={{
-          position: [5, 5, 5],
-          fov: 50,
+          position: [8, 5, 8],
+          fov: 60,
           near: 0.1,
-          far: 1000
+          far: 2000
         }}
-        style={{ background: '#f0f0f0' }}
+        style={{ background: '#ffffff' }}
       >
         <ambientLight intensity={1} />
         <pointLight position={[10, 10, 10]} intensity={1.5} />
