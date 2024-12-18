@@ -1,12 +1,11 @@
-
 import React from 'react';
 import { motion } from 'framer-motion';
 
 const steps = [
   {
     number: 1,
-    title: 'Consultation',
-    description: 'Understanding your project\'s needs and objectives.'
+    title: 'Coordination',
+    description: 'Start of scanning may be scheduled with a priority of 7 days or less.'
   },
   {
     number: 2,
