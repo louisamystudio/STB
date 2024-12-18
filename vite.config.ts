@@ -11,8 +11,15 @@ export default defineConfig({
     }
   },
   build: {
-    outDir: 'dist'
+    outDir: 'dist',
+    assetsDir: 'assets',
+    rollupOptions: {
+      input: {
+        main: path.resolve(__dirname, 'index.html'),
+      }
+    }
   },
+  publicDir: 'public',
   server: {
     host: '0.0.0.0',
     port: 3000,
