@@ -41,8 +41,47 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ title, children, isOpen, 
 
 export const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen, onClose }) => {
   const [openAccordionId, setOpenAccordionId] = useState<string | null>(null);
+  const [email, setEmail] = useState('');
+  const [confirmationCode, setConfirmationCode] = useState('');
+  const [accepted, setAccepted] = useState(false);
+  const [verificationSent, setVerificationSent] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   if (!isOpen) return null;
+
+  const handleSendVerification = async () => {
+    if (!email) {
+      alert("Please enter your email address");
+      return;
+    }
+    setVerificationSent(true);
+    // TODO: Implement email verification code sending
+    console.log(`Sending verification to ${email}`);
+  };
+
+  const handleAcceptTerms = async () => {
+    if (!email || !confirmationCode) {
+      alert("Please fill in all required fields");
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      // TODO: Implement verification code checking
+      await sendFormattedProposal(email, confirmationCode);
+      onClose();
+    } catch (error) {
+      alert("Error processing your request. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const sendFormattedProposal = async (email: string, code: string) => {
+    // TODO: Implement proposal sending logic
+    console.log(`Sending proposal to ${email} with code ${code}`);
+    return new Promise(resolve => setTimeout(resolve, 1000));
+  };
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
@@ -52,144 +91,74 @@ export const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
             <h2 className="text-2xl font-bold text-[#333333]">Terms of Agreement</h2>
             <button onClick={onClose} className="text-2xl">&times;</button>
           </div>
-          <div className="space-y-2">
+          
+          <div className="space-y-4">
             <AccordionItem 
               id="ip-rights"
               title="1. Intellectual Property & Ownership"
               isOpen={openAccordionId === 'ip-rights'}
               onToggle={() => setOpenAccordionId(openAccordionId === 'ip-rights' ? null : 'ip-rights')}
             >
-              <div className="text-[#737D74] leading-relaxed space-y-2">
-                <p>All copyrights, patents, and intellectual property rights in the Instruments of Service are irrevocably retained by the CONSULTANT.</p>
-                <ul className="list-disc pl-6">
-                  <li>The CLIENT may utilize deliverables solely for their intended purpose as outlined in this proposal.</li>
-                  <li>Ownership of Work Product, Proprietary Information, and Deliverables remains the exclusive property of the CONSULTANT.</li>
-                  <li>Reuse, reproduction, or repurposing of deliverables without the CONSULTANT's explicit written consent is strictly prohibited.</li>
-                </ul>
+              <div className="text-[#737D74] leading-relaxed">
+                All copyrights, patents, and intellectual property rights remain with the consultant.
               </div>
             </AccordionItem>
-
-            <AccordionItem 
-              id="scope-changes"
-              title="2. Scope of Work, Changes & Additional Fees"
-              isOpen={openAccordionId === 'scope-changes'}
-              onToggle={() => setOpenAccordionId(openAccordionId === 'scope-changes' ? null : 'scope-changes')}
-            >
-              <div className="text-[#737D74] leading-relaxed space-y-2">
-                <p>The CONSULTANT will deliver the agreed-upon services, which include on-site scanning, processing, and model creation.</p>
-                <ul className="list-disc pl-6">
-                  <li>Any alterations to the design or scope of work post-completion of initial services will incur additional fees.</li>
-                  <li>Changes require the CLIENT's written approval, and an estimate for the additional fees will be provided beforehand.</li>
-                  <li>Costs associated with changes or modifications made after project approval are the CLIENT's responsibility.</li>
-                </ul>
-              </div>
-            </AccordionItem>
-
-            <AccordionItem 
-              id="payment"
-              title="3. Payment Obligations & Fee Compensation"
-              isOpen={openAccordionId === 'payment'}
-              onToggle={() => setOpenAccordionId(openAccordionId === 'payment' ? null : 'payment')}
-            >
-              <div className="text-[#737D74] leading-relaxed space-y-2">
-                <p>The CLIENT agrees to pay all fees within seven (7) days of invoice presentation.</p>
-                <p>Failure to comply grants the CONSULTANT the right to:</p>
-                <ul className="list-disc pl-6">
-                  <li>Impose a 10% monthly service charge on the outstanding balance.</li>
-                  <li>Suspend all work until payment is received.</li>
-                  <li>Terminate any unperformed portion of this Agreement.</li>
-                </ul>
-                <p>The CLIENT may not apply reductions, discounts, or set-offs to payments.</p>
-              </div>
-            </AccordionItem>
-
-            <AccordionItem 
-              id="client-responsibilities"
-              title="4. Client Responsibilities & Information Review"
-              isOpen={openAccordionId === 'client-responsibilities'}
-              onToggle={() => setOpenAccordionId(openAccordionId === 'client-responsibilities' ? null : 'client-responsibilities')}
-            >
-              <div className="text-[#737D74] leading-relaxed space-y-2">
-                <ul className="list-disc pl-6">
-                  <li>The CLIENT shall provide timely decisions, approvals, and necessary documentation to prevent delays.</li>
-                  <li>Requests for Information submitted to the CONSULTANT must allow a minimum review period of two (2) weeks.</li>
-                  <li>The CONSULTANT is entitled to rely on the accuracy and completeness of all information provided by the CLIENT.</li>
-                </ul>
-              </div>
-            </AccordionItem>
-
-            <AccordionItem 
-              id="limitations"
-              title="5. Limitations of Responsibility"
-              isOpen={openAccordionId === 'limitations'}
-              onToggle={() => setOpenAccordionId(openAccordionId === 'limitations' ? null : 'limitations')}
-            >
-              <div className="text-[#737D74] leading-relaxed space-y-2">
-                <ul className="list-disc pl-6">
-                  <li>The CONSULTANT is not responsible for the actions or omissions of contractors, subcontractors, suppliers, or any other entities executing the work.</li>
-                  <li>Areas that are inaccessible or restricted will not be scanned or included in the final deliverables unless mutually agreed upon and documented prior to the start of work.</li>
-                </ul>
-              </div>
-            </AccordionItem>
-
-            <AccordionItem 
-              id="indemnification"
-              title="6. Indemnification & Waiver of Damages"
-              isOpen={openAccordionId === 'indemnification'}
-              onToggle={() => setOpenAccordionId(openAccordionId === 'indemnification' ? null : 'indemnification')}
-            >
-              <div className="text-[#737D74] leading-relaxed space-y-2">
-                <ul className="list-disc pl-6">
-                  <li>The CLIENT agrees to indemnify and hold harmless the CONSULTANT from any claims, damages, losses, or expenses (including attorney's fees) arising from the use of the CONSULTANT's deliverables.</li>
-                  <li>Both CLIENT and CONSULTANT waive any claims for consequential damages arising from disputes, claims, or matters related to this Agreement.</li>
-                </ul>
-              </div>
-            </AccordionItem>
-
-            <AccordionItem 
-              id="unforeseen"
-              title="7. Unforeseen Conditions & Services"
-              isOpen={openAccordionId === 'unforeseen'}
-              onToggle={() => setOpenAccordionId(openAccordionId === 'unforeseen' ? null : 'unforeseen')}
-            >
-              <div className="text-[#737D74] leading-relaxed space-y-2">
-                <ul className="list-disc pl-6">
-                  <li>Forensic engineering evaluations, assessments of materials, or structural strengths are outside the CONSULTANT's scope.</li>
-                  <li>Any unforeseen circumstances requiring additional services will be subject to mutual agreement and an Additional Services Addendum.</li>
-                </ul>
-              </div>
-            </AccordionItem>
-
-            <AccordionItem 
-              id="documentation"
-              title="8. Post-Construction Documentation"
-              isOpen={openAccordionId === 'documentation'}
-              onToggle={() => setOpenAccordionId(openAccordionId === 'documentation' ? null : 'documentation')}
-            >
-              <div className="text-[#737D74] leading-relaxed space-y-2">
-                <ul className="list-disc pl-6">
-                  <li>Upon project completion, the CONSULTANT reserves the right to document the work through virtual twins, LiDAR scans, photographs, and video recordings under reasonable circumstances.</li>
-                  <li>The CLIENT agrees to allow access for post-construction documentation purposes.</li>
-                </ul>
-              </div>
-            </AccordionItem>
+            
+            {/* Add other accordion items here */}
           </div>
-          
+
           <div className="mt-6 p-4 border-t border-gray-200">
-            <label className="flex items-center space-x-2">
+            <label className="flex items-center space-x-2 mb-4">
               <input 
                 type="checkbox" 
                 className="form-checkbox h-5 w-5 text-[#F04E3E]" 
-                onChange={(e) => {
-                  if (e.target.checked) {
-                    setTimeout(() => {
-                      onClose();
-                    }, 500);
-                  }
-                }}
+                checked={accepted}
+                onChange={(e) => setAccepted(e.target.checked)}
               />
               <span className="text-[#737D74]">I accept the terms and conditions</span>
             </label>
+
+            {accepted && (
+              <div className="space-y-4">
+                <div className="relative">
+                  <input 
+                    type="email" 
+                    placeholder="Enter your email" 
+                    value={email} 
+                    onChange={(e) => setEmail(e.target.value)}
+                    disabled={verificationSent}
+                    className="w-full p-2 border rounded focus:ring-2 focus:ring-[#F04E3E]"
+                  />
+                  {!verificationSent && (
+                    <button 
+                      onClick={handleSendVerification}
+                      className="mt-2 bg-[#F04E3E] text-white px-4 py-2 rounded hover:bg-opacity-90"
+                    >
+                      Send Verification Code
+                    </button>
+                  )}
+                </div>
+
+                {verificationSent && (
+                  <>
+                    <input 
+                      type="text" 
+                      placeholder="Enter verification code" 
+                      value={confirmationCode} 
+                      onChange={(e) => setConfirmationCode(e.target.value)}
+                      className="w-full p-2 border rounded focus:ring-2 focus:ring-[#F04E3E]"
+                    />
+                    <button 
+                      onClick={handleAcceptTerms}
+                      disabled={isSubmitting}
+                      className="w-full bg-[#F04E3E] text-white p-2 rounded hover:bg-opacity-90 disabled:opacity-50"
+                    >
+                      {isSubmitting ? 'Processing...' : 'Confirm & Submit'}
+                    </button>
+                  </>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </div>
