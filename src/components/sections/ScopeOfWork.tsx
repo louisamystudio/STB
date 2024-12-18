@@ -8,13 +8,30 @@ interface ServiceCardProps {
   description: string;
 }
 
-const ServiceCard: React.FC<ServiceCardProps> = ({ imageSrc, title, description }) => (
+import { ScanDetailsHover } from '../shared/ScanDetailsHover';
+
+interface ServiceCardProps {
+  imageSrc: string;
+  title: string;
+  description: string;
+  showScanDetails?: boolean;
+}
+
+const ServiceCard: React.FC<ServiceCardProps> = ({ imageSrc, title, description, showScanDetails }) => {
+  const [isHoverVisible, setIsHoverVisible] = React.useState(false);
   <motion.div
-    className="bg-[#F5F5F5] rounded-lg p-8 text-center transition-all duration-300 hover:shadow-lg hover:-translate-y-1 hover:border hover:border-[#737D74]"
+    className="bg-[#F5F5F5] rounded-lg p-8 text-center transition-all duration-300 hover:shadow-lg hover:-translate-y-1 hover:border hover:border-[#737D74] relative"
     initial={{ opacity: 0, y: 20 }}
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true }}
+    onClick={() => showScanDetails && setIsHoverVisible(!isHoverVisible)}
   >
+    {showScanDetails && (
+      <ScanDetailsHover 
+        isVisible={isHoverVisible} 
+        onClose={() => setIsHoverVisible(false)} 
+      />
+    )}
     <div className="w-full h-48 mx-auto mb-6 rounded-lg overflow-hidden">
       <img src={imageSrc} alt={title} className="w-full h-full object-cover" />
     </div>
@@ -60,6 +77,7 @@ export const ScopeOfWork: React.FC = () => {
               imageSrc={service.imageSrc}
               title={service.title}
               description={service.description}
+              showScanDetails={index === 0}
             />
           ))}
         </div>
