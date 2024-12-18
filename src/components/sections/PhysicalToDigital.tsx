@@ -1,42 +1,53 @@
 
-import { motion } from 'framer-motion';
-import React from 'react';
+import React, { Suspense } from 'react';
+import { Canvas } from '@react-three/fiber';
+import { OrbitControls } from '@react-three/drei';
+
+function Box() {
+  return (
+    <mesh rotation={[0, 0, 0]}>
+      <boxGeometry args={[2, 2, 2]} />
+      <meshStandardMaterial color="grey" />
+    </mesh>
+  );
+}
 
 export const PhysicalToDigital: React.FC = () => (
-  <section className="bg-white py-16">
-    <div className="container mx-auto px-6">
-      <div className="grid md:grid-cols-2 gap-12 items-center">
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          <h2 className="font-italiana text-[36px] text-[#333333] tracking-[0.1em] mb-6">
+  <section className="py-16 px-4">
+    <div className="max-w-6xl mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+        <div>
+          <h2 className="font-italiana text-4xl mb-6">
             From the Physical World to a Digital Reality
           </h2>
-          <div className="font-montserrat text-[#737D74] text-base leading-[1.8] space-y-6">
-            <p>
-              Louis Amy AE Studio is proud to present <span className="font-bold">Scan to BIM Solutions</span> – a revolutionary service that combines <span className="font-bold">terrestrial LiDAR scanning</span> with <span className="font-bold">Building Information Modeling (BIM)</span>.
-            </p>
-            <p>
-              With over a decade of expertise and state-of-the-art equipment, we deliver unmatched:
-            </p>
-            <ul className="space-y-3 text-[#333333] list-none">
-              <li className="flex items-center">
-                <span className="w-2 h-2 bg-[#f04e3e] rounded-full mr-3"></span>
-                <span className="font-bold text-[#f04e3e]">Precision</span>: Millimeter-level accuracy.
-              </li>
-              <li className="flex items-center">
-                <span className="w-2 h-2 bg-[#f04e3e] rounded-full mr-3"></span>
-                <span className="font-bold text-[#f04e3e]">Efficiency</span>: Faster, detailed results than manual measurements.
-              </li>
-              <li className="flex items-center">
-                <span className="w-2 h-2 bg-[#f04e3e] rounded-full mr-3"></span>
-                <span className="font-bold text-[#f04e3e]">Innovation</span>: Seamless integration with BIM tools like Revit, AutoCAD, and more.
-              </li>
-            </ul>
+          <p className="text-lg mb-4">
+            Louis Amy AE Studio is proud to present <span className="font-semibold">Scan to BIM Solutions</span> – a revolutionary service that combines <span className="text-brand-accent">terrestrial LiDAR scanning</span> with <span className="font-semibold">Building Information Modeling (BIM)</span>.
+          </p>
+          <div className="space-y-4">
+            <div>
+              <h3 className="font-semibold text-xl mb-2">Precision:</h3>
+              <p>Millimeter-level accuracy.</p>
+            </div>
+            <div>
+              <h3 className="font-semibold text-xl mb-2">Efficiency:</h3>
+              <p>Faster, detailed results than manual measurements.</p>
+            </div>
+            <div>
+              <h3 className="font-semibold text-xl mb-2">Innovation:</h3>
+              <p>Seamless integration with BIM tools like Revit, AutoCAD, and more.</p>
+            </div>
           </div>
-        </motion.div>
+        </div>
+        <div className="h-[500px] bg-gray-100 rounded-lg overflow-hidden">
+          <Canvas camera={{ position: [3, 3, 3] }}>
+            <ambientLight intensity={0.5} />
+            <pointLight position={[10, 10, 10]} />
+            <Suspense fallback={null}>
+              <Box />
+            </Suspense>
+            <OrbitControls />
+          </Canvas>
+        </div>
       </div>
     </div>
   </section>
