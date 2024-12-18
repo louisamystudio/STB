@@ -22,7 +22,7 @@ export default defineConfig({
   publicDir: 'public',
   server: {
     host: '0.0.0.0',
-    port: 3001,
+    port: 3000,
     strictPort: true,
     hmr: {
       clientPort: 443
