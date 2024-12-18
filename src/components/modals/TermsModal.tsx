@@ -55,7 +55,6 @@ export const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
       return;
     }
     setVerificationSent(true);
-    // TODO: Implement email verification code sending
     console.log(`Sending verification to ${email}`);
   };
 
@@ -67,7 +66,6 @@ export const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
 
     setIsSubmitting(true);
     try {
-      // TODO: Implement verification code checking
       await sendFormattedProposal(email, confirmationCode);
       onClose();
     } catch (error) {
@@ -78,7 +76,6 @@ export const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
   };
 
   const sendFormattedProposal = async (email: string, code: string) => {
-    // TODO: Implement proposal sending logic
     console.log(`Sending proposal to ${email} with code ${code}`);
     return new Promise(resolve => setTimeout(resolve, 1000));
   };
@@ -89,7 +86,7 @@ export const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
         <div className="p-6">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-2xl font-bold text-[#333333]">Terms of Agreement</h2>
-            <button onClick={onClose} className="text-2xl">&times;</button>
+            <button onClick={onClose} className="text-2xl text-[#333333]">&times;</button>
           </div>
           
           <div className="space-y-4">
@@ -103,8 +100,6 @@ export const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
                 All copyrights, patents, and intellectual property rights remain with the consultant.
               </div>
             </AccordionItem>
-            
-            {/* Add other accordion items here */}
           </div>
 
           <div className="mt-6 p-4 border-t border-gray-200">
@@ -127,7 +122,7 @@ export const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
                     value={email} 
                     onChange={(e) => setEmail(e.target.value)}
                     disabled={verificationSent}
-                    className="w-full p-2 border rounded focus:ring-2 focus:ring-[#F04E3E]"
+                    className="w-full p-2 border rounded focus:ring-2 focus:ring-[#F04E3E] text-[#333333] bg-white"
                   />
                   {!verificationSent && (
                     <button 
@@ -146,7 +141,7 @@ export const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
                       placeholder="Enter verification code" 
                       value={confirmationCode} 
                       onChange={(e) => setConfirmationCode(e.target.value)}
-                      className="w-full p-2 border rounded focus:ring-2 focus:ring-[#F04E3E]"
+                      className="w-full p-2 border rounded focus:ring-2 focus:ring-[#F04E3E] text-[#333333] bg-white"
                     />
                     <button 
                       onClick={handleAcceptTerms}
