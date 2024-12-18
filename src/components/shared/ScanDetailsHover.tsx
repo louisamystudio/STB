@@ -25,11 +25,11 @@ export const ScanDetailsHover: React.FC<ScanDetailsHoverProps> = ({ isVisible, o
         <li>• Floorplan 4</li>
         <li>• Roofplan</li>
       </ul>
-      <div className="mt-4 pt-4 border-t border-gray-200">
-        <p className="font-montserrat text-sm">
-          <span className="font-bold text-brand-dark">Project Dimensions</span>
+      <div className="mt-4 pt-4 border-t border-brand-sage/20">
+        <p className="font-montserrat">
+          <span className="text-brand-dark text-sm uppercase tracking-wide">Total Area</span>
           <br />
-          <span className="font-medium text-brand-sage">Total Area: 8,755 sq ft</span>
+          <span className="text-xl font-medium text-brand-accent">8,755 ft²</span>
         </p>
       </div>
     </div>
