@@ -1,13 +1,27 @@
 
-import React, { Suspense } from 'react';
-import { Canvas } from '@react-three/fiber';
-import { OrbitControls } from '@react-three/drei';
+import React, { Suspense, useRef } from 'react';
+import { Canvas, useFrame } from '@react-three/fiber';
+import { OrbitControls, Environment, ContactShadows } from '@react-three/drei';
 
 function Box() {
+  const meshRef = useRef();
+  
+  useFrame((state) => {
+    if (meshRef.current) {
+      meshRef.current.rotation.x = Math.sin(state.clock.elapsedTime) * 0.2;
+      meshRef.current.rotation.y += 0.01;
+    }
+  });
+
   return (
-    <mesh rotation={[0.5, 0.5, 0]}>
+    <mesh ref={meshRef} castShadow>
       <boxGeometry args={[2, 2, 2]} />
-      <meshStandardMaterial color="gray" metalness={0.5} roughness={0.5} />
+      <meshStandardMaterial
+        color="#444444"
+        metalness={0.8}
+        roughness={0.2}
+        envMapIntensity={1}
+      />
     </mesh>
   );
 }
@@ -38,14 +52,32 @@ export const PhysicalToDigital: React.FC = () => (
             </div>
           </div>
         </div>
-        <div className="h-[500px] bg-gray-100 rounded-lg overflow-hidden">
-          <Canvas camera={{ position: [3, 3, 3] }}>
+        <div className="h-[500px] bg-gradient-to-b from-gray-100 to-gray-200 rounded-lg overflow-hidden">
+          <Canvas camera={{ position: [3, 3, 3], fov: 50 }}>
+            <Environment preset="warehouse" />
             <ambientLight intensity={0.5} />
-            <pointLight position={[10, 10, 10]} intensity={1.5} />
+            <spotLight 
+              position={[10, 10, 10]} 
+              angle={0.15} 
+              penumbra={1} 
+              intensity={1} 
+              castShadow 
+            />
             <Suspense fallback={null}>
               <Box />
+              <ContactShadows
+                position={[0, -1, 0]}
+                opacity={0.4}
+                scale={5}
+                blur={2}
+              />
             </Suspense>
-            <OrbitControls enableZoom={true} enablePan={true} />
+            <OrbitControls 
+              enableZoom={true} 
+              enablePan={true}
+              minPolarAngle={Math.PI / 4}
+              maxPolarAngle={Math.PI / 1.5}
+            />
           </Canvas>
         </div>
       </div>
