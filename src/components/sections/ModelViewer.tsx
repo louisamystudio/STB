@@ -27,12 +27,12 @@ function ModelViewer() {
     <div className="w-full h-[600px] relative">
       <Canvas
         camera={{
-          position: [8, 5, 8],
-          fov: 60,
+          position: [5, 3, 5],
+          fov: 75,
           near: 0.1,
-          far: 1000
+          far: 2000
         }}
-        style={{ background: '#ffffff' }}
+        style={{ background: '#f5f5f5' }}
       >
         <ambientLight intensity={1} />
         <pointLight position={[10, 10, 10]} intensity={1.5} />
@@ -43,9 +43,11 @@ function ModelViewer() {
           enablePan={true}
           enableZoom={true}
           enableRotate={true}
-          dampingFactor={0.05}
-          minDistance={2}
-          maxDistance={20}
+          dampingFactor={0.1}
+          minDistance={1}
+          maxDistance={50}
+          autoRotate={true}
+          autoRotateSpeed={0.5}
         />
       </Canvas>
     </div>
