@@ -23,10 +23,9 @@ export default defineConfig({
   server: {
     host: '0.0.0.0',
     port: 3003,
-    strictPort: true,
     hmr: {
-      clientPort: 443,
-      timeout: 120000,
+      protocol: 'ws',
+      host: '0.0.0.0',
       port: 3003
     }
   }
