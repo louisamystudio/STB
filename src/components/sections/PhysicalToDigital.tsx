@@ -7,7 +7,7 @@ function Box() {
   return (
     <mesh rotation={[0, 0, 0]}>
       <boxGeometry args={[2, 2, 2]} />
-      <meshStandardMaterial color="grey" />
+      <meshStandardMaterial color="gray" />
     </mesh>
   );
 }
