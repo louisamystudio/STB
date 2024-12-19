@@ -1,16 +1,16 @@
 
 import React, { Suspense, useRef, useEffect } from 'react';
-import { Canvas, useThree, extend } from '@react-three/fiber';
+import { Canvas, useThree } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 import * as THREE from 'three';
 import { Potree } from '@pnext/three-loader';
 
-// Extend THREE to R3F to prevent multiple instances
-extend({ THREE });
+// Register THREE with R3F to prevent multiple instances
+THREE.Object3D.DefaultUp = new THREE.Vector3(0, 0, 1);
 
 function PointCloud() {
   const { scene, camera } = useThree();
-  const potreeRef = useRef<Potree>();
+  const potreeRef = useRef<Potree | null>(null);
 
   useEffect(() => {
     const initPointCloud = async () => {
@@ -20,26 +20,35 @@ function PointCloud() {
       }
 
       try {
-        const pointCloudPath = '/models/extSur/scene.gltf';
+        if (!potreeRef.current) return;
+        
         const pointCloud = await potreeRef.current.loadPointCloud(
-          pointCloudPath,
-          url => `${window.location.origin}${url}`
+          '/models/extSur/scene.gltf',
+          (url) => {
+            const baseUrl = window.location.origin;
+            const fullUrl = `${baseUrl}${url}`;
+            console.log('Loading from:', fullUrl);
+            return fullUrl;
+          }
         );
 
         if (pointCloud) {
           scene.add(pointCloud);
+          
+          // Configure point cloud material
           pointCloud.material.size = 1.0;
           pointCloud.material.pointSizeType = 0;
           pointCloud.material.shape = 1;
-          
+
+          // Center camera on point cloud
           const box = new THREE.Box3().setFromObject(pointCloud);
-          const center = box.getCenter(new THREE.Vector3());
           const size = box.getSize(new THREE.Vector3());
-          
+          const center = box.getCenter(new THREE.Vector3());
+
           const maxDim = Math.max(size.x, size.y, size.z);
           const fov = camera.fov * (Math.PI / 180);
-          const cameraZ = Math.abs(maxDim / Math.sin(fov / 2) / 2);
-          
+          const cameraZ = Math.abs(maxDim / Math.sin(fov / 2));
+
           camera.position.set(center.x, center.y, center.z + cameraZ);
           camera.lookAt(center);
           camera.updateProjectionMatrix();
@@ -54,7 +63,7 @@ function PointCloud() {
     return () => {
       if (potreeRef.current) {
         scene.traverse((object) => {
-          if (object.type === 'Points') {
+          if (object instanceof THREE.Points) {
             scene.remove(object);
           }
         });
@@ -78,7 +87,7 @@ export default function ModelViewer() {
             fov: 75,
             near: 0.1,
             far: 1000,
-            position: [0, 0, 5]
+            position: [0, 0, 10]
           }}
           style={{ background: '#f0f0f0' }}
         >
