@@ -3,46 +3,62 @@ import React, { Suspense, useRef, useEffect } from 'react';
 import { Canvas, useThree } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 import * as THREE from 'three';
-import { Potree, PointCloudOctree } from '@pnext/three-loader';
+import { Potree, PointCloudOctree, IPointCloudData } from '@pnext/three-loader';
 
 function PointCloud() {
   const { camera, scene } = useThree();
-  const potreeRef = useRef(new Potree());
+  const potreeRef = useRef<Potree>();
+  const cloudRef = useRef<PointCloudOctree>();
 
   useEffect(() => {
-    if (!potreeRef.current) return;
+    if (!potreeRef.current) {
+      potreeRef.current = new Potree();
+      potreeRef.current.pointBudget = 1_000_000;
+    }
 
-    potreeRef.current.pointBudget = 2_000_000;
-    const modelPath = '/models/extSur/scene.gltf';
-    
-    potreeRef.current.loadPointCloud(
-      modelPath,
-      (url) => `${window.location.origin}${url}`
-    ).then(pco => {
-      scene.add(pco);
-      pco.material.size = 0.01;
-      pco.material.pointSizeType = 0;
-      pco.material.shape = 1;
+    const loadPointCloud = async () => {
+      try {
+        const pointCloud = await potreeRef.current?.loadPointCloud(
+          '/models/extSur/scene.gltf',
+          url => `${window.location.origin}${url}`
+        );
 
-      const box = new THREE.Box3().setFromObject(pco);
-      const center = box.getCenter(new THREE.Vector3());
-      const size = box.getSize(new THREE.Vector3());
-      
-      const maxDim = Math.max(size.x, size.y, size.z);
-      const fov = camera.fov * (Math.PI / 180);
-      const cameraDistance = maxDim / (2 * Math.tan(fov / 2));
-      
-      camera.position.set(center.x + cameraDistance, center.y, center.z + cameraDistance);
-      camera.lookAt(center);
-      camera.updateProjectionMatrix();
-    });
+        if (pointCloud) {
+          cloudRef.current = pointCloud;
+          scene.add(pointCloud);
+          
+          pointCloud.material.size = 1;
+          pointCloud.material.pointSizeType = 0;
+          pointCloud.material.shape = 1;
+          pointCloud.material.opacity = 1.0;
+
+          const box = new THREE.Box3().setFromObject(pointCloud);
+          const size = box.getSize(new THREE.Vector3());
+          const center = box.getCenter(new THREE.Vector3());
+
+          const maxDim = Math.max(size.x, size.y, size.z);
+          const fov = camera.fov * (Math.PI / 180);
+          const cameraDistance = maxDim / (2 * Math.tan(fov / 2));
+
+          camera.position.set(
+            center.x + cameraDistance,
+            center.y,
+            center.z + cameraDistance
+          );
+          camera.lookAt(center);
+          camera.updateProjectionMatrix();
+        }
+      } catch (error) {
+        console.error('Error loading point cloud:', error);
+      }
+    };
+
+    loadPointCloud();
 
     return () => {
-      scene.traverse((object) => {
-        if (object instanceof PointCloudOctree) {
-          scene.remove(object);
-        }
-      });
+      if (cloudRef.current) {
+        scene.remove(cloudRef.current);
+      }
     };
   }, [camera, scene]);
 
@@ -52,7 +68,7 @@ function PointCloud() {
 export default function ModelViewer() {
   return (
     <div className="w-full h-[600px] relative">
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<div>Loading model...</div>}>
         <Canvas
           gl={{
             antialias: true,
@@ -63,20 +79,20 @@ export default function ModelViewer() {
             fov: 60,
             near: 0.1,
             far: 1000,
-            position: [5, 5, 5]
+            position: [10, 10, 10]
           }}
           style={{ background: '#f5f5f5' }}
         >
           <ambientLight intensity={1.5} />
           <pointLight position={[10, 10, 10]} intensity={2} />
           <PointCloud />
-          <OrbitControls
+          <OrbitControls 
             enablePan={true}
             enableZoom={true}
             enableRotate={true}
             dampingFactor={0.05}
-            minDistance={0.1}
-            maxDistance={50}
+            minDistance={1}
+            maxDistance={1000}
           />
         </Canvas>
       </Suspense>
