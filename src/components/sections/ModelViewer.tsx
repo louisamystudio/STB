@@ -56,7 +56,7 @@ export default function ModelViewer() {
           enableDamping
           dampingFactor={0.05}
           minDistance={2}
-          maxDistance={20}
+          maxDistance={100}
         />
       </Canvas>
     </div>
