@@ -6,7 +6,20 @@ import * as THREE from 'three';
 
 function Model() {
   const gltf = useGLTF('/models/extSur/scene.gltf');
-  return <primitive object={gltf.scene} />;
+  return (
+    <>
+      <primitive object={gltf.scene} scale={1.2} />
+      <hemisphereLight intensity={1} groundColor="#000000" />
+      <spotLight
+        position={[10, 10, 10]}
+        angle={0.3}
+        penumbra={1}
+        intensity={2}
+        castShadow
+      />
+      <pointLight position={[-10, -10, -10]} intensity={1} />
+    </>
+  );
 }
 
 export default function ModelViewer() {
