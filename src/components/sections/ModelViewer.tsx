@@ -2,65 +2,52 @@
 import React, { Suspense, useRef, useEffect } from 'react';
 import { Canvas, useLoader, useThree } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import * as THREE from 'three';
+import { Potree, PointCloudOctree } from '@pnext/three-loader';
 
 function PointCloud() {
   const pointsRef = useRef();
-  const { camera } = useThree();
-  const gltf = useLoader(GLTFLoader, '/models/extSur/scene.gltf');
-  
+  const { camera, scene } = useThree();
+  const potree = new Potree();
+  potree.pointBudget = 2_000_000;
+
   useEffect(() => {
-    if (gltf.scene) {
-      const geometry = new THREE.BufferGeometry();
-      const positions = [];
-      const colors = [];
+    const pointClouds: PointCloudOctree[] = [];
+    const modelPath = '/models/extSur/scene.gltf';
+    
+    potree.loadPointCloud(
+      modelPath,
+      (url) => `${window.location.origin}${url}`
+    ).then(pco => {
+      pointClouds.push(pco);
+      scene.add(pco);
+      pco.material.size = 0.01;
+      pco.material.pointSizeType = 0;
+      pco.material.shape = 1;
       
-      gltf.scene.traverse((child) => {
-        if (child.isMesh) {
-          const position = child.geometry.attributes.position;
-          const color = child.geometry.attributes.color;
-          
-          for (let i = 0; i < position.count; i++) {
-            positions.push(position.getX(i), position.getY(i), position.getZ(i));
-            if (color) {
-              colors.push(color.getX(i), color.getY(i), color.getZ(i));
-            } else {
-              colors.push(1, 1, 1); // Default white if no colors
-            }
-          }
-        }
-      });
-
-      geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
-      geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
-
-      const material = new THREE.PointsMaterial({
-        size: 0.01,
-        vertexColors: true,
-        sizeAttenuation: true
-      });
-
-      if (pointsRef.current) {
-        pointsRef.current.geometry = geometry;
-        pointsRef.current.material = material;
-      }
-
-      // Center and zoom camera
-      const box = new THREE.Box3().setFromBufferAttribute(geometry.attributes.position);
+      const box = new THREE.Box3().setFromObject(pco);
       const center = box.getCenter(new THREE.Vector3());
       const size = box.getSize(new THREE.Vector3());
+      
       const maxDim = Math.max(size.x, size.y, size.z);
       const fov = camera.fov * (Math.PI / 180);
       const cameraDistance = maxDim / (2 * Math.tan(fov / 2));
-
-      camera.position.set(center.x + cameraDistance, center.y, center.z);
+      
+      camera.position.set(
+        center.x + cameraDistance,
+        center.y,
+        center.z + cameraDistance
+      );
       camera.lookAt(center);
       camera.updateProjectionMatrix();
-    }
-  }, [gltf, camera]);
+    });
 
-  return <points ref={pointsRef} />;
+    return () => {
+      pointClouds.forEach(pc => scene.remove(pc));
+    };
+  }, []);
+
+  return null;
 }
 
 function ModelViewer() {
@@ -77,7 +64,7 @@ function ModelViewer() {
       >
         <ambientLight intensity={1.5} />
         <pointLight position={[10, 10, 10]} intensity={2} />
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={null}>
           <PointCloud />
           <OrbitControls
             enablePan={true}
