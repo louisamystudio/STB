@@ -1,4 +1,3 @@
-
 import React from 'react';
 import ModelViewer from './ModelViewer';
 
@@ -15,7 +14,7 @@ export const PhysicalToDigital = () => {
               Louis Amy AE Studio is proud to present <span className="font-semibold">Scan to BIM Solutions</span>.
             </p>
           </div>
-          <div className="h-[500px] bg-gradient-to-b from-gray-100 to-gray-200 rounded-lg overflow-hidden">
+          <div className="h-[500px] bg-gray-800 rounded-lg overflow-hidden"> {/* Changed background color here */}
             <ModelViewer />
           </div>
         </div>
