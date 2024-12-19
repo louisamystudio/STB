@@ -7,13 +7,15 @@ import { Potree, PointCloudOctree } from '@pnext/three-loader';
 
 function PointCloud() {
   const { camera, scene } = useThree();
-  const potree = useRef(new Potree());
+  const potreeRef = useRef(new Potree());
 
   useEffect(() => {
-    potree.current.pointBudget = 2_000_000;
+    if (!potreeRef.current) return;
+
+    potreeRef.current.pointBudget = 2_000_000;
     const modelPath = '/models/extSur/scene.gltf';
     
-    potree.current.loadPointCloud(
+    potreeRef.current.loadPointCloud(
       modelPath,
       (url) => `${window.location.origin}${url}`
     ).then(pco => {
@@ -50,19 +52,23 @@ function PointCloud() {
 export default function ModelViewer() {
   return (
     <div className="w-full h-[600px] relative">
-      <Canvas
-        gl={{ antialias: true }}
-        camera={{
-          fov: 60,
-          near: 0.1,
-          far: 1000,
-          position: [5, 5, 5]
-        }}
-        style={{ background: '#f5f5f5' }}
-      >
-        <ambientLight intensity={1.5} />
-        <pointLight position={[10, 10, 10]} intensity={2} />
-        <Suspense fallback={null}>
+      <Suspense fallback={<div>Loading...</div>}>
+        <Canvas
+          gl={{
+            antialias: true,
+            preserveDrawingBuffer: true,
+            logarithmicDepthBuffer: true
+          }}
+          camera={{
+            fov: 60,
+            near: 0.1,
+            far: 1000,
+            position: [5, 5, 5]
+          }}
+          style={{ background: '#f5f5f5' }}
+        >
+          <ambientLight intensity={1.5} />
+          <pointLight position={[10, 10, 10]} intensity={2} />
           <PointCloud />
           <OrbitControls
             enablePan={true}
@@ -72,8 +78,8 @@ export default function ModelViewer() {
             minDistance={0.1}
             maxDistance={50}
           />
-        </Suspense>
-      </Canvas>
+        </Canvas>
+      </Suspense>
     </div>
   );
 }
