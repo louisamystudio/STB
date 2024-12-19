@@ -6,7 +6,7 @@ import { VisualComparison } from './VisualComparison';
 import { ClosingStatement } from './ClosingStatement';
 
 export const Introduction: React.FC = () => (
-  <section className="py-20 bg-gray-800 text-white">
+  <section className="py-20 bg-gray-800 text-white w-full">
     <div className="container mx-auto px-4 max-w-4xl">
       <IntroHeader />
       <IntroContent />
