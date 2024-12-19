@@ -1,30 +1,27 @@
 
 import React, { Suspense, useRef, useEffect } from 'react';
-import { Canvas, useLoader, useThree } from '@react-three/fiber';
+import { Canvas, useThree } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 import * as THREE from 'three';
 import { Potree, PointCloudOctree } from '@pnext/three-loader';
 
 function PointCloud() {
-  const pointsRef = useRef();
   const { camera, scene } = useThree();
-  const potree = new Potree();
-  potree.pointBudget = 2_000_000;
+  const potree = useRef(new Potree());
 
   useEffect(() => {
-    const pointClouds: PointCloudOctree[] = [];
+    potree.current.pointBudget = 2_000_000;
     const modelPath = '/models/extSur/scene.gltf';
     
-    potree.loadPointCloud(
+    potree.current.loadPointCloud(
       modelPath,
       (url) => `${window.location.origin}${url}`
     ).then(pco => {
-      pointClouds.push(pco);
       scene.add(pco);
       pco.material.size = 0.01;
       pco.material.pointSizeType = 0;
       pco.material.shape = 1;
-      
+
       const box = new THREE.Box3().setFromObject(pco);
       const center = box.getCenter(new THREE.Vector3());
       const size = box.getSize(new THREE.Vector3());
@@ -33,27 +30,28 @@ function PointCloud() {
       const fov = camera.fov * (Math.PI / 180);
       const cameraDistance = maxDim / (2 * Math.tan(fov / 2));
       
-      camera.position.set(
-        center.x + cameraDistance,
-        center.y,
-        center.z + cameraDistance
-      );
+      camera.position.set(center.x + cameraDistance, center.y, center.z + cameraDistance);
       camera.lookAt(center);
       camera.updateProjectionMatrix();
     });
 
     return () => {
-      pointClouds.forEach(pc => scene.remove(pc));
+      scene.traverse((object) => {
+        if (object instanceof PointCloudOctree) {
+          scene.remove(object);
+        }
+      });
     };
-  }, []);
+  }, [camera, scene]);
 
   return null;
 }
 
-function ModelViewer() {
+export default function ModelViewer() {
   return (
     <div className="w-full h-[600px] relative">
       <Canvas
+        gl={{ antialias: true }}
         camera={{
           fov: 60,
           near: 0.1,
@@ -79,5 +77,3 @@ function ModelViewer() {
     </div>
   );
 }
-
-export default ModelViewer;
