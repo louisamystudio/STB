@@ -1,12 +1,17 @@
 
-import React, { Suspense, useRef } from 'react';
+import React, { Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, useGLTF } from '@react-three/drei';
-import * as THREE from 'three';
 
 function Model() {
-  const gltf = useGLTF('/models/extSur/scene.gltf');
-  return <primitive object={gltf.scene} />;
+  const { scene } = useGLTF('/models/extSur/scene.gltf');
+  scene.traverse((child) => {
+    if (child.isMesh) {
+      child.castShadow = true;
+      child.receiveShadow = true;
+    }
+  });
+  return <primitive object={scene} scale={1} />;
 }
 
 export default function ModelViewer() {
@@ -14,29 +19,31 @@ export default function ModelViewer() {
     <div className="w-full h-[600px] relative">
       <Suspense fallback={<div>Loading model...</div>}>
         <Canvas
-          gl={{
-            antialias: true,
-            logarithmicDepthBuffer: true
-          }}
+          shadows
           camera={{
-            fov: 75,
+            fov: 45,
             near: 0.1,
             far: 1000,
-            position: [0, 5, 10]
+            position: [5, 5, 5]
           }}
-          style={{ background: '#f0f0f0' }}
         >
           <ambientLight intensity={0.5} />
-          <pointLight position={[10, 10, 10]} intensity={1} />
+          <directionalLight 
+            position={[5, 5, 5]} 
+            intensity={1} 
+            castShadow
+          />
           <Model />
           <OrbitControls 
             enableDamping
             dampingFactor={0.05}
-            minDistance={1}
-            maxDistance={1000}
+            minDistance={2}
+            maxDistance={10}
           />
         </Canvas>
       </Suspense>
     </div>
   );
 }
+
+useGLTF.preload('/models/extSur/scene.gltf');
