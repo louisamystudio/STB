@@ -4,7 +4,7 @@ import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Environment, ContactShadows } from '@react-three/drei';
 import ModelViewer from './ModelViewer';
 
-function PhysicalToDigital() {
+export function PhysicalToDigital() {
   return (
     <div className="w-full h-[600px] relative">
       <ModelViewer />
