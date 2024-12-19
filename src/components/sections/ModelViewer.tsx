@@ -1,9 +1,8 @@
-
 import React, { Suspense, useRef, useEffect } from 'react';
 import { Canvas, useLoader, useFrame, useThree } from '@react-three/fiber';
-import { OrbitControls } from '@react-three/drei';
+import { OrbitControls, PerspectiveCamera } from '@react-three/drei';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import { PCDLoader } from 'three/examples/jsm/loaders/PCDLoader';
+//import { PointCloudOctree } from '@pnext/three-loader'; //This import is commented out because it caused errors.  A different approach to loading point clouds is needed.
 import * as THREE from 'three';
 
 function PointCloudModel() {
