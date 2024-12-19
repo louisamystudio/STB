@@ -1,19 +1,61 @@
+
 import React, { Suspense, useRef, useEffect } from 'react';
 import { Canvas, useLoader, useFrame, useThree } from '@react-three/fiber';
-import { OrbitControls, PerspectiveCamera } from '@react-three/drei';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-//import { PointCloudOctree } from '@pnext/three-loader'; //This import is commented out because it caused errors.  A different approach to loading point clouds is needed.
+import { OrbitControls } from '@react-three/drei';
 import * as THREE from 'three';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
-function PointCloudModel() {
-  const groupRef = useRef();
+function PointCloud() {
+  const pointsRef = useRef();
   const { camera } = useThree();
-  const gltf = useLoader(GLTFLoader, '/models/extSur/scene.gltf');
+  const gltf = useLoader(GLTFLoader, '/models/tikal_guatemala_point_cloud.glb');
   
   useEffect(() => {
     if (gltf.scene) {
-      // Center the camera on the point cloud
-      const box = new THREE.Box3().setFromObject(gltf.scene);
+      let points = [];
+      let colors = [];
+      
+      gltf.scene.traverse((child) => {
+        if (child instanceof THREE.Points) {
+          const geometry = child.geometry;
+          const position = geometry.attributes.position;
+          const color = geometry.attributes.color;
+          
+          for (let i = 0; i < position.count; i++) {
+            points.push(
+              position.getX(i),
+              position.getY(i),
+              position.getZ(i)
+            );
+            if (color) {
+              colors.push(
+                color.getX(i),
+                color.getY(i),
+                color.getZ(i)
+              );
+            }
+          }
+        }
+      });
+
+      const geometry = new THREE.BufferGeometry();
+      geometry.setAttribute('position', new THREE.Float32BufferAttribute(points, 3));
+      
+      if (colors.length > 0) {
+        geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+      }
+
+      const material = new THREE.PointsMaterial({
+        size: 0.005,
+        vertexColors: colors.length > 0,
+        sizeAttenuation: true
+      });
+
+      pointsRef.current.geometry = geometry;
+      pointsRef.current.material = material;
+
+      // Center camera on point cloud
+      const box = new THREE.Box3().setFromObject(pointsRef.current);
       const center = box.getCenter(new THREE.Vector3());
       const size = box.getSize(new THREE.Vector3());
       
@@ -27,21 +69,7 @@ function PointCloudModel() {
     }
   }, [gltf, camera]);
 
-  useFrame((state) => {
-    if (groupRef.current) {
-      groupRef.current.rotation.y += 0.0005;
-    }
-  });
-
-  return (
-    <group ref={groupRef}>
-      <primitive 
-        object={gltf.scene} 
-        scale={0.5}
-        position={[0, 0, 0]}
-      />
-    </group>
-  );
+  return <points ref={pointsRef} />;
 }
 
 function ModelViewer() {
@@ -52,14 +80,14 @@ function ModelViewer() {
           fov: 60,
           near: 0.1,
           far: 1000,
-          position: [10, 5, 10]
+          position: [0, 0, 5]
         }}
         style={{ background: '#f5f5f5' }}
       >
         <ambientLight intensity={1.5} />
         <pointLight position={[10, 10, 10]} intensity={2} />
         <Suspense fallback={<LoadingSpinner />}>
-          <PointCloudModel />
+          <PointCloud />
         </Suspense>
         <OrbitControls
           enablePan={true}
@@ -68,7 +96,6 @@ function ModelViewer() {
           dampingFactor={0.05}
           minDistance={2}
           maxDistance={100}
-          autoRotate={false}
         />
       </Canvas>
     </div>
