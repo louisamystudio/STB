@@ -9,7 +9,7 @@ export const IntroHeader: React.FC = () => (
     initial="hidden"
     animate="visible"
   >
-    <h2 className="font-italiana text-4xl tracking-wider text-brand-dark mb-4">
+    <h2 className="font-italiana text-4xl tracking-wider text-white mb-4">
       FROM THE PHYSICAL WORLD TO A DIGITAL REALITY
     </h2>
     <div className="w-24 h-1 bg-brand-accent mx-auto" />
