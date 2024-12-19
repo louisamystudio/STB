@@ -1,9 +1,12 @@
 
 import React, { Suspense, useRef, useEffect } from 'react';
-import { Canvas, useThree } from '@react-three/fiber';
+import { Canvas, useThree, extend } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 import * as THREE from 'three';
 import { Potree } from '@pnext/three-loader';
+
+// Extend THREE to R3F to prevent multiple instances
+extend({ THREE });
 
 function PointCloud() {
   const { scene, camera } = useThree();
@@ -17,7 +20,7 @@ function PointCloud() {
       }
 
       try {
-        const pointCloudPath = '/models/tikal_guatemala_point_cloud.glb';
+        const pointCloudPath = '/models/extSur/scene.gltf';
         const pointCloud = await potreeRef.current.loadPointCloud(
           pointCloudPath,
           url => `${window.location.origin}${url}`
