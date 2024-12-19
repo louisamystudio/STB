@@ -6,13 +6,57 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import * as THREE from 'three';
 
 function PointCloud() {
-  const modelRef = useRef();
+  const pointsRef = useRef();
   const { camera } = useThree();
   const gltf = useLoader(GLTFLoader, '/models/extSur/scene.gltf');
   
   useEffect(() => {
     if (gltf.scene) {
-      const box = new THREE.Box3().setFromObject(gltf.scene);
+      let points = [];
+      let colors = [];
+      
+      gltf.scene.traverse((child) => {
+        if (child instanceof THREE.Points || child instanceof THREE.Mesh) {
+          const geometry = child.geometry;
+          const position = geometry.attributes.position;
+          const color = geometry.attributes.color;
+          
+          for (let i = 0; i < position.count; i++) {
+            points.push(
+              position.getX(i),
+              position.getY(i),
+              position.getZ(i)
+            );
+            if (color) {
+              colors.push(
+                color.getX(i),
+                color.getY(i),
+                color.getZ(i)
+              );
+            }
+          }
+        }
+      });
+
+      const geometry = new THREE.BufferGeometry();
+      geometry.setAttribute('position', new THREE.Float32BufferAttribute(points, 3));
+      
+      if (colors.length > 0) {
+        geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+      }
+
+      const material = new THREE.PointsMaterial({
+        size: 0.005,
+        vertexColors: colors.length > 0,
+        sizeAttenuation: true
+      });
+
+      if (pointsRef.current) {
+        pointsRef.current.geometry = geometry;
+        pointsRef.current.material = material;
+      }
+
+      const box = new THREE.Box3().setFromObject(pointsRef.current);
       const center = box.getCenter(new THREE.Vector3());
       const size = box.getSize(new THREE.Vector3());
       
@@ -27,14 +71,10 @@ function PointCloud() {
       );
       camera.lookAt(center);
       camera.updateProjectionMatrix();
-      
-      if (modelRef.current) {
-        modelRef.current.position.copy(center.multiplyScalar(-1));
-      }
     }
   }, [gltf, camera]);
 
-  return <primitive object={gltf.scene} ref={modelRef} />;
+  return <points ref={pointsRef} />;
 }
 
 function LoadingSpinner() {
