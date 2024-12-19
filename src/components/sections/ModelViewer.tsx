@@ -44,7 +44,7 @@ export default function ModelViewer() {
           fov: 45,
           near: 0.1,
           far: 1000,
-          position: [5, 5, 5]
+          position: [-10, -10, -10]
         }}
       >
         <ambientLight intensity={0.5} />
