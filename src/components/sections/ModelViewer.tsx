@@ -10,7 +10,7 @@ function Model() {
   React.useEffect(() => {
     gltf.scene.traverse((child) => {
       if (child.isMesh) {
-        child.material.size = 0.1; // Set point size to 0.1
+        child.material.size = 0.5; // Set point size to 0.5
         child.material.sizeAttenuation = true;
       }
     });
