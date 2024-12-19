@@ -6,6 +6,16 @@ import * as THREE from 'three';
 
 function Model() {
   const gltf = useGLTF('/models/extSur/scene.gltf');
+  
+  React.useEffect(() => {
+    gltf.scene.traverse((child) => {
+      if (child.isMesh) {
+        child.material.size = 0.05; // Increase point size
+        child.material.sizeAttenuation = true;
+      }
+    });
+  }, [gltf]);
+
   return (
     <>
       <primitive object={gltf.scene} scale={1.2} />
