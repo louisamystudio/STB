@@ -12,42 +12,32 @@ function PointCloud() {
   
   useEffect(() => {
     if (gltf.scene) {
-      let points = [];
-      let colors = [];
+      const geometry = new THREE.BufferGeometry();
+      const positions = [];
+      const colors = [];
       
       gltf.scene.traverse((child) => {
-        if (child instanceof THREE.Points || child instanceof THREE.Mesh) {
-          const geometry = child.geometry;
-          const position = geometry.attributes.position;
-          const color = geometry.attributes.color;
+        if (child.isMesh) {
+          const position = child.geometry.attributes.position;
+          const color = child.geometry.attributes.color;
           
           for (let i = 0; i < position.count; i++) {
-            points.push(
-              position.getX(i),
-              position.getY(i),
-              position.getZ(i)
-            );
+            positions.push(position.getX(i), position.getY(i), position.getZ(i));
             if (color) {
-              colors.push(
-                color.getX(i),
-                color.getY(i),
-                color.getZ(i)
-              );
+              colors.push(color.getX(i), color.getY(i), color.getZ(i));
+            } else {
+              colors.push(1, 1, 1); // Default white if no colors
             }
           }
         }
       });
 
-      const geometry = new THREE.BufferGeometry();
-      geometry.setAttribute('position', new THREE.Float32BufferAttribute(points, 3));
-      
-      if (colors.length > 0) {
-        geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
-      }
+      geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+      geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
 
       const material = new THREE.PointsMaterial({
-        size: 0.005,
-        vertexColors: colors.length > 0,
+        size: 0.01,
+        vertexColors: true,
         sizeAttenuation: true
       });
 
@@ -56,33 +46,21 @@ function PointCloud() {
         pointsRef.current.material = material;
       }
 
-      const box = new THREE.Box3().setFromObject(pointsRef.current);
+      // Center and zoom camera
+      const box = new THREE.Box3().setFromBufferAttribute(geometry.attributes.position);
       const center = box.getCenter(new THREE.Vector3());
       const size = box.getSize(new THREE.Vector3());
-      
       const maxDim = Math.max(size.x, size.y, size.z);
       const fov = camera.fov * (Math.PI / 180);
       const cameraDistance = maxDim / (2 * Math.tan(fov / 2));
-      
-      camera.position.set(
-        center.x + cameraDistance,
-        center.y + cameraDistance / 2,
-        center.z + cameraDistance
-      );
+
+      camera.position.set(center.x + cameraDistance, center.y, center.z);
       camera.lookAt(center);
       camera.updateProjectionMatrix();
     }
   }, [gltf, camera]);
 
   return <points ref={pointsRef} />;
-}
-
-function LoadingSpinner() {
-  return (
-    <div className="absolute inset-0 flex items-center justify-center">
-      <div className="text-gray-600">Loading Model...</div>
-    </div>
-  );
 }
 
 function ModelViewer() {
@@ -93,23 +71,23 @@ function ModelViewer() {
           fov: 60,
           near: 0.1,
           far: 1000,
-          position: [0, 0, 5]
+          position: [5, 5, 5]
         }}
         style={{ background: '#f5f5f5' }}
       >
         <ambientLight intensity={1.5} />
         <pointLight position={[10, 10, 10]} intensity={2} />
-        <Suspense fallback={<LoadingSpinner />}>
+        <Suspense fallback={<div>Loading...</div>}>
           <PointCloud />
+          <OrbitControls
+            enablePan={true}
+            enableZoom={true}
+            enableRotate={true}
+            dampingFactor={0.05}
+            minDistance={0.1}
+            maxDistance={50}
+          />
         </Suspense>
-        <OrbitControls
-          enablePan={true}
-          enableZoom={true}
-          enableRotate={true}
-          dampingFactor={0.05}
-          minDistance={2}
-          maxDistance={100}
-        />
       </Canvas>
     </div>
   );
