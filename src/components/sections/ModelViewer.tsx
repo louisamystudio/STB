@@ -3,64 +3,61 @@ import React, { Suspense, useRef, useEffect } from 'react';
 import { Canvas, useThree } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 import * as THREE from 'three';
-import { Potree, PointCloudOctree, IPointCloudData } from '@pnext/three-loader';
+import { Potree } from '@pnext/three-loader';
 
 function PointCloud() {
-  const { camera, scene } = useThree();
+  const { scene, camera } = useThree();
   const potreeRef = useRef<Potree>();
-  const cloudRef = useRef<PointCloudOctree>();
 
   useEffect(() => {
-    if (!potreeRef.current) {
-      potreeRef.current = new Potree();
-      potreeRef.current.pointBudget = 1_000_000;
-    }
+    const initPointCloud = async () => {
+      if (!potreeRef.current) {
+        potreeRef.current = new Potree();
+        potreeRef.current.pointBudget = 1_000_000;
+      }
 
-    const loadPointCloud = async () => {
       try {
-        const pointCloud = await potreeRef.current?.loadPointCloud(
-          '/models/extSur/scene.gltf',
+        const pointCloudPath = '/models/tikal_guatemala_point_cloud.glb';
+        const pointCloud = await potreeRef.current.loadPointCloud(
+          pointCloudPath,
           url => `${window.location.origin}${url}`
         );
 
         if (pointCloud) {
-          cloudRef.current = pointCloud;
           scene.add(pointCloud);
-          
-          pointCloud.material.size = 1;
+          pointCloud.material.size = 1.0;
           pointCloud.material.pointSizeType = 0;
           pointCloud.material.shape = 1;
-          pointCloud.material.opacity = 1.0;
-
+          
           const box = new THREE.Box3().setFromObject(pointCloud);
-          const size = box.getSize(new THREE.Vector3());
           const center = box.getCenter(new THREE.Vector3());
-
+          const size = box.getSize(new THREE.Vector3());
+          
           const maxDim = Math.max(size.x, size.y, size.z);
           const fov = camera.fov * (Math.PI / 180);
-          const cameraDistance = maxDim / (2 * Math.tan(fov / 2));
-
-          camera.position.set(
-            center.x + cameraDistance,
-            center.y,
-            center.z + cameraDistance
-          );
+          const cameraZ = Math.abs(maxDim / Math.sin(fov / 2) / 2);
+          
+          camera.position.set(center.x, center.y, center.z + cameraZ);
           camera.lookAt(center);
           camera.updateProjectionMatrix();
         }
       } catch (error) {
-        console.error('Error loading point cloud:', error);
+        console.error('Failed to load point cloud:', error);
       }
     };
 
-    loadPointCloud();
+    initPointCloud();
 
     return () => {
-      if (cloudRef.current) {
-        scene.remove(cloudRef.current);
+      if (potreeRef.current) {
+        scene.traverse((object) => {
+          if (object.type === 'Points') {
+            scene.remove(object);
+          }
+        });
       }
     };
-  }, [camera, scene]);
+  }, [scene, camera]);
 
   return null;
 }
@@ -68,28 +65,25 @@ function PointCloud() {
 export default function ModelViewer() {
   return (
     <div className="w-full h-[600px] relative">
-      <Suspense fallback={<div>Loading model...</div>}>
+      <Suspense fallback={<div>Loading point cloud...</div>}>
         <Canvas
           gl={{
             antialias: true,
-            preserveDrawingBuffer: true,
             logarithmicDepthBuffer: true
           }}
           camera={{
-            fov: 60,
+            fov: 75,
             near: 0.1,
             far: 1000,
-            position: [10, 10, 10]
+            position: [0, 0, 5]
           }}
-          style={{ background: '#f5f5f5' }}
+          style={{ background: '#f0f0f0' }}
         >
-          <ambientLight intensity={1.5} />
-          <pointLight position={[10, 10, 10]} intensity={2} />
+          <ambientLight intensity={0.5} />
+          <pointLight position={[10, 10, 10]} intensity={1} />
           <PointCloud />
           <OrbitControls 
-            enablePan={true}
-            enableZoom={true}
-            enableRotate={true}
+            enableDamping
             dampingFactor={0.05}
             minDistance={1}
             maxDistance={1000}
