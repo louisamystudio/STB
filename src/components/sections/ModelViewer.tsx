@@ -12,9 +12,9 @@ function Model() {
   useFrame((state) => {
     const time = state.clock.getElapsedTime();
     
-    // Continuous rotation animation regardless of hover state
+    // Continuous rotation animation in opposite direction
     if (modelRef.current) {
-      modelRef.current.rotation.y = time * 0.1;
+      modelRef.current.rotation.y = -time * 0.05; // Slower, reversed rotation
     }
     
     // Camera animation
@@ -26,10 +26,12 @@ function Model() {
       state.camera.lookAt(0, 0, 0);
     }
 
-    // Hover effect - only scale, maintain rotation
+    // Smoother hover effect with scale and slight elevation
     if (modelRef.current) {
-      const targetScale = hovered ? 1.3 : 1.2;
-      modelRef.current.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), 0.1);
+      const targetScale = hovered ? 1.25 : 1.2;
+      const targetY = hovered ? 0.2 : 0;
+      modelRef.current.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), 0.03);
+      modelRef.current.position.y = THREE.MathUtils.lerp(modelRef.current.position.y, targetY, 0.03);
     }
   });
 
