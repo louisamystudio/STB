@@ -54,9 +54,16 @@ export default function ModelViewer() {
         </Suspense>
         <OrbitControls 
           enableDamping
-          dampingFactor={0.05}
-          minDistance={2}
-          maxDistance={100}
+          dampingFactor={0.02}
+          rotateSpeed={0.5}
+          minDistance={5}
+          maxDistance={200}
+          minPolarAngle={0}
+          maxPolarAngle={Math.PI}
+          enableZoom
+          enablePan
+          panSpeed={0.8}
+          zoomSpeed={0.8}
         />
       </Canvas>
     </div>
