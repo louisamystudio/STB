@@ -1,16 +1,28 @@
 
-import React, { Suspense } from 'react';
-import { Canvas } from '@react-three/fiber';
+import React, { Suspense, useRef } from 'react';
+import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
 
 function Model() {
   const gltf = useGLTF('/models/extSur/scene.gltf');
+  const modelRef = useRef();
+  
+  useFrame((state) => {
+    const time = state.clock.getElapsedTime();
+    if (time < 2) {
+      state.camera.position.lerp(
+        new THREE.Vector3(-15, 10, 15),
+        0.02
+      );
+      state.camera.lookAt(0, 0, 0);
+    }
+  });
   
   React.useEffect(() => {
     gltf.scene.traverse((child) => {
       if (child.isMesh) {
-        child.material.size = 1.0; // Set point size to 1.0
+        child.material.size = 1.0;
         child.material.sizeAttenuation = true;
       }
     });
@@ -18,7 +30,7 @@ function Model() {
 
   return (
     <>
-      <primitive object={gltf.scene} scale={1.2} />
+      <primitive ref={modelRef} object={gltf.scene} scale={1.2} />
       <hemisphereLight intensity={1} groundColor="#000000" />
       <spotLight
         position={[10, 10, 10]}
@@ -44,7 +56,7 @@ export default function ModelViewer() {
           fov: 45,
           near: 0.1,
           far: 1000,
-          position: [-10, -10, -10]
+          position: [-25, 15, 25] // Starting camera position
         }}
       >
         <ambientLight intensity={0.5} />
@@ -56,7 +68,7 @@ export default function ModelViewer() {
           enableRotate={true}
           enableDamping={true}
           dampingFactor={0.05}
-          rotateSpeed={1.0}
+          rotateSpeed={0.8}
           minDistance={5}
           maxDistance={200}
           minPolarAngle={0}
@@ -65,6 +77,7 @@ export default function ModelViewer() {
           enablePan={true}
           panSpeed={1.0}
           zoomSpeed={1.0}
+          target={[0, 0, 0]}
         />
       </Canvas>
     </div>
