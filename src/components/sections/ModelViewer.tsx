@@ -12,7 +12,7 @@ function Model() {
     const time = state.clock.getElapsedTime();
     if (time < 2) {
       state.camera.position.lerp(
-        new THREE.Vector3(-15, 10, 15),
+        new THREE.Vector3(25, 15, 25),
         0.02
       );
       state.camera.lookAt(0, 0, 0);
@@ -56,7 +56,7 @@ export default function ModelViewer() {
           fov: 45,
           near: 0.1,
           far: 1000,
-          position: [-25, 15, 25] // Starting camera position
+          position: [35, 20, 35] // Starting camera position from opposite corner
         }}
       >
         <ambientLight intensity={0.5} />
