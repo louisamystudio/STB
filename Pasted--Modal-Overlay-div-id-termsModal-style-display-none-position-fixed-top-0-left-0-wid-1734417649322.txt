@@ -1,0 +1,74 @@
+<!-- Modal Overlay -->
+<div id="termsModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:9999;">
+    <!-- Modal Content -->
+    <div style="background-color:#ffffff; max-width:600px; margin:10% auto; padding:40px; border-radius:8px; box-shadow:0 4px 6px rgba(0, 0, 0, 0.2); text-align:left; font-family:'Montserrat', sans-serif; color:#333333;">
+        <!-- Modal Header -->
+        <h2 style="font-family:'Italiana', serif; font-size:28px; text-align:center; color:#333333; margin-bottom:20px;">
+            Terms of Agreement
+        </h2>
+        <!-- Terms Content -->
+        <p style="line-height:1.8; color:#737D74; margin-bottom:20px;">
+            By proceeding, you agree to the following terms:  
+            <ul style="padding-left:20px;">
+                <li>On-site laser scanning of specified areas.</li>
+                <li>Delivery of high-resolution point cloud and BIM models.</li>
+                <li>Quality control, validation, and two rounds of revisions.</li>
+                <li>Intellectual property ownership transfers to the client upon final payment.</li>
+            </ul>
+        </p>
+        <!-- Agree Checkbox -->
+        <div style="margin-bottom:20px;">
+            <label style="display:flex; align-items:center; gap:10px; font-size:16px;">
+                <input type="checkbox" id="agreeTerms" style="width:18px; height:18px;">  
+                I have read and agree to the terms and conditions.
+            </label>
+        </div>
+        <!-- CTA Button -->
+        <button id="verifyEmailBtn" onclick="showEmailForm()" disabled
+            style="background-color:#f04e3e; color:#ffffff; border:none; padding:10px 20px; border-radius:8px; font-family:'Montserrat', sans-serif; font-size:16px; cursor:not-allowed;">
+            Proceed to Sign Agreement
+        </button>
+    </div>
+</div>
+
+<!-- Email Verification Form -->
+<div id="emailForm" style="display:none; background-color:#ffffff; max-width:400px; margin:10% auto; padding:30px; border-radius:8px; box-shadow:0 4px 6px rgba(0, 0, 0, 0.2); text-align:center;">
+    <h3 style="font-family:'Italiana', serif; color:#333333; font-size:24px; margin-bottom:20px;">
+        Verify Your Email
+    </h3>
+    <p style="font-family:'Montserrat', sans-serif; color:#737D74; font-size:16px; margin-bottom:20px;">
+        Enter your email address to confirm and sign the agreement.
+    </p>
+    <input type="email" id="emailInput" placeholder="Your Email Address"
+        style="width:80%; padding:10px; margin-bottom:20px; border:1px solid #ccc; border-radius:5px;">
+    <button onclick="submitAgreement()" 
+        style="background-color:#f04e3e; color:#ffffff; border:none; padding:10px 20px; border-radius:8px; font-family:'Montserrat', sans-serif; font-size:16px; cursor:pointer;">
+        Confirm & Sign
+    </button>
+</div>
+
+<script>
+// Enable button when checkbox is checked
+document.getElementById('agreeTerms').addEventListener('change', function() {
+    const verifyBtn = document.getElementById('verifyEmailBtn');
+    verifyBtn.disabled = !this.checked;
+    verifyBtn.style.cursor = this.checked ? 'pointer' : 'not-allowed';
+});
+
+// Show email form
+function showEmailForm() {
+    document.getElementById('termsModal').style.display = 'none';
+    document.getElementById('emailForm').style.display = 'block';
+}
+
+// Simulate email submission
+function submitAgreement() {
+    const email = document.getElementById('emailInput').value;
+    if (email) {
+        alert(`Thank you! An email confirmation has been sent to: ${email}`);
+        document.getElementById('emailForm').style.display = 'none';
+    } else {
+        alert('Please enter a valid email address.');
+    }
+}
+</script>

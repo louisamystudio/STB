@@ -1,0 +1,86 @@
+Here are the design prompts and copywriting requirements for Section 5: Investment. This section focuses on presenting costs in a modern, engaging layout that aligns with the Louis Amy brand identity.
+
+Section 5: Investment
+Design Prompt
+Layout:
+
+Replace the traditional table with a modern card-based grid for better visual engagement.
+Use three cards:
+Card 1: 3D Scanning & Point Cloud
+Card 2: Revit BIM Model
+Card 3: Grand Total
+Each card highlights the service name, key details, and the corresponding cost.
+Card Styling:
+
+Background: Light Gray (#F5F5F5).
+Border Radius: 8px for rounded edges.
+Shadow: Subtle shadow for depth.
+Padding: 30px inside each card.
+Hover Effect: Cards lift slightly with a brighter border in Light Green-Gray (#737D74).
+Typography:
+
+Service Name: Italiana, 24px, Dark Gray (#333333).
+Details: Montserrat, 16px, Light Gray (#737D74).
+Total Cost: Montserrat Bold, 20px, Bright Red (#F04E3E) for emphasis.
+Additional Elements:
+
+Include a CTA button below the cards:
+Style: Bright Red (#F04E3E), rounded edges, hover effect.
+Text: "Approve Proposal & Start Project".
+Copywriting for Section 5
+html
+Copy code
+<div style="background-color:#ffffff; padding:60px 20px;">
+    <h2 style="font-family:'Italiana', serif; color:#333333; font-size:36px; text-align:center; margin-bottom:40px;">
+        Investment
+    </h2>
+    <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:20px; max-width:1200px; margin:0 auto;">
+        <!-- Card 1: 3D Scanning & Point Cloud -->
+        <div style="background-color:#f5f5f5; border-radius:8px; box-shadow:0 4px 6px rgba(0, 0, 0, 0.1); padding:30px; width:30%; text-align:center;">
+            <h3 style="font-family:'Italiana', serif; color:#333333; font-size:24px; margin-bottom:10px;">
+                3D Scanning & Point Cloud
+            </h3>
+            <p style="font-family:'Montserrat', sans-serif; color:#737D74; font-size:16px; line-height:1.6; margin-bottom:10px;">
+                <strong>Area:</strong> 10,000 sq-ft<br>
+                <strong>Cost/Sq-ft:</strong> $0.30
+            </p>
+            <p style="font-family:'Montserrat', sans-serif; color:#f04e3e; font-size:20px; font-weight:bold;">
+                Total: $3,000
+            </p>
+        </div>
+
+        <!-- Card 2: Revit BIM Model -->
+        <div style="background-color:#f5f5f5; border-radius:8px; box-shadow:0 4px 6px rgba(0, 0, 0, 0.1); padding:30px; width:30%; text-align:center;">
+            <h3 style="font-family:'Italiana', serif; color:#333333; font-size:24px; margin-bottom:10px;">
+                Revit BIM Model
+            </h3>
+            <p style="font-family:'Montserrat', sans-serif; color:#737D74; font-size:16px; line-height:1.6; margin-bottom:10px;">
+                <strong>Area:</strong> 10,000 sq-ft<br>
+                <strong>Cost/Sq-ft:</strong> $0.50
+            </p>
+            <p style="font-family:'Montserrat', sans-serif; color:#f04e3e; font-size:20px; font-weight:bold;">
+                Total: $5,000
+            </p>
+        </div>
+
+        <!-- Card 3: Grand Total -->
+        <div style="background-color:#f5f5f5; border-radius:8px; box-shadow:0 4px 6px rgba(0, 0, 0, 0.1); padding:30px; width:30%; text-align:center;">
+            <h3 style="font-family:'Italiana', serif; color:#333333; font-size:24px; margin-bottom:10px;">
+                Grand Total
+            </h3>
+            <p style="font-family:'Montserrat', sans-serif; color:#737D74; font-size:16px; line-height:1.6; margin-bottom:10px;">
+                <strong>Combined Services</strong>
+            </p>
+            <p style="font-family:'Montserrat', sans-serif; color:#f04e3e; font-size:20px; font-weight:bold;">
+                Total: $8,000
+            </p>
+        </div>
+    </div>
+
+    <!-- CTA Button -->
+    <div style="text-align:center; margin-top:40px;">
+        <a href="mailto:info@louisamy.com" style="background-color:#f04e3e; color:#ffffff; text-decoration:none; padding:15px 30px; border-radius:8px; font-family:'Montserrat', sans-serif; font-weight:500; display:inline-block;">
+            Approve Proposal & Start Project
+        </a>
+    </div>
+</div>

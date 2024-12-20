@@ -1,0 +1,55 @@
+1. Intellectual Property & Ownership
+Content:
+
+All copyrights, patents, and intellectual property rights in the Instruments of Service are irrevocably retained by the CONSULTANT.
+The CLIENT may utilize deliverables solely for their intended purpose as outlined in this proposal.
+Ownership of Work Product, Proprietary Information, and Deliverables remains the exclusive property of the CONSULTANT.
+Reuse, reproduction, or repurposing of deliverables without the CONSULTANT’s explicit written consent is strictly prohibited.
+2. Scope of Work, Changes & Additional Fees
+Content:
+
+The CONSULTANT will deliver the agreed-upon services, which include on-site scanning, processing, and model creation.
+Any alterations to the design or scope of work post-completion of initial services will incur additional fees.
+Changes require the CLIENT’s written approval, and an estimate for the additional fees will be provided beforehand.
+Costs associated with changes or modifications made after project approval are the CLIENT’s responsibility.
+3. Payment Obligations & Fee Compensation
+Content:
+
+The CLIENT agrees to pay all fees within seven (7) days of invoice presentation.
+Failure to comply grants the CONSULTANT the right to:
+Impose a 10% monthly service charge on the outstanding balance.
+Suspend all work until payment is received.
+Terminate any unperformed portion of this Agreement.
+The CLIENT may not apply reductions, discounts, or set-offs to payments.
+The CLIENT is responsible for reimbursing the CONSULTANT for all costs related to arbitration, collections, or legal action to recover outstanding amounts.
+4. Client Responsibilities & Information Review
+Content:
+
+The CLIENT shall provide timely decisions, approvals, and necessary documentation to prevent delays.
+Requests for Information submitted to the CONSULTANT must allow a minimum review period of two (2) weeks.
+The CONSULTANT is entitled to rely on the accuracy and completeness of all information provided by the CLIENT. The CONSULTANT shall not be held liable for inaccuracies or discrepancies.
+5. Limitations of Responsibility
+Content:
+
+The CONSULTANT is not responsible for the actions or omissions of contractors, subcontractors, suppliers, or any other entities executing the work.
+The CONSULTANT is not liable for failure on their part to adhere to construction contract documents.
+Areas that are inaccessible or restricted will not be scanned or included in the final deliverables unless mutually agreed upon and documented prior to the start of work.
+6. Indemnification & Waiver of Damages
+Content:
+
+The CLIENT agrees to indemnify and hold harmless the CONSULTANT from any claims, damages, losses, or expenses (including attorney’s fees) arising from the use of the CONSULTANT’s deliverables when the CONSULTANT is not actively rendering services.
+Both CLIENT and CONSULTANT waive any claims for consequential damages arising from disputes, claims, or matters related to this Agreement, including termination by either party.
+7. Unforeseen Conditions & Services
+Content:
+
+Forensic engineering evaluations, assessments of materials, or structural strengths are outside the CONSULTANT’s scope.
+Any unforeseen circumstances requiring additional services will be subject to mutual agreement and an Additional Services Addendum.
+8. Post-Construction Documentation
+Content:
+
+Upon project completion, the CONSULTANT reserves the right to document the work through virtual twins, LiDAR scans, photographs, and video recordings under reasonable circumstances.
+The CLIENT agrees to allow access for post-construction documentation purposes.
+Benefits of the Merged Structure
+Clarity: Related terms are grouped logically into 8 broader categories.
+Readability: Reduced redundancy and repetition for a streamlined experience.
+Professional Presentation: Each category is focused, concise, and to the point.

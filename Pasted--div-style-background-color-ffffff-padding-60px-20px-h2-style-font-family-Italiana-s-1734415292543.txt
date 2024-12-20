@@ -1,0 +1,50 @@
+<div style="background-color:#ffffff; padding:60px 20px;">
+    <h2 style="font-family:'Italiana', serif; color:#333333; font-size:36px; text-align:center; margin-bottom:40px;">
+        Scope of Services
+    </h2>
+    <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:20px; max-width:1200px; margin:0 auto;">
+        <!-- Card 1: High-Precision 3D Laser Scanning -->
+        <div style="background-color:#f5f5f5; border-radius:8px; box-shadow:0 4px 6px rgba(0, 0, 0, 0.1); padding:30px; width:45%; text-align:center;">
+            <img src="ICON_PLACEHOLDER" alt="3D Scanning Icon" width="50" style="margin-bottom:20px;">
+            <h3 style="font-family:'Italiana', serif; color:#333333; font-size:24px; margin-bottom:10px;">
+                High-Precision 3D Laser Scanning
+            </h3>
+            <p style="font-family:'Montserrat', sans-serif; color:#737D74; font-size:16px; line-height:1.6;">
+                Capture of high-resolution scans with millimeter-level precision and a range of up to 150 meters for large-scale environments.
+            </p>
+        </div>
+        
+        <!-- Card 2: BIM Model Creation -->
+        <div style="background-color:#f5f5f5; border-radius:8px; box-shadow:0 4px 6px rgba(0, 0, 0, 0.1); padding:30px; width:45%; text-align:center;">
+            <img src="ICON_PLACEHOLDER" alt="BIM Modeling Icon" width="50" style="margin-bottom:20px;">
+            <h3 style="font-family:'Italiana', serif; color:#333333; font-size:24px; margin-bottom:10px;">
+                BIM Model Creation
+            </h3>
+            <p style="font-family:'Montserrat', sans-serif; color:#737D74; font-size:16px; line-height:1.6;">
+                Development of LOD 200–300 BIM models with precise geometry, intelligent components, and parametric data for project planning.
+            </p>
+        </div>
+
+        <!-- Card 3: Deliverables -->
+        <div style="background-color:#f5f5f5; border-radius:8px; box-shadow:0 4px 6px rgba(0, 0, 0, 0.1); padding:30px; width:45%; text-align:center;">
+            <img src="ICON_PLACEHOLDER" alt="Deliverables Icon" width="50" style="margin-bottom:20px;">
+            <h3 style="font-family:'Italiana', serif; color:#333333; font-size:24px; margin-bottom:10px;">
+                Deliverables
+            </h3>
+            <p style="font-family:'Montserrat', sans-serif; color:#737D74; font-size:16px; line-height:1.6;">
+                Includes 3D point cloud data (RCP, E57, PTS), certified as-measured drawings (DWG, PDF), and 360° virtual panoramas for easy access.
+            </p>
+        </div>
+
+        <!-- Card 4: Certified Documentation -->
+        <div style="background-color:#f5f5f5; border-radius:8px; box-shadow:0 4px 6px rgba(0, 0, 0, 0.1); padding:30px; width:45%; text-align:center;">
+            <img src="ICON_PLACEHOLDER" alt="Certification Icon" width="50" style="margin-bottom:20px;">
+            <h3 style="font-family:'Italiana', serif; color:#333333; font-size:24px; margin-bottom:10px;">
+                Certified Documentation
+            </h3>
+            <p style="font-family:'Montserrat', sans-serif; color:#737D74; font-size:16px; line-height:1.6;">
+                Professionally reviewed, validated, and certified deliverables to meet exact project standards and requirements.
+            </p>
+        </div>
+    </div>
+</div>

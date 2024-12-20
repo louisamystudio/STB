@@ -1,0 +1,69 @@
+To implement the @pnext/three-loader and view the model located at public/models/extSur/scene.gltf, you can follow these steps:
+
+Install the Loader: Since you've encountered dependency conflicts previously, ensure the installation command includes --legacy-peer-deps to avoid conflicts:
+
+npm install three-loader @pnext/three-loader --legacy-peer-deps
+Update ModelViewer Component: Modify your ModelViewer.tsx to use the loader from three-loader. Below is an updated implementation to load your GLTF model:
+
+import React, { Suspense, useRef, useEffect } from 'react';
+import { Canvas, useLoader, useFrame, useThree } from '@react-three/fiber';
+import { OrbitControls } from '@react-three/drei';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { PointCloudLoader } from '@pnext/three-loader'; // Import the point cloud loader if needed
+import * as THREE from 'three';
+function PointCloud() {
+  const pointsRef = useRef();
+  const { camera } = useThree();
+  const gltf = useLoader(GLTFLoader, '/models/extSur/scene.gltf');
+  
+  useEffect(() => {
+    if (gltf.scene) {
+      // Load and set up the point cloud here if necessary
+    }
+  }, [gltf, camera]);
+  return <primitive object={gltf.scene} ref={pointsRef} />;
+}
+function ModelViewer() {
+  return (
+    <div className="w-full h-[600px] relative">
+      <Canvas
+        camera={{
+          fov: 60,
+          near: 0.1,
+          far: 1000,
+          position: [0, 0, 5],
+        }}
+        style={{ background: '#f5f5f5' }}
+      >
+        <ambientLight intensity={1.5} />
+        <pointLight position={[10, 10, 10]} intensity={2} />
+        <Suspense fallback={<LoadingSpinner />}>
+          <PointCloud />
+        </Suspense>
+        <OrbitControls
+          enablePan={true}
+          enableZoom={true}
+          enableRotate={true}
+          dampingFactor={0.05}
+          minDistance={2}
+          maxDistance={100}
+        />
+      </Canvas>
+    </div>
+  );
+}
+function LoadingSpinner() {
+  return (
+    <div className="absolute inset-0 flex items-center justify-center">
+      <div className="text-gray-600">Loading Point Cloud...</div>
+    </div>
+  );
+}
+export default ModelViewer;
+Run the Application: After making these changes, run your application in Replit. The model should load and display in the canvas.
+
+Testing & Debugging: If you encounter issues while loading the model:
+
+Ensure the model's path is correct and the file exists at public/models/extSur/scene.gltf.
+Check the console for any errors regarding loading or rendering.
+This setup will allow you to view the GLTF model, and you can expand upon it by integrating more features from the three-loader as per your project's requirements.

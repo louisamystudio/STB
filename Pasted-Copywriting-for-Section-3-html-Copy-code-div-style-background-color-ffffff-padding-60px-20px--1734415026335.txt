@@ -1,0 +1,31 @@
+Copywriting for Section 3
+html
+Copy code
+<div style="background-color:#ffffff; padding:60px 20px;">
+    <table width="100%" cellspacing="0" cellpadding="0" style="max-width:1200px; margin:0 auto;">
+        <tr>
+            <!-- Left Column: Text -->
+            <td width="50%" style="padding-right:20px; vertical-align:middle;">
+                <h2 style="font-family:'Italiana', serif; color:#333333; font-size:36px; letter-spacing:0.1em; margin-bottom:20px;">
+                    From the Physical World to a Digital Reality
+                </h2>
+                <p style="font-family:'Montserrat', sans-serif; color:#737D74; font-size:16px; line-height:1.8; margin-bottom:20px;">
+                    Louis Amy AE Studio is proud to present <strong>Scan to BIM Solutions</strong> – a revolutionary service that combines <strong>terrestrial LiDAR scanning</strong> with <strong>Building Information Modeling (BIM)</strong>.
+                </p>
+                <p style="font-family:'Montserrat', sans-serif; color:#737D74; font-size:16px; line-height:1.8; margin-bottom:20px;">
+                    With over a decade of expertise and state-of-the-art equipment, we deliver unmatched:
+                </p>
+                <ul style="font-family:'Montserrat', sans-serif; color:#333333; font-size:16px; line-height:1.8; padding-left:20px;">
+                    <li><strong style="color:#f04e3e;">Precision</strong>: Millimeter-level accuracy.</li>
+                    <li><strong style="color:#f04e3e;">Efficiency</strong>: Faster, more detailed results than manual methods.</li>
+                    <li><strong style="color:#f04e3e;">Innovation</strong>: Seamless integration with tools like Revit and AutoCAD.</li>
+                </ul>
+            </td>
+            
+            <!-- Right Column: Image -->
+            <td width="50%" style="text-align:center; vertical-align:middle;">
+                <img src="IMAGE_PLACEHOLDER" alt="Scan to BIM Example" width="100%" style="max-width:500px; box-shadow:0 4px 6px rgba(0, 0, 0, 0.1); border-radius:8px;">
+            </td>
+        </tr>
+    </table>
+</div>

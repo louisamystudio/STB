@@ -1,0 +1,109 @@
+Updated src/components/modals/TermsModal.tsx
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+interface AccordionItemProps {
+  title: string;
+  children: React.ReactNode;
+  isOpen: boolean;
+  onToggle: () => void;
+  id: string;
+}
+const AccordionItem: React.FC<AccordionItemProps> = ({ title, children, isOpen, onToggle }) => {
+  return (
+    <div className="mb-2">
+      <button
+        onClick={onToggle}
+        className="w-full bg-[#f5f5f5] text-[#333333] px-5 py-4 text-left text-lg font-bold cursor-pointer rounded-lg flex justify-between items-center"
+      >
+        {title}
+        <span>{isOpen ? '-' : '+'}</span>
+      </button>
+      <AnimatePresence initial={false} mode="wait">
+        {isOpen && (
+          <motion.div
+            initial={{ height: 0 }}
+            animate={{ height: "auto" }}
+            exit={{ height: 0 }}
+            transition={{ duration: 0.2 }}
+            className="overflow-hidden"
+          >
+            <div className="bg-[#fafafa] p-4 rounded-lg mt-1">
+              {children}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
+export const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen, onClose }) => {
+  const [openAccordionId, setOpenAccordionId] = useState<string | null>(null);
+  const [email, setEmail] = useState('');
+  const [confirmationCode, setConfirmationCode] = useState('');
+  const [accepted, setAccepted] = useState(false);
+  if (!isOpen) return null;
+  const handleAcceptTerms = () => {
+    if (email && confirmationCode) {
+      // Call a function to send the formatted proposal
+      sendFormattedProposal(email, confirmationCode);
+      onClose();
+    } else {
+      alert("Please fill in both fields.");
+    }
+  };
+  const sendFormattedProposal = (email: string, code: string) => {
+    // Implement the logic to send the proposal here
+    console.log(`Sending proposal to ${email} with code ${code}`);
+    // Notify the client and create audit trail
+  };
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+      <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="p-6">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-2xl font-bold text-[#333333]">Terms of Agreement</h2>
+            <button onClick={onClose} className="text-2xl">&times;</button>
+          </div>
+          <div className="space-y-2">
+            {/* Existing Accordion Items */}
+            {/* Add your accordion items here */}
+          </div>
+          <div className="mt-6 p-4 border-t border-gray-200">
+            <label className="flex items-center space-x-2">
+              <input 
+                type="checkbox" 
+                className="form-checkbox h-5 w-5 text-[#F04E3E]" 
+                onChange={(e) => setAccepted(e.target.checked)}
+              />
+              <span className="text-[#737D74]">I accept the terms and conditions</span>
+            </label>
+          </div>
+          {accepted && (
+            <div>
+              <input 
+                type="email" 
+                placeholder="Enter your email" 
+                value={email} 
+                onChange={(e) => setEmail(e.target.value)} 
+                className="mt-4"
+              />
+              <input 
+                type="text" 
+                placeholder="Confirmation Code" 
+                value={confirmationCode} 
+                onChange={(e) => setConfirmationCode(e.target.value)} 
+                className="mt-4"
+              />
+              <button 
+                onClick={handleAcceptTerms} 
+                className="mt-4 bg-blue-500 text-white p-2 rounded"
+              >
+                Confirm
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};

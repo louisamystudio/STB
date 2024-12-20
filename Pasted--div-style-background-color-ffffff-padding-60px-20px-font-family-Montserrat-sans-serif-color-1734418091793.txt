@@ -1,0 +1,106 @@
+<div style="background-color:#ffffff; padding:60px 20px; font-family:'Montserrat', sans-serif; color:#333333;">
+    <h2 style="font-family:'Italiana', serif; color:#333333; font-size:36px; text-align:center; margin-bottom:40px;">
+        Terms of Agreement
+    </h2>
+
+    <!-- Accordion Container -->
+    <div style="max-width:1000px; margin:0 auto;">
+        <!-- Intellectual Property Rights -->
+        <div style="margin-bottom:10px;">
+            <button onclick="toggleAccordion('section1')" style="background-color:#f5f5f5; color:#333333; border:none; padding:15px 20px; text-align:left; width:100%; font-size:18px; font-weight:bold; cursor:pointer; border-radius:8px;">
+                Intellectual Property Rights & Ownership
+                <span id="icon-section1" style="float:right;">+</span>
+            </button>
+            <div id="section1" style="display:none; padding:15px; background-color:#fafafa; border-radius:8px;">
+                All copyrights, patents, and intellectual property rights in the **Instruments of Service** are irrevocably retained by the CONSULTANT. The CLIENT may utilize the deliverables solely for their intended purpose as outlined in this proposal. Any reuse, reproduction, or repurposing of the deliverables without the CONSULTANT's explicit written consent is strictly prohibited. <br><br>
+                The CLIENT acknowledges that all Work Products, Intellectual Property, Proprietary Information, and Deliverables remain the exclusive property of the CONSULTANT.  
+            </div>
+        </div>
+
+        <!-- Written Approval for Changes -->
+        <div style="margin-bottom:10px;">
+            <button onclick="toggleAccordion('section2')" style="background-color:#f5f5f5; color:#333333; border:none; padding:15px 20px; text-align:left; width:100%; font-size:18px; font-weight:bold; cursor:pointer; border-radius:8px;">
+                Written Approval for Changes
+                <span id="icon-section2" style="float:right;">+</span>
+            </button>
+            <div id="section2" style="display:none; padding:15px; background-color:#fafafa; border-radius:8px;">
+                Any modifications, additions, or changes to the project scope post-initial completion require the CLIENT’s written approval. Associated fees for these amendments will be estimated and agreed upon before the CONSULTANT proceeds with the work.  
+            </div>
+        </div>
+
+        <!-- Consultant Fee Compensation -->
+        <div style="margin-bottom:10px;">
+            <button onclick="toggleAccordion('section3')" style="background-color:#f5f5f5; color:#333333; border:none; padding:15px 20px; text-align:left; width:100%; font-size:18px; font-weight:bold; cursor:pointer; border-radius:8px;">
+                Consultant Fee Compensation
+                <span id="icon-section3" style="float:right;">+</span>
+            </button>
+            <div id="section3" style="display:none; padding:15px; background-color:#fafafa; border-radius:8px;">
+                The CLIENT agrees to timely payments of all invoices within **seven (7) days** of presentation. Failure to comply grants the CONSULTANT the right to:  
+                <ul>
+                    <li>Impose a monthly service charge of ten percent (10%) of the total amount owed.</li>
+                    <li>Suspend all work until payment is received.</li>
+                    <li>Terminate any unperformed portion of this Agreement.</li>
+                </ul>
+                The CLIENT shall not subject payments to reductions, discounts, or set-offs and agrees to reimburse the CONSULTANT for all expenses related to arbitration, collection, or suits to recover due payments.  
+            </div>
+        </div>
+
+        <!-- Information Review Timeline -->
+        <div style="margin-bottom:10px;">
+            <button onclick="toggleAccordion('section4')" style="background-color:#f5f5f5; color:#333333; border:none; padding:15px 20px; text-align:left; width:100%; font-size:18px; font-weight:bold; cursor:pointer; border-radius:8px;">
+                Information Review Timeline
+                <span id="icon-section4" style="float:right;">+</span>
+            </button>
+            <div id="section4" style="display:none; padding:15px; background-color:#fafafa; border-radius:8px;">
+                Requests for information or review by the CONSULTANT shall allow for a minimum review period of **two (2) weeks**.
+            </div>
+        </div>
+
+        <!-- Indemnification -->
+        <div style="margin-bottom:10px;">
+            <button onclick="toggleAccordion('section5')" style="background-color:#f5f5f5; color:#333333; border:none; padding:15px 20px; text-align:left; width:100%; font-size:18px; font-weight:bold; cursor:pointer; border-radius:8px;">
+                Indemnification
+                <span id="icon-section5" style="float:right;">+</span>
+            </button>
+            <div id="section5" style="display:none; padding:15px; background-color:#fafafa; border-radius:8px;">
+                The CLIENT agrees to indemnify and hold harmless the CONSULTANT from any claims, damages, losses, or expenses, including attorney's fees, arising from the use of the CONSULTANT’s documents when the CONSULTANT is not actively rendering services on the project.
+            </div>
+        </div>
+
+        <!-- Waiver of Consequential Damages -->
+        <div style="margin-bottom:10px;">
+            <button onclick="toggleAccordion('section6')" style="background-color:#f5f5f5; color:#333333; border:none; padding:15px 20px; text-align:left; width:100%; font-size:18px; font-weight:bold; cursor:pointer; border-radius:8px;">
+                Waiver of Consequential Damages
+                <span id="icon-section6" style="float:right;">+</span>
+            </button>
+            <div id="section6" style="display:none; padding:15px; background-color:#fafafa; border-radius:8px;">
+                Both CLIENT and CONSULTANT mutually waive any consequential damages arising from disputes, claims, or matters related to this Agreement, even in the event of early termination.  
+            </div>
+        </div>
+
+        <!-- Project Documentation Post-Construction -->
+        <div style="margin-bottom:10px;">
+            <button onclick="toggleAccordion('section7')" style="background-color:#f5f5f5; color:#333333; border:none; padding:15px 20px; text-align:left; width:100%; font-size:18px; font-weight:bold; cursor:pointer; border-radius:8px;">
+                Project Documentation Post-Construction
+                <span id="icon-section7" style="float:right;">+</span>
+            </button>
+            <div id="section7" style="display:none; padding:15px; background-color:#fafafa; border-radius:8px;">
+                Upon project completion, the CONSULTANT reserves the right to document the work performed. This may include visits to the CLIENT’s property to capture virtual twins, LiDAR scans, measurements, photographs, and video recordings under reasonable circumstances.
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function toggleAccordion(sectionId) {
+    const content = document.getElementById(sectionId);
+    const icon = document.getElementById(`icon-${sectionId}`);
+    if (content.style.display === "none") {
+        content.style.display = "block";
+        icon.textContent = "-";
+    } else {
+        content.style.display = "none";
+        icon.textContent = "+";
+    }
+}
+</script>

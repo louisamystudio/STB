@@ -1,0 +1,88 @@
+
+> stb@0.0.0 dev
+> vite
+
+
+
+  VITE v5.4.11  ready in 225 ms
+
+  ➜  Local:   http://localhost:3000/
+  ➜  Network: http://172.31.196.64:3000/
+  ➜  press h + enter to show help
+7:00:15 AM [vite] Pre-transform error:   × Expected a semicolon
+    ╭─[/home/runner/STB-1/src/components/modals/TermsModal.tsx:63:1]
+ 60 │ <AccordionItem 
+ 61 │   id="timeline"
+ 62 │   title="Information Review Timeline"
+ 63 │   isOpen={openAccordionId === 'timeline'}
+    ·                           ───
+ 64 │   onToggle={() => setOpenAccordionId(openAccordionId === 'timeline' ? null : 'timeline')}
+ 65 │ >
+ 66 │   <p className="text-[#737D74] leading-relaxed">
+    ╰────
+  × Expression expected
+    ╭─[/home/runner/STB-1/src/components/modals/TermsModal.tsx:63:1]
+ 60 │ <AccordionItem 
+ 61 │   id="timeline"
+ 62 │   title="Information Review Timeline"
+ 63 │   isOpen={openAccordionId === 'timeline'}
+    ·                           ───
+ 64 │   onToggle={() => setOpenAccordionId(openAccordionId === 'timeline' ? null : 'timeline')}
+ 65 │ >
+ 66 │   <p className="text-[#737D74] leading-relaxed">
+    ╰────
+  × Expression expected
+    ╭─[/home/runner/STB-1/src/components/modals/TermsModal.tsx:63:1]
+ 60 │ <AccordionItem 
+ 61 │   id="timeline"
+ 62 │   title="Information Review Timeline"
+ 63 │   isOpen={openAccordionId === 'timeline'}
+    ·                                         ─
+ 64 │   onToggle={() => setOpenAccordionId(openAccordionId === 'timeline' ? null : 'timeline')}
+ 65 │ >
+ 66 │   <p className="text-[#737D74] leading-relaxed">
+    ╰────
+
+
+Caused by:
+    Syntax Error
+
+7:00:16 AM [vite] Internal server error:   × Expected a semicolon
+    ╭─[/home/runner/STB-1/src/components/modals/TermsModal.tsx:63:1]
+ 60 │ <AccordionItem 
+ 61 │   id="timeline"
+ 62 │   title="Information Review Timeline"
+ 63 │   isOpen={openAccordionId === 'timeline'}
+    ·                           ───
+ 64 │   onToggle={() => setOpenAccordionId(openAccordionId === 'timeline' ? null : 'timeline')}
+ 65 │ >
+ 66 │   <p className="text-[#737D74] leading-relaxed">
+    ╰────
+  × Expression expected
+    ╭─[/home/runner/STB-1/src/components/modals/TermsModal.tsx:63:1]
+ 60 │ <AccordionItem 
+ 61 │   id="timeline"
+ 62 │   title="Information Review Timeline"
+ 63 │   isOpen={openAccordionId === 'timeline'}
+    ·                           ───
+ 64 │   onToggle={() => setOpenAccordionId(openAccordionId === 'timeline' ? null : 'timeline')}
+ 65 │ >
+ 66 │   <p className="text-[#737D74] leading-relaxed">
+    ╰────
+  × Expression expected
+    ╭─[/home/runner/STB-1/src/components/modals/TermsModal.tsx:63:1]
+ 60 │ <AccordionItem 
+ 61 │   id="timeline"
+ 62 │   title="Information Review Timeline"
+ 63 │   isOpen={openAccordionId === 'timeline'}
+    ·                                         ─
+ 64 │   onToggle={() => setOpenAccordionId(openAccordionId === 'timeline' ? null : 'timeline')}
+ 65 │ >
+ 66 │   <p className="text-[#737D74] leading-relaxed">
+    ╰────
+
+
+Caused by:
+    Syntax Error
+  Plugin: vite:react-swc
+  File: /home/runner/STB-1/src/components/modals/TermsModal.tsx:63:1

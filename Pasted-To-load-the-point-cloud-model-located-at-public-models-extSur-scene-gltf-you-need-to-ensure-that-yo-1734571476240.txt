@@ -1,0 +1,83 @@
+To load the point cloud model located at public/models/extSur/scene.gltf, you need to ensure that your PointCloud component within ModelViewer correctly references that model path.
+
+Your current setup in ModelViewer.tsx already attempts to load the model using potree.loadPointCloud(). Here's the relevant part of the code you've shared:
+
+const modelPath = '/models/extSur/scene.gltf';
+This is correct for loading from the public folder. Ensure that the model file is accessible at that path.
+
+Next Steps
+Ensure Model Path is Correct: Since the model is under public/models/extSur/scene.gltf, this path should work assuming you start your development server correctly.
+
+Update PointCloud Component: Make sure your PointCloud component is functioning properly to load the point cloud:
+
+import React, { Suspense, useRef, useEffect } from 'react';
+import { useThree } from '@react-three/fiber';
+import * as THREE from 'three';
+import { Potree, PointCloudOctree } from '@pnext/three-loader';
+function PointCloud() {
+  const { camera, scene } = useThree();
+  const potree = new Potree();
+  potree.pointBudget = 2_000_000;
+  useEffect(() => {
+    const modelPath = '/models/extSur/scene.gltf';
+    
+    potree.loadPointCloud(
+      modelPath,
+      (url) => `${window.location.origin}${url}`
+    ).then(pco => {
+      scene.add(pco);
+      pco.material.size = 0.01;
+      pco.material.pointSizeType = 0;
+      pco.material.shape = 1;
+      const box = new THREE.Box3().setFromObject(pco);
+      const center = box.getCenter(new THREE.Vector3());
+      const size = box.getSize(new THREE.Vector3());
+      
+      const maxDim = Math.max(size.x, size.y, size.z);
+      const fov = camera.fov * (Math.PI / 180);
+      const cameraDistance = maxDim / (2 * Math.tan(fov / 2));
+      
+      camera.position.set(center.x + cameraDistance, center.y, center.z + cameraDistance);
+      camera.lookAt(center);
+      camera.updateProjectionMatrix();
+    });
+    return () => {
+      // Cleanup process
+    };
+  }, [camera, scene, potree]);
+  return null;
+}
+Verify Usage in ModelViewer:
+Ensure your ModelViewer component is used inside the PhysicalToDigital with appropriate canvas size and styles.
+
+Testing:
+After making these changes, run your application. Use the command:
+
+npm run dev
+Finally, ensure you don't see any errors in the console related to the model loading. If any issues persist, check the network requests in your web browser's DevTools to confirm the model file is being fetched correctly.
+
+WL
+
+wesley45
+wesley45
+just now
+thats all?
+
+Assistant
+just now
+Yes, that should cover the current issues with your application. To recap, here are the steps that have been addressed:
+
+Exporting of PhysicalToDigital: The export was fixed to ensure it correctly exports the component.
+
+Nested Canvas Removal: The nested <Canvas> tag issue in ModelViewer was resolved, allowing it to integrate seamlessly.
+
+Model Loading: The point cloud model located at public/models/extSur/scene.gltf is set to be loaded correctly in the PointCloud component.
+
+Addressing Three.js Instances: Warnings about multiple instances of Three.js should be checked to ensure one instance is imported throughout the application.
+
+Console Errors Handling: Issues with the WebGL renderer and export errors were noted, and steps were taken to ensure proper configuration and export processes.
+
+If everything is configured correctly, simply run your application with:
+
+npm run dev
+Ensure to monitor the console for any additional errors. If further adjustments are required or new issues arise, feel free to ask!
