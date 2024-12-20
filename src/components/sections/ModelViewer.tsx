@@ -1,5 +1,5 @@
 
-import React, { Suspense, useRef } from 'react';
+import React, { Suspense, useRef, useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
@@ -7,9 +7,17 @@ import * as THREE from 'three';
 function Model() {
   const gltf = useGLTF('/models/extSur/scene.gltf');
   const modelRef = useRef();
+  const [hovered, setHovered] = useState(false);
   
   useFrame((state) => {
     const time = state.clock.getElapsedTime();
+    
+    // Continuous rotation animation
+    if (modelRef.current) {
+      modelRef.current.rotation.y = time * 0.1;
+    }
+    
+    // Camera animation
     if (time < 2) {
       state.camera.position.lerp(
         new THREE.Vector3(25, 15, 25),
@@ -17,8 +25,17 @@ function Model() {
       );
       state.camera.lookAt(0, 0, 0);
     }
+
+    // Hover effect
+    if (modelRef.current) {
+      if (hovered) {
+        modelRef.current.scale.lerp(new THREE.Vector3(1.3, 1.3, 1.3), 0.1);
+      } else {
+        modelRef.current.scale.lerp(new THREE.Vector3(1.2, 1.2, 1.2), 0.1);
+      }
+    }
   });
-  
+
   React.useEffect(() => {
     gltf.scene.traverse((child) => {
       if (child.isMesh) {
@@ -30,7 +47,13 @@ function Model() {
 
   return (
     <>
-      <primitive ref={modelRef} object={gltf.scene} scale={1.2} />
+      <primitive 
+        ref={modelRef} 
+        object={gltf.scene} 
+        scale={1.2}
+        onPointerOver={() => setHovered(true)}
+        onPointerOut={() => setHovered(false)}
+      />
       <hemisphereLight intensity={1} groundColor="#000000" />
       <spotLight
         position={[10, 10, 10]}
@@ -56,7 +79,7 @@ export default function ModelViewer() {
           fov: 45,
           near: 0.1,
           far: 1000,
-          position: [35, 20, 35] // Starting camera position from opposite corner
+          position: [35, 20, 35]
         }}
       >
         <ambientLight intensity={0.5} />
