@@ -3,6 +3,7 @@ import React, { Suspense, useRef, useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
+import { MOUSE } from 'three';
 
 function Model() {
   const gltf = useGLTF('/models/extSur/scene.gltf');
@@ -88,6 +89,11 @@ export default function ModelViewer() {
         </Suspense>
         <OrbitControls 
           enableRotate={true}
+          mouseButtons={{
+            LEFT: THREE.MOUSE.ROTATE,
+            MIDDLE: THREE.MOUSE.DOLLY,
+            RIGHT: THREE.MOUSE.PAN
+          }}
           enableDamping={true}
           dampingFactor={0.05}
           rotateSpeed={0.8}
