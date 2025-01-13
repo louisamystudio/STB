@@ -58,14 +58,20 @@ export const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
     return Math.floor(100000 + Math.random() * 900000).toString();
   };
 
+  const [emailError, setEmailError] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
+
   const handleSendVerification = async () => {
+    setEmailError('');
+    setSuccessMessage('');
+    
     if (!email) {
-      alert("Please enter your email address");
+      setEmailError("Please enter your email address");
       return;
     }
     
     if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
-      alert("Please enter a valid email address");
+      setEmailError("Please enter a valid email address");
       return;
     }
 
@@ -77,29 +83,24 @@ export const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          email
+          email,
+          type: 'verification'
         })
       });
 
+      const data = await response.json();
+
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to send verification code');
+        throw new Error(data.error || 'Failed to send verification code');
       }
       
       setVerificationSent(true);
-      const notification = document.createElement('div');
-      notification.className = 'fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded shadow-lg z-50 animate-fade-in';
-      notification.textContent = 'Verification code sent successfully!';
-      document.body.appendChild(notification);
-      
-      setTimeout(() => {
-        notification.classList.add('animate-fade-out');
-        setTimeout(() => notification.remove(), 500);
-      }, 3000);
+      setSuccessMessage('Verification code sent successfully!');
+      setTimeout(() => setSuccessMessage(''), 3000);
     } catch (error) {
       setVerificationSent(false);
       console.error('Verification error:', error);
-      alert('Error sending verification code. Please try again.');
+      setEmailError('Error sending verification code. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -269,23 +270,27 @@ export const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
                       <li>Enter the code to authenticate your agreement</li>
                     </ol>
                   </div>
-                  <input 
-                    type="email" 
-                    placeholder="Enter your email" 
-                    value={email} 
-                    onChange={(e) => setEmail(e.target.value)}
-                    disabled={verificationSent}
-                    className="w-full p-2 border rounded focus:ring-2 focus:ring-[#F04E3E] text-[#333333] bg-white"
-                  />
-                  {!verificationSent && (
-                    <button 
-                      onClick={handleSendVerification}
-                      disabled={isSubmitting}
-                      className={`mt-2 bg-[#F04E3E] text-white px-4 py-2 rounded hover:bg-opacity-90 ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
-                    >
-                      {isSubmitting ? 'Sending...' : 'Send Verification Code'}
-                    </button>
-                  )}
+                  <div className="space-y-2">
+                    <input 
+                      type="email" 
+                      placeholder="Enter your email" 
+                      value={email} 
+                      onChange={(e) => setEmail(e.target.value)}
+                      disabled={verificationSent}
+                      className={`w-full p-2 border rounded focus:ring-2 focus:ring-[#F04E3E] text-[#333333] bg-white ${emailError ? 'border-red-500' : ''}`}
+                    />
+                    {emailError && <p className="text-red-500 text-sm">{emailError}</p>}
+                    {successMessage && <p className="text-green-500 text-sm">{successMessage}</p>}
+                    {!verificationSent && (
+                      <button 
+                        onClick={handleSendVerification}
+                        disabled={isSubmitting}
+                        className={`w-full mt-2 bg-[#F04E3E] text-white px-4 py-2 rounded hover:bg-opacity-90 transition-all duration-200 ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
+                      >
+                        {isSubmitting ? 'Sending...' : 'Send Verification Code'}
+                      </button>
+                    )}
+                  </div>
                 </div>
 
                 {verificationSent && (
