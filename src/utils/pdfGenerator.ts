@@ -1,9 +1,8 @@
 
-import { Document, Page, Text, View, StyleSheet, pdf, Font } from '@react-pdf/renderer';
+import { Document, Page, Text, View, StyleSheet, pdf, Font, Image } from '@react-pdf/renderer';
 import { format } from 'date-fns';
 import { brandConfig } from '../config/brand';
 
-// Register fonts
 Font.register({
   family: 'Montserrat',
   src: 'https://fonts.gstatic.com/s/montserrat/v15/JTURjIg1_i6t8kCHKm45_bZF3gnD_g.ttf'
@@ -60,11 +59,10 @@ const styles = StyleSheet.create({
     borderTop: '1px solid #F04E3E',
     paddingTop: 20
   },
-  signatureText: {
-    fontFamily: 'Montserrat',
-    fontSize: 10,
-    color: '#737D74',
-    marginBottom: 5
+  auditTrail: {
+    marginTop: 20,
+    padding: 10,
+    backgroundColor: '#f5f5f5'
   },
   footer: {
     position: 'absolute',
@@ -99,11 +97,16 @@ export const generatePDF = async ({ terms, signature }) => {
         ))}
 
         <View style={styles.signature}>
-          <Text style={styles.signatureText}>Signed by: {signature.name}</Text>
-          <Text style={styles.signatureText}>Date: {format(new Date(), 'PPP')}</Text>
-          <Text style={styles.signatureText}>Email: {signature.email}</Text>
-          <Text style={styles.signatureText}>IP Address: {signature.ipAddress}</Text>
-          <Text style={styles.signatureText}>Timestamp: {signature.timestamp}</Text>
+          <Text style={styles.sectionTitle}>Digital Signature</Text>
+          <Text style={styles.text}>Email: {signature.email}</Text>
+          <Text style={styles.text}>Date: {format(new Date(signature.timestamp), 'PPP')}</Text>
+        </View>
+
+        <View style={styles.auditTrail}>
+          <Text style={styles.sectionTitle}>Audit Trail</Text>
+          <Text style={styles.text}>Verification Time: {format(new Date(signature.auditTrail.verifiedAt), 'PPP pp')}</Text>
+          <Text style={styles.text}>IP Address: {signature.auditTrail.ipAddress}</Text>
+          <Text style={styles.text}>Browser: {signature.auditTrail.userAgent}</Text>
         </View>
 
         <View style={styles.footer}>
@@ -114,5 +117,10 @@ export const generatePDF = async ({ terms, signature }) => {
     </Document>
   );
 
-  return pdf(<ContractDocument />).toBuffer();
+  try {
+    return await pdf(<ContractDocument />).toBuffer();
+  } catch (error) {
+    console.error('PDF generation error:', error);
+    throw new Error('Failed to generate PDF');
+  }
 };
