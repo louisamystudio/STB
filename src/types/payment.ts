@@ -1,4 +1,6 @@
+
 export interface PaymentMilestone {
+  title: string;
   percentage: number;
   description: string;
 }
@@ -9,9 +11,16 @@ export interface ProjectTimeline {
 }
 
 export const paymentSchedule: PaymentMilestone[] = [
-  { percentage: 50, description: 'Upon contract signing' },
-  { percentage: 30, description: 'Delivery of raw scan data' },
-  { percentage: 20, description: 'Delivery of final BIM model and certified drawings' }
+  { 
+    title: "First Payment",
+    percentage: 50, 
+    description: "Upon completion of laser scanning" 
+  },
+  { 
+    title: "Final Payment",
+    percentage: 50, 
+    description: "Upon delivery of final deliverables" 
+  }
 ] as const;
 
 export const projectTimeline: ProjectTimeline[] = [
