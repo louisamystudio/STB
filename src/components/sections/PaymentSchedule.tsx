@@ -26,15 +26,17 @@ export const PaymentSchedule: React.FC = () => (
     </div>
 
     <div className="mt-12 p-6 bg-gray-50 rounded-lg">
-      <h3 className="text-xl font-bold mb-6 luxury-title">Timeline</h3>
+      <h3 className="text-xl font-bold mb-6 luxury-title">Project Timeline</h3>
       <div className="space-y-4">
-        {projectTimeline.map((phase, index) => (
-          <div key={index} className="flex items-center">
-            <span className="w-3 h-3 bg-brand-accent rounded-full mr-3"></span>
-            <span>{phase.phase}: <strong className="text-brand-accent">{phase.duration}</strong></span>
-          </div>
-        ))}
-        <div className="text-sm text-gray-600 mt-2">Total project duration: 5 business days or less</div>
+        <div className="flex items-center">
+          <span className="w-3 h-3 bg-brand-accent rounded-full mr-3"></span>
+          <span>Scanning: <strong className="text-brand-accent">1-3 business days</strong></span>
+        </div>
+        <div className="flex items-center">
+          <span className="w-3 h-3 bg-brand-accent rounded-full mr-3"></span>
+          <span>BIM Model & Deliverables: <strong className="text-brand-accent">5 business days</strong></span>
+        </div>
+        <div className="text-sm text-gray-600 mt-4 font-semibold">Total project duration: 5 business days or less</div>
       </div>
     </div>
   </section>
