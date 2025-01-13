@@ -51,9 +51,6 @@ export const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
   const [accepted, setAccepted] = useState(false);
   const [verificationSent, setVerificationSent] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [emailError, setEmailError] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
-
   if (!isOpen) return null;
 
   const generateVerificationCode = () => {
