@@ -15,6 +15,9 @@ const transporter = nodemailer.createTransport({
   auth: {
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS
+  },
+  tls: {
+    rejectUnauthorized: false
   }
 });
 
@@ -28,6 +31,10 @@ transporter.verify((error) => {
 
 export const sendVerificationEmail = async (email: string, code: string) => {
   try {
+    if (!process.env.SMTP_USER) {
+      console.error('SMTP_USER not configured');
+      return false;
+    }
     const result = await transporter.sendMail({
       from: `"Louis Amy AE Studio" <${process.env.SMTP_USER}>`,
       to: email,
