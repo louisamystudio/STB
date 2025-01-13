@@ -118,9 +118,13 @@ export const generatePDF = async ({ terms, signature }) => {
   );
 
   try {
-    return await pdf(<ContractDocument />).toBuffer();
+    const buffer = await pdf(<ContractDocument />).toBuffer();
+    if (!buffer) {
+      throw new Error('PDF buffer is empty');
+    }
+    return buffer;
   } catch (error) {
     console.error('PDF generation error:', error);
-    throw new Error('Failed to generate PDF');
+    throw new Error(`Failed to generate PDF: ${error.message}`);
   }
 };

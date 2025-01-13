@@ -1,4 +1,3 @@
-
 import React, { Suspense, useRef, useState, useEffect } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { OrbitControls, useGLTF } from '@react-three/drei';
@@ -7,23 +6,23 @@ import { MOUSE } from 'three';
 
 function Model() {
   const gltf = useGLTF('/models/extSur/scene.gltf', true);
-const { camera, gl } = useThree();
+  const { camera, gl } = useThree();
 
-useEffect(() => {
-  camera.position.set(5, 5, 5);
-  camera.lookAt(0, 0, 0);
-}, [camera]);
+  useEffect(() => {
+    camera.position.set(5, 5, 5);
+    camera.lookAt(0, 0, 0);
+  }, [camera]);
   const modelRef = useRef();
   const [hovered, setHovered] = useState(false);
-  
+
   useFrame((state) => {
     const time = state.clock.getElapsedTime();
-    
+
     // Continuous rotation animation in opposite direction
     if (modelRef.current) {
       modelRef.current.rotation.y = -time * 0.05; // Slower, reversed rotation
     }
-    
+
     // Camera animation
     if (time < 2) {
       state.camera.position.lerp(
@@ -53,9 +52,9 @@ useEffect(() => {
 
   return (
     <>
-      <primitive 
-        ref={modelRef} 
-        object={gltf.scene} 
+      <primitive
+        ref={modelRef}
+        object={gltf.scene}
         scale={1.2}
         onPointerOver={() => setHovered(true)}
         onPointerOut={() => setHovered(false)}
@@ -73,47 +72,68 @@ useEffect(() => {
   );
 }
 
+function ErrorBoundary({ fallback, children }) {
+  const [error, setError] = useState(null);
+  useEffect(() => {
+    // Cleanup function to remove the error on unmount.
+    return () => setError(null);
+  }, []);
+
+  function onError(error) {
+    setError(error);
+  }
+
+  if (error) {
+    return fallback;
+  } else {
+    return <>{children}</>;
+  }
+}
+
+
 export default function ModelViewer() {
   return (
     <div className="w-full h-[600px] relative">
-      <Canvas
-        gl={{ 
-          antialias: true,
-          preserveDrawingBuffer: true
-        }}
-        camera={{
-          fov: 45,
-          near: 0.1,
-          far: 1000,
-          position: [35, 20, 35]
-        }}
-      >
-        <ambientLight intensity={0.5} />
-        <directionalLight position={[10, 10, 10]} intensity={1} />
-        <Suspense fallback={null}>
-          <Model />
-        </Suspense>
-        <OrbitControls 
-          enableRotate={true}
-          mouseButtons={{
-            LEFT: THREE.MOUSE.ROTATE,
-            MIDDLE: THREE.MOUSE.DOLLY,
-            RIGHT: THREE.MOUSE.PAN
+      <ErrorBoundary fallback={<div>Error loading model. Please try again.</div>}>
+        <Canvas
+          gl={{
+            antialias: true,
+            preserveDrawingBuffer: true
           }}
-          enableDamping={true}
-          dampingFactor={0.05}
-          rotateSpeed={0.8}
-          minDistance={5}
-          maxDistance={200}
-          minPolarAngle={0}
-          maxPolarAngle={Math.PI}
-          enableZoom={true}
-          enablePan={true}
-          panSpeed={1.0}
-          zoomSpeed={1.0}
-          target={[0, 0, 0]}
-        />
-      </Canvas>
+          camera={{
+            fov: 45,
+            near: 0.1,
+            far: 1000,
+            position: [35, 20, 35]
+          }}
+        >
+          <ambientLight intensity={0.5} />
+          <directionalLight position={[10, 10, 10]} intensity={1} />
+          <Suspense fallback={<div>Loading...</div>}>
+            <Model />
+          </Suspense>
+          <OrbitControls
+            enableRotate={true}
+            mouseButtons={{
+              LEFT: THREE.MOUSE.ROTATE,
+              MIDDLE: THREE.MOUSE.DOLLY,
+              RIGHT: THREE.MOUSE.PAN
+            }}
+            enableDamping={true}
+            dampingFactor={0.05}
+            rotateSpeed={0.8}
+            minDistance={5}
+            maxDistance={200}
+            minPolarAngle={0}
+            maxPolarAngle={Math.PI}
+            enableZoom={true}
+            enablePan={true}
+            panSpeed={1.0}
+            zoomSpeed={1.0}
+            target={[0, 0, 0]}
+          />
+        </Canvas>
+      </ErrorBoundary>
     </div>
   );
 }
