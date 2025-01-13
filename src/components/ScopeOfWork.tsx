@@ -1,4 +1,4 @@
-import React from 'react';
+ import React from 'react';
 
 export const ScopeOfWork: React.FC = () => (
   <section className="p-8 bg-gray-50">
