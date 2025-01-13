@@ -9,18 +9,21 @@ import { Footer } from '@/components/sections/Footer';
 import { useStartupMetrics } from '@/hooks/useStartupMetrics';
 import { HowWeWork } from './components/sections/HowWeWork';
 
+const calculateTotal = (area: number, cost: number) => (area * cost).toFixed(2);
+
+const area = 8755.00;
 const services = [
   {
     service: '3D Scanning and Point Cloud',
-    area: '8,755.00 sq-ft',
+    area: area.toLocaleString() + ' sq-ft',
     costPerSqFt: '$0.50',
-    total: '$4,377.50'
+    total: '$' + calculateTotal(area, 0.50)
   },
   {
     service: 'Revit BIM Model',
-    area: '8,755.00 sq-ft',
+    area: area.toLocaleString() + ' sq-ft',
     costPerSqFt: '$0.65',
-    total: '$5,690.75'
+    total: '$' + calculateTotal(area, 0.65)
   }
 ];
 

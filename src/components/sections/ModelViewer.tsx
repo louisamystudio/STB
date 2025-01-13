@@ -6,7 +6,13 @@ import * as THREE from 'three';
 import { MOUSE } from 'three';
 
 function Model() {
-  const gltf = useGLTF('/models/extSur/scene.gltf');
+  const gltf = useGLTF('/models/extSur/scene.gltf', true);
+const { camera, gl } = useThree();
+
+useEffect(() => {
+  camera.position.set(5, 5, 5);
+  camera.lookAt(0, 0, 0);
+}, [camera]);
   const modelRef = useRef();
   const [hovered, setHovered] = useState(false);
   
