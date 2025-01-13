@@ -1,4 +1,3 @@
-
 export interface TermSection {
   title: string;
   content: string[];
@@ -22,7 +21,18 @@ export const projectTimeline: ProjectTimeline[] = [
 
 export const terms: TermSection[] = [
   {
-    title: 'Scope of Services',
+    title: 'Intellectual Property & Ownership',
+    content: [
+      'All copyrights, patents, and intellectual property rights in the Instruments of Service are irrevocably retained by the CONSULTANT',
+      'Point cloud data ownership transfers to client upon final payment',
+      'BIM models become client property upon final payment',
+      'Louis Amy AE Studio retains rights to methods and processes',
+      'Portfolio usage rights retained by Louis Amy AE Studio',
+      'No unauthorized reproduction or distribution',
+    ],
+  },
+  {
+    title: 'Scope of Work, Changes & Additional Fees',
     content: [
       'On-site laser scanning of specified areas',
       'Point cloud data processing and registration',
