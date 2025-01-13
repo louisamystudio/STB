@@ -77,8 +77,7 @@ export const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          email,
-          code
+          email
         })
       });
 
@@ -93,6 +92,8 @@ export const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
       setVerificationSent(false);
       console.error('Verification error:', error);
       alert('Error sending verification code. Please try again.');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
