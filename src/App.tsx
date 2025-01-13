@@ -13,14 +13,14 @@ const services = [
   {
     service: '3D Scanning and Point Cloud',
     area: '8,755.00 sq-ft',
-    costPerSqFt: '$0.30',
-    total: '$2,626.50'
+    costPerSqFt: '$0.50',
+    total: '$4,377.50'
   },
   {
     service: 'Revit BIM Model',
     area: '8,755.00 sq-ft',
-    costPerSqFt: '$0.50',
-    total: '$4,377.50'
+    costPerSqFt: '$0.65',
+    total: '$5,690.75'
   }
 ];
 
@@ -38,7 +38,7 @@ function App() {
         <ScopeOfWork />
         <Investment 
           services={services}
-          grandTotal="$7,004.00"
+          grandTotal="$10,068.25"
         />
         <HowWeWork />
         <PaymentSchedule />
