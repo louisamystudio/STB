@@ -111,8 +111,13 @@ export const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
   };
 
   const handleAcceptTerms = async () => {
+    setEmailError('');
     if (!email || !confirmationCode) {
-      alert("Please fill in all required fields");
+      setEmailError("Please fill in all required fields");
+      return;
+    }
+    if (!confirmationCode.match(/^\d{6}$/)) {
+      setEmailError("Please enter a valid 6-digit verification code");
       return;
     }
 

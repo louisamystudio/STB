@@ -9,7 +9,8 @@ const router = express.Router();
 const verificationCodes = new Map<string, {
   code: string,
   expiresAt: Date,
-  attempts: number
+  attempts: number,
+  verified: boolean
 }>();
 
 const transporter = nodemailer.createTransport({
