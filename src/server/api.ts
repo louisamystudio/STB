@@ -37,9 +37,14 @@ const transporter = nodemailer.createTransport({
   port: 587,
   secure: false,
   auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASSWORD
+    user: process.env.EMAIL_USER || '',
+    pass: process.env.EMAIL_PASSWORD || ''
   }
+});
+
+// Log configuration status without exposing credentials
+console.log('Email configuration status:', {
+  configured: !!(process.env.EMAIL_USER && process.env.EMAIL_PASSWORD)
 });
 
 // Verify transporter connection
