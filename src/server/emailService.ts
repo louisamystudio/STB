@@ -9,7 +9,7 @@ const emailLimiter = rateLimit({
 });
 
 const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST,
+  host: process.env.SMTP_HOST || 'smtp.gmail.com',
   port: parseInt(process.env.SMTP_PORT || "587"),
   secure: false,
   auth: {
@@ -18,7 +18,6 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-// Verify transporter connection on startup
 transporter.verify((error) => {
   if (error) {
     console.error('SMTP connection error:', error);
