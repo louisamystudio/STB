@@ -31,7 +31,8 @@ function App() {
   useStartupMetrics();
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <ErrorBoundary>
+      <div className="min-h-screen bg-gray-100">
       <div className="max-w-4xl mx-auto bg-white shadow-xl">
         <Header 
           recipient="Arch. Ana Mediavilla"
@@ -48,6 +49,7 @@ function App() {
         <Footer />
       </div>
     </div>
+    </ErrorBoundary>
   );
 }
 
