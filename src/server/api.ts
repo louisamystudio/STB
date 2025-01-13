@@ -51,19 +51,27 @@ transporter.verify((error, success) => {
   }
 });
 
-router.post('/send-verification', async (req, res) => {
+router.post('/send-verification', emailLimiter, async (req, res) => {
   const { email, code } = req.body;
   const expiresAt = new Date(Date.now() + 10 * 60 * 1000);
 
-  verificationCodes.set(email, {
-    code,
-    expiresAt,
-    attempts: 0,
-    verified: false
-  });
+  if (!email || !code) {
+    return res.status(400).json({ error: 'Email and code are required' });
+  }
 
   try {
-    await transporter.sendMail({
+    const emailSent = await sendVerificationEmail(email, code);
+    if (!emailSent) {
+      throw new Error('Failed to send email');
+    }
+
+    verificationCodes.set(email, {
+      code,
+      expiresAt,
+      attempts: 0,
+      verified: false,
+      hash: hashCode(code)
+    });
       from: process.env.EMAIL_USER,
       to: email,
       subject: 'Your Verification Code - Louis Amy AE Studio',
