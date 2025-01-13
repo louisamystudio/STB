@@ -29,6 +29,9 @@ export const Header: React.FC = () => (
           transition={{ delay: 0.4, duration: 0.6 }}
         >
           <div className="grid grid-cols-[200px_1fr] gap-y-4">
+            <div className="font-montserrat font-bold text-[16px] text-[#737D74]">Date Submitted:</div>
+            <div className="font-montserrat text-[18px] text-[#333333]">{new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</div>
+            
             <div className="font-montserrat font-bold text-[16px] text-[#737D74]">Project Details:</div>
             <div className="font-montserrat text-[18px] text-[#333333]">Historic Building Laser Scan to BIM Model</div>
             
