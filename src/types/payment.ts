@@ -35,7 +35,7 @@ export const terms: TermSection[] = [
   {
     title: 'Project Timeline',
     content: [
-      'Project initiation within 24 hours of agreement',
+      'Project initiation within 5 business days of agreement',
       'Laser scanning: 1-3 business days',
       'BIM modeling and deliverables: 5 business days',
       'Review and revision period included',

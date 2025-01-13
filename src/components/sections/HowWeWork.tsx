@@ -5,7 +5,7 @@ const steps = [
   {
     number: 1,
     title: 'Coordination',
-    description: 'Start of scanning may be scheduled with a priority of 7 days or less.'
+    description: 'Start of scanning may be scheduled with a priority of 5 business days or less.'
   },
   {
     number: 2,
