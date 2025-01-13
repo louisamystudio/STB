@@ -86,7 +86,7 @@ export const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
 
   const sendFormattedProposal = async (email: string, code: string) => {
     console.log(`Sending proposal to ${email} with code ${code}`);
-    return new Promise((resolve) => setTimeout(resolve, 1000));
+    return new Promise(resolve => setTimeout(resolve, 1000));
   };
 
   return (
@@ -95,12 +95,7 @@ export const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
         <div className="p-6">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-2xl font-bold text-[#333333]">Terms of Agreement</h2>
-            <button
-              onClick={onClose}
-              className="text-2xl text-[#333333]"
-            >
-              &times;
-            </button>
+            <button onClick={onClose} className="text-2xl text-[#333333]">&times;</button>
           </div>
 
           <div className="space-y-4">
@@ -200,9 +195,9 @@ export const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
 
           <div className="mt-6 p-4 border-t border-gray-200">
             <label className="flex items-center space-x-2 mb-4">
-              <input
-                type="checkbox"
-                className="form-checkbox h-5 w-5 text-[#F04E3E]"
+              <input 
+                type="checkbox" 
+                className="form-checkbox h-5 w-5 text-[#F04E3E]" 
                 checked={accepted}
                 onChange={(e) => setAccepted(e.target.checked)}
               />
@@ -211,21 +206,71 @@ export const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
 
             {accepted && (
               <div className="space-y-4">
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  disabled={verificationSent}
-                  className="w-full p-2 border rounded focus:ring-2 focus:ring-[#F04E3E] text-[#333333] bg-white"
-                />
-                {!verificationSent && (
-                  <button
-                    onClick={handleSendVerification}
-                    className="mt-2 bg-[#F04E3E] text-white px-4 py-2 rounded hover:bg-opacity-90"
-                  >
-                    Send Verification Code
-                  </button>
+                <div className="relative">
+                  <div className="bg-[#f5f5f5] p-4 rounded-lg mb-4">
+                    <h3 className="text-[#333333] font-bold mb-2">Verification Process:</h3>
+                    <ol className="list-decimal pl-4 text-[#737D74] space-y-2">
+                      <li>Enter your email address below</li>
+                      <li>Check your inbox for the verification code</li>
+                      <li>Enter the code to authenticate your agreement</li>
+                    </ol>
+                  </div>
+                  <input 
+                    type="email" 
+                    placeholder="Enter your email" 
+                    value={email} 
+                    onChange={(e) => setEmail(e.target.value)}
+                    disabled={verificationSent}
+                    className="w-full p-2 border rounded focus:ring-2 focus:ring-[#F04E3E] text-[#333333] bg-white"
+                  />
+                  {!verificationSent && (
+                    <button 
+                      onClick={handleSendVerification}
+                      className="mt-2 bg-[#F04E3E] text-white px-4 py-2 rounded hover:bg-opacity-90"
+                    >
+                      Send Verification Code
+                    </button>
+                  )}
+                </div>
+
+                {verificationSent && (
+                  <>
+                    <div className="bg-[#f5f5f5] p-4 rounded-lg">
+                      <p className="text-[#737D74] mb-4">Check your email for the verification code and enter it below:</p>
+                      <div className="flex space-x-2">
+                        <input 
+                          type="text" 
+                          placeholder="Enter verification code" 
+                          value={confirmationCode} 
+                          onChange={(e) => setConfirmationCode(e.target.value)}
+                          className="flex-1 p-2 border rounded focus:ring-2 focus:ring-[#F04E3E] text-[#333333] bg-white"
+                        />
+                        <button 
+                          onClick={handleAcceptTerms}
+                          className="bg-[#F04E3E] text-white px-4 py-2 rounded hover:bg-opacity-90"
+                        >
+                          Verify Code
+                        </button>
+                      </div>
+                    </div>
+                    <div className="mt-4 p-4 bg-[#fff4f2] rounded-lg">
+                      <p className="text-[#333333] font-bold mb-2">THIS IS A LEGAL BINDING CONTRACT</p>
+                      <p className="text-[#737D74] text-sm mb-4">By entering the verification code and submitting, you:</p>
+                      <ul className="list-disc pl-4 text-[#737D74] text-sm mb-4">
+                        <li>Acknowledge that you have read, understood, and agreed to all terms and conditions above</li>
+                        <li>Authorize Louis Amy to proceed with the Proposed Services as outlined</li>
+                        <li>Enter into a legally binding agreement with Louis Amy AE Studio</li>
+                      </ul>
+                      <p className="text-[#737D74] text-sm font-bold">A copy of this signed proposal will be sent to your email for your records.</p>
+                    </div>
+                    <button 
+                      onClick={handleAcceptTerms}
+                      disabled={isSubmitting}
+                      className="w-full bg-[#F04E3E] text-white p-2 rounded hover:bg-opacity-90 disabled:opacity-50"
+                    >
+                      {isSubmitting ? 'Processing...' : 'Confirm & Submit'}
+                    </button>
+                  </>
                 )}
               </div>
             )}
