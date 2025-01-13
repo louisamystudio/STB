@@ -34,6 +34,7 @@ export const PaymentSchedule: React.FC = () => (
             <span>{phase.phase}: <strong className="text-brand-accent">{phase.duration}</strong></span>
           </div>
         ))}
+        <div className="text-sm text-gray-600 mt-2">Total project duration: 5 business days or less</div>
       </div>
     </div>
   </section>

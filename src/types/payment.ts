@@ -16,8 +16,8 @@ export interface ProjectTimeline {
 }
 
 export const projectTimeline: ProjectTimeline[] = [
-  { phase: 'Scanning & Processing', duration: '5-7 business days' },
-  { phase: 'BIM Model Creation', duration: '10-15 business days' }
+  { phase: 'Scanning', duration: '1-3 business days' },
+  { phase: 'BIM Model & Deliverables', duration: '5 business days' }
 ];
 
 export const terms: TermSection[] = [
