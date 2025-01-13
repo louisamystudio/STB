@@ -62,18 +62,16 @@ export const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
     return Math.floor(100000 + Math.random() * 900000).toString();
   };
 
-  const [emailError, setEmailError] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
 
   const handleSendVerification = async () => {
     setEmailError('');
     setSuccessMessage('');
-    
+
     if (!email) {
       setEmailError("Please enter your email address");
       return;
     }
-    
+
     if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
       setEmailError("Please enter a valid email address");
       return;
@@ -97,7 +95,7 @@ export const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
       if (!response.ok) {
         throw new Error(data.error || 'Failed to send verification code');
       }
-      
+
       setVerificationSent(true);
       setSuccessMessage('Verification code sent successfully!');
       setTimeout(() => setSuccessMessage(''), 3000);
