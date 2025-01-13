@@ -87,7 +87,15 @@ export const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
       }
       
       setVerificationSent(true);
-      alert('Verification code has been sent to your email');
+      const notification = document.createElement('div');
+      notification.className = 'fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded shadow-lg z-50 animate-fade-in';
+      notification.textContent = 'Verification code sent successfully!';
+      document.body.appendChild(notification);
+      
+      setTimeout(() => {
+        notification.classList.add('animate-fade-out');
+        setTimeout(() => notification.remove(), 500);
+      }, 3000);
     } catch (error) {
       setVerificationSent(false);
       console.error('Verification error:', error);
@@ -272,9 +280,10 @@ export const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
                   {!verificationSent && (
                     <button 
                       onClick={handleSendVerification}
-                      className="mt-2 bg-[#F04E3E] text-white px-4 py-2 rounded hover:bg-opacity-90"
+                      disabled={isSubmitting}
+                      className={`mt-2 bg-[#F04E3E] text-white px-4 py-2 rounded hover:bg-opacity-90 ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
                     >
-                      Send Verification Code
+                      {isSubmitting ? 'Sending...' : 'Send Verification Code'}
                     </button>
                   )}
                 </div>
