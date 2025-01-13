@@ -5,7 +5,9 @@ import * as THREE from 'three';
 import { MOUSE } from 'three';
 
 function Model() {
-  const gltf = useGLTF('/models/extSur/scene.gltf', true);
+  const gltf = useGLTF('/models/extSur/scene.gltf', true, undefined, (error) => {
+    console.error('Error loading model:', error);
+  });
   const { camera, gl } = useThree();
 
   useEffect(() => {
@@ -72,21 +74,25 @@ function Model() {
   );
 }
 
-function ErrorBoundary({ fallback, children }) {
-  const [error, setError] = useState(null);
-  useEffect(() => {
-    // Cleanup function to remove the error on unmount.
-    return () => setError(null);
-  }, []);
-
-  function onError(error) {
-    setError(error);
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
   }
 
-  if (error) {
-    return fallback;
-  } else {
-    return <>{children}</>;
+  static getDerivedStateFromError(error) {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error, errorInfo) {
+    console.error('Model viewer error:', error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return <div className="text-center p-4 bg-gray-100 rounded">Error loading 3D model. Please try refreshing.</div>;
+    }
+    return this.props.children;
   }
 }
 
@@ -109,7 +115,12 @@ export default function ModelViewer() {
         >
           <ambientLight intensity={0.5} />
           <directionalLight position={[10, 10, 10]} intensity={1} />
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={
+            <mesh>
+              <boxGeometry args={[1, 1, 1]} />
+              <meshStandardMaterial color="#cccccc" />
+            </mesh>
+          }>
             <Model />
           </Suspense>
           <OrbitControls
