@@ -1,6 +1,6 @@
 
-import React, { Suspense, useRef, useState } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
+import React, { Suspense, useRef, useState, useEffect } from 'react';
+import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { OrbitControls, useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
 import { MOUSE } from 'three';
