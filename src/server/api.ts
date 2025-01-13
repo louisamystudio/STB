@@ -1,10 +1,11 @@
-
 import express from 'express';
 import nodemailer from 'nodemailer';
 import { generatePDF } from './pdfGenerator';
 import crypto from 'crypto';
 
 const router = express.Router();
+
+// Store verification codes temporarily
 const verificationCodes = new Map();
 
 const transporter = nodemailer.createTransport({
@@ -19,44 +20,45 @@ const transporter = nodemailer.createTransport({
 
 router.post('/send-verification', async (req, res) => {
   const { email } = req.body;
-  
-  try {
-    // Generate secure random code
-    const code = crypto.randomInt(100000, 999999).toString();
-    const expiresAt = new Date(Date.now() + 15 * 60000); // 15 minutes expiry
-    
-    verificationCodes.set(email, {
-      code,
-      expiresAt,
-      attempts: 0
-    });
+  const code = Math.floor(100000 + Math.random() * 900000).toString();
+  verificationCodes.set(email, code);
 
+  try {
+    // Send email with code
     await transporter.sendMail({
-      from: '"Louis Amy AE Studio" <info@louisamy.com>',
+      from: 'noreply@louisamy.com',
       to: email,
-      subject: "Verification Code - Louis Amy AE Studio",
-      html: `
-        <div style="font-family: 'Montserrat', sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
-          <h1 style="font-family: 'Italiana', serif; color: #333333;">Louis Amy AE Studio</h1>
-          <p>Your verification code is: <strong>${code}</strong></p>
-          <p>This code will expire in 15 minutes.</p>
-        </div>
-      `
+      subject: 'Your Verification Code',
+      text: `Your verification code is: ${code}`
     });
-    
     res.status(200).json({ success: true });
   } catch (error) {
-    console.error('Email error:', error);
-    res.status(500).json({ error: 'Failed to send email' });
+    res.status(500).json({ error: 'Failed to send verification code' });
   }
 });
 
 router.post('/verify-code', async (req, res) => {
   const { email, code } = req.body;
-  
+
+  try {
+    const storedCode = verificationCodes.get(email);
+    if (storedCode && storedCode === code) {
+      verificationCodes.delete(email); // Clean up used code
+      res.status(200).json({ success: true });
+    } else {
+      res.status(400).json({ error: 'Invalid verification code' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: 'Verification failed' });
+  }
+});
+
+router.post('/verify-code', async (req, res) => {
+  const { email, code } = req.body;
+
   try {
     const verification = verificationCodes.get(email);
-    
+
     if (!verification) {
       console.error('Verification not found for email:', email);
       return res.status(400).json({ error: 'No verification code found' });
@@ -79,7 +81,7 @@ router.post('/verify-code', async (req, res) => {
     }
 
     verificationCodes.delete(email);
-    
+
     // Generate audit trail
     const auditTrail = {
       verifiedAt: new Date().toISOString(),
@@ -95,7 +97,7 @@ router.post('/verify-code', async (req, res) => {
         auditTrail
       }
     });
-    
+
     // Send to client
     await transporter.sendMail({
       from: '"Louis Amy AE Studio" <info@louisamy.com>',
@@ -131,7 +133,7 @@ router.post('/verify-code', async (req, res) => {
         content: pdfBuffer
       }]
     });
-    
+
     res.status(200).json({ success: true });
   } catch (error) {
     console.error('Verification error:', error);
