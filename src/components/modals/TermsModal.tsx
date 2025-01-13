@@ -54,13 +54,40 @@ export const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
 
   if (!isOpen) return null;
 
+  const generateVerificationCode = () => {
+    return Math.floor(100000 + Math.random() * 900000).toString();
+  };
+
   const handleSendVerification = async () => {
     if (!email) {
       alert("Please enter your email address");
       return;
     }
+    
+    const verificationCode = generateVerificationCode();
     setVerificationSent(true);
-    console.log(`Sending verification to ${email}`);
+    
+    try {
+      const response = await fetch('/api/send-verification', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          code: verificationCode
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to send verification code');
+      }
+
+      alert('Verification code has been sent to your email');
+    } catch (error) {
+      alert('Error sending verification code. Please try again.');
+      setVerificationSent(false);
+    }
   };
 
   const handleAcceptTerms = async () => {
