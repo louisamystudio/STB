@@ -172,7 +172,7 @@ export const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
                 setOpenAccordionId(openAccordionId === "scope" ? null : "scope")
               }
             >
-              <ul className="list-disc pl-6 space-y-1">
+              <ul className="list-disc pl-6 space-y-1 text-black">
                 <li>On-site laser scanning of specified areas</li>
                 <li>Point cloud data processing and registration</li>
                 <li>BIM model creation at agreed-upon LOD</li>
@@ -192,7 +192,7 @@ export const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
                 )
               }
             >
-              <ul className="list-disc pl-6 space-y-1">
+              <ul className="list-disc pl-6 space-y-1 text-black">
                 <li>Project initiation within 5 business days of agreement</li>
                 <li>Initial point cloud processing: 5-7 business days</li>
                 <li>BIM modeling: 10-15 business days based on complexity</li>
@@ -211,7 +211,7 @@ export const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
                 )
               }
             >
-              <ul className="list-disc pl-6 space-y-1">
+              <ul className="list-disc pl-6 space-y-1 text-black">
                 <li>The payment schedule is divided into two main milestones:</li>
                 <li>First Payment (50%) - Due upon the completion of laser scanning services.</li>
                 <li>Final Payment (50%) - Due upon the delivery of all final deliverables.</li>
@@ -229,7 +229,7 @@ export const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
                 )
               }
             >
-              <ul className="list-disc pl-6 space-y-1">
+              <ul className="list-disc pl-6 space-y-1 text-black">
                 <li>Provide site access and necessary permits</li>
                 <li>Ensure areas are accessible and properly lit</li>
                 <li>Designate project representative</li>
@@ -249,7 +249,7 @@ export const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
                 )
               }
             >
-              <ul className="list-disc pl-6 space-y-1">
+              <ul className="list-disc pl-6 space-y-1 text-black">
                 <li>Point cloud data ownership transfers to client upon final payment</li>
                 <li>BIM models become client property upon final payment</li>
                 <li>Louis Amy AE Studio retains rights to methods and processes</li>
