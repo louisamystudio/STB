@@ -1,0 +1,46 @@
+The error message "Error sending verification code. Please try again" suggests issues with either the email service or the verification code handling in your API. Let's troubleshoot the following:
+
+Ensure your email service is correctly configured: Verify that your SMTP host, user, and password in the environment variables are set correctly. You can check the configurations in your environment variables setup.
+Check your email sending logic: In your send-verification endpoint of api.ts, the email should be sent to the correct address and with the right content. Here is the relevant code:
+router.post('/send-verification', async (req, res) => {
+  const { email } = req.body;
+  const code = Math.floor(100000 + Math.random() * 900000).toString();
+  const expiresAt = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes expiration
+  
+  verificationCodes.set(email, {
+    code,
+    expiresAt,
+    attempts: 0
+  });
+  try {
+    // Send email with code
+    await transporter.sendMail({
+      from: 'noreply@louisamy.com',
+      to: email,
+      subject: 'Your Verification Code',
+      text: `Your verification code is: ${code}`
+    });
+    res.status(200).json({ success: true });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to send verification code' });
+  }
+});
+Make sure that the nodemailer configuration in your emailService.ts is working properly and that your app can connect to the email service. Here is what it should look like:
+
+const transporter = nodemailer.createTransport({
+  host: process.env.SMTP_HOST || 'smtp.gmail.com',
+  port: parseInt(process.env.SMTP_PORT || '587'),
+  secure: false,
+  auth: {
+    user: process.env.SMTP_USER,
+    pass: process.env.SMTP_PASS
+  }
+});
+Debugging Steps:
+Add logging to track whether the email sending process reaches its endpoint. You can log the error in your catch block of the sendMail method to get more insights.
+Check Network Configuration: If you are running this locally, ensure that your environment allows outgoing connections on the SMTP server's port.
+After updating, retry sending the verification code and monitor the console for any new errors that may arise. If the problem persists, examine the logs and ensure that your SMTP credentials and service status are correct.
+Assistant saved your changes
+Assistant mode
+
+GPT-4o mini
