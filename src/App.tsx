@@ -34,22 +34,22 @@ function App() {
   return (
     <ErrorBoundary>
       <div className="min-h-screen bg-gray-100">
-      <div className="max-w-4xl mx-auto bg-white shadow-xl">
-        <Header 
-          recipient="Arch. Ana Mediavilla"
-          date="November 20, 2024"
-        />
-        <PhysicalToDigital />
-        <ScopeOfWork />
-        <Investment 
-          services={services}
-          grandTotal="$10,068.25"
-        />
-        <HowWeWork />
-        <PaymentSchedule />
-        <Footer />
+        <div className="max-w-4xl mx-auto bg-white shadow-xl">
+          <Header 
+            recipient="Arch. Ana Mediavilla"
+            date="November 20, 2024"
+          />
+          <PhysicalToDigital />
+          <ScopeOfWork />
+          <Investment 
+            services={services}
+            grandTotal="$10,068.25"
+          />
+          <HowWeWork />
+          <PaymentSchedule />
+          <Footer />
+        </div>
       </div>
-    </div>
     </ErrorBoundary>
   );
 }

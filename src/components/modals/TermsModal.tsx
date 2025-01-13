@@ -62,6 +62,7 @@ export const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
     return Math.floor(100000 + Math.random() * 900000).toString();
   };
 
+  const verificationCode = generateVerificationCode();
 
   const handleSendVerification = async () => {
     setEmailError('');
@@ -86,6 +87,7 @@ export const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
         },
         body: JSON.stringify({
           email,
+          code: verificationCode,
           type: 'verification'
         })
       });

@@ -69,7 +69,7 @@ router.post('/verify-code', async (req, res) => {
   try {
     const verification = verificationCodes.get(email);
 
-    if (!verification) {
+    if (!verification || !verification.code) {
       console.error('Verification not found for email:', email);
       return res.status(400).json({ error: 'No verification code found' });
     }
