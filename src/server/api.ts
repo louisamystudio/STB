@@ -5,8 +5,12 @@ import crypto from 'crypto';
 
 const router = express.Router();
 
-// Store verification codes temporarily
-const verificationCodes = new Map();
+// Store verification codes with expiration and attempts
+const verificationCodes = new Map<string, {
+  code: string,
+  expiresAt: Date,
+  attempts: number
+}>();
 
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
@@ -21,7 +25,13 @@ const transporter = nodemailer.createTransport({
 router.post('/send-verification', async (req, res) => {
   const { email } = req.body;
   const code = Math.floor(100000 + Math.random() * 900000).toString();
-  verificationCodes.set(email, code);
+  const expiresAt = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes expiration
+  
+  verificationCodes.set(email, {
+    code,
+    expiresAt,
+    attempts: 0
+  });
 
   try {
     // Send email with code
