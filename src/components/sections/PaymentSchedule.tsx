@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { paymentSchedule, projectTimeline, ProjectTimeline } from '@/types/payment';
+import { paymentSchedule, ProjectTimeline } from '@/types/payment';
 
 export const PaymentSchedule: React.FC = () => (
   <section className="p-12 bg-white">
