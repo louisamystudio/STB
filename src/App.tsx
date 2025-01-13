@@ -12,15 +12,15 @@ import { HowWeWork } from './components/sections/HowWeWork';
 const services = [
   {
     service: '3D Scanning and Point Cloud',
-    area: '10,000 sq-ft',
+    area: '8,755.00 sq-ft',
     costPerSqFt: '$0.30',
-    total: '$3,000'
+    total: '$2,626.50'
   },
   {
     service: 'Revit BIM Model',
-    area: '10,000 sq-ft',
+    area: '8,755.00 sq-ft',
     costPerSqFt: '$0.50',
-    total: '$5,000'
+    total: '$4,377.50'
   }
 ];
 
@@ -38,7 +38,7 @@ function App() {
         <ScopeOfWork />
         <Investment 
           services={services}
-          grandTotal="$8,000"
+          grandTotal="$7,004.00"
         />
         <HowWeWork />
         <PaymentSchedule />
