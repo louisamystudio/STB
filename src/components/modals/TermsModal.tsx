@@ -267,7 +267,7 @@ export const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
                 checked={accepted}
                 onChange={(e) => setAccepted(e.target.checked)}
               />
-              <span className="text-[#737D74]">I accept the terms and conditions</span>
+              <span className="text-black">I accept the terms and conditions</span>
             </label>
 
             {accepted && (
@@ -275,7 +275,7 @@ export const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
                 <div className="relative">
                   <div className="bg-[#f5f5f5] p-4 rounded-lg mb-4">
                     <h3 className="text-[#333333] font-bold mb-2">Verification Process:</h3>
-                    <ol className="list-decimal pl-4 text-[#737D74] space-y-2">
+                    <ol className="list-decimal pl-4 text-black space-y-2">
                       <li>Enter your email address below</li>
                       <li>Check your inbox for the verification code</li>
                       <li>Enter the code to authenticate your agreement</li>
@@ -307,7 +307,7 @@ export const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
                 {verificationSent && (
                   <>
                     <div className="bg-[#f5f5f5] p-4 rounded-lg">
-                      <p className="text-[#737D74] mb-4">Check your email for the verification code and enter it below:</p>
+                      <p className="text-black mb-4">Check your email for the verification code and enter it below:</p>
                       <div className="flex space-x-2">
                         <input 
                           type="text" 
@@ -326,13 +326,13 @@ export const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
                     </div>
                     <div className="mt-4 p-4 bg-[#fff4f2] rounded-lg">
                       <p className="text-[#333333] font-bold mb-2">THIS IS A LEGAL BINDING CONTRACT</p>
-                      <p className="text-[#737D74] text-sm mb-4">By entering the verification code and submitting, you:</p>
-                      <ul className="list-disc pl-4 text-[#737D74] text-sm mb-4">
+                      <p className="text-black text-sm mb-4">By entering the verification code and submitting, you:</p>
+                      <ul className="list-disc pl-4 text-black text-sm mb-4">
                         <li>Acknowledge that you have read, understood, and agreed to all terms and conditions above</li>
                         <li>Authorize Louis Amy to proceed with the Proposed Services as outlined</li>
                         <li>Enter into a legally binding agreement with Louis Amy AE Studio</li>
                       </ul>
-                      <p className="text-[#737D74] text-sm font-bold">A copy of this signed proposal will be sent to your email for your records.</p>
+                      <p className="text-black text-sm font-bold">A copy of this signed proposal will be sent to your email for your records.</p>
                     </div>
                     <button 
                       onClick={handleAcceptTerms}
