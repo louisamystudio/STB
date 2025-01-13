@@ -39,7 +39,7 @@ export const terms: TermSection[] = [
       'Laser scanning: 1-3 business days',
       'BIM modeling and deliverables: 5 business days',
       'Review and revision period included',
-      'Total project duration: 5 business days or less',
+      'Total project documentation: 6-8 business days',
     ],
   },
   {

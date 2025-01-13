@@ -36,7 +36,7 @@ export const PaymentSchedule: React.FC = () => (
           <span className="w-3 h-3 bg-brand-accent rounded-full mr-3"></span>
           <span>BIM Model & Deliverables: <strong className="text-brand-accent">5 business days</strong></span>
         </div>
-        <div className="text-sm text-gray-600 mt-4 font-semibold">Total project duration: 5 business days or less</div>
+        <div className="text-sm text-gray-600 mt-4 font-semibold">Total project documentation: 6-8 business days</div>
       </div>
     </div>
   </section>
