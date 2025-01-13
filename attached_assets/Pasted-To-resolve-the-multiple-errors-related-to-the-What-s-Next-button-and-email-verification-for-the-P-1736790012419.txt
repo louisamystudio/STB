@@ -1,0 +1,97 @@
+To resolve the multiple errors related to the "What's Next?" button and email verification for the PDF certificate, let's address the potential bugs systematically:
+
+1. Check the "What's Next?" Button Functionality
+Ensure that the button in the Footer component correctly triggers the TermsModal. This is already set in your current code, but double-check if there are any issues related to rendering or state management.
+
+Here is the relevant code from the Footer.tsx:
+
+<button
+  onClick={() => setShowTerms(true)}
+  className="bg-[#f04e3e] text-white px-8 py-4 rounded-lg hover:bg-[#e04232] transition-colors mb-8"
+>
+  Approve & Start Project
+</button>
+Make sure there's no JavaScript error preventing the TermsModal from being displayed.
+
+2. Email Verification Code Logic
+Review the logic in the TermsModal component to ensure that validations and error handling are properly implemented.
+
+Here’s a revised code snippet focusing on the email verification part of the TermsModal.tsx:
+
+const handleSendVerification = async () => {
+  setEmailError('');
+  setSuccessMessage('');
+  if (!email) {
+    setEmailError("Please enter your email address");
+    return;
+  }
+  if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+    setEmailError("Please enter a valid email address");
+    return;
+  }
+  setIsSubmitting(true);
+  try {
+    const verificationCode = generateVerificationCode(); // Ensure a code is generated
+    await fetch('/api/send-verification', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email,
+        code: verificationCode, // Include the generated verification code
+        type: 'verification'
+      })
+    });
+    setVerificationSent(true);
+    setSuccessMessage('Verification code sent successfully!');
+    setTimeout(() => setSuccessMessage(''), 3000);
+  } catch (error) {
+    setVerificationSent(false);
+    console.error('Verification error:', error);
+    setEmailError('Error sending verification code. Please try again.');
+  } finally {
+    setIsSubmitting(false);
+  }
+};
+3. PDF Certificate Validation Logic
+Ensure the logic for validating the PDF certificate in the handleAcceptTerms function works properly. Here's a critical review:
+
+const handleAcceptTerms = async () => {
+  if (!email || !confirmationCode) {
+    alert("Please fill in all required fields");
+    return;
+  }
+  setIsSubmitting(true);
+  try {
+    const response = await fetch('/api/verify-code', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email,
+        code: confirmationCode
+      })
+    });
+    if (response.ok) {
+      await sendFormattedProposal(email, confirmationCode);
+      onClose(); // Close Modal after confirming
+    } else {
+      alert("Invalid verification code. Please try again.");
+    }
+  } catch (error) {
+    console.error('Verification error:', error);
+    alert("Error processing your request. Please try again.");
+  } finally {
+    setIsSubmitting(false);
+  }
+};
+Common Error Handling
+If you encounter issues like "Could not load /models/extSur/scene.gltf", ensure the asset paths are correctly set in your project and the files exist in the specified directories.
+For any React components throwing errors, consider implementing an ErrorBoundary to gracefully handle those exceptions. Refer to your ErrorBoundary.tsx if implemented.
+Debugging Steps
+Look at the console for specific error messages, especially related to network requests and component renderings.
+Ensure all API endpoints (like /api/send-verification and /api/verify-code) are correctly configured and responding.
+Test the email verification flow and confirm correct handling of responses.
+By following these debugging steps and reviewing the code mentioned, you should be able to address the issues currently affecting the features in your application. If the problems persist, please provide specific errors encountered for further assistance.
