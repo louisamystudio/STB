@@ -64,10 +64,8 @@ export const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
       return;
     }
     
-    const verificationCode = generateVerificationCode();
-    setVerificationSent(true);
-    
     try {
+      const code = generateVerificationCode();
       const response = await fetch('/api/send-verification', {
         method: 'POST',
         headers: {
@@ -75,18 +73,21 @@ export const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
         },
         body: JSON.stringify({
           email,
-          code: verificationCode
+          code
         })
       });
 
       if (!response.ok) {
         throw new Error('Failed to send verification code');
       }
-
+      
+      setVerificationSent(true);
+      // Store code in state for verification
+      setConfirmationCode(code);
       alert('Verification code has been sent to your email');
     } catch (error) {
+      console.error('Verification error:', error);
       alert('Error sending verification code. Please try again.');
-      setVerificationSent(false);
     }
   };
 
