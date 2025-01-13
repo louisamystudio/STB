@@ -9,7 +9,7 @@ const emailLimiter = rateLimit({
 });
 
 const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST || 'smtp.gmail.com',
+  host: process.env.SMTP_HOST,
   port: parseInt(process.env.SMTP_PORT || "587"),
   secure: false,
   auth: {
