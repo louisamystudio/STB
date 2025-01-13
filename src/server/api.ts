@@ -24,43 +24,34 @@ const transporter = nodemailer.createTransport({
 });
 
 router.post('/send-verification', async (req, res) => {
-  const { email } = req.body;
-  const code = Math.floor(100000 + Math.random() * 900000).toString();
-  const expiresAt = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes expiration
-  
+  const { email, code } = req.body;
+  const expiresAt = new Date(Date.now() + 10 * 60 * 1000);
+
   verificationCodes.set(email, {
     code,
     expiresAt,
-    attempts: 0
+    attempts: 0,
+    verified: false
   });
 
   try {
-    // Send email with code
     await transporter.sendMail({
-      from: 'noreply@louisamy.com',
+      from: process.env.EMAIL_USER,
       to: email,
-      subject: 'Your Verification Code',
-      text: `Your verification code is: ${code}`
+      subject: 'Your Verification Code - Louis Amy AE Studio',
+      html: `
+        <div style="font-family: 'Montserrat', sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+          <h2 style="font-family: 'Italiana', serif; color: #333333;">Louis Amy AE Studio</h2>
+          <p>Your verification code is: <strong>${code}</strong></p>
+          <p>This code will expire in 10 minutes.</p>
+        </div>
+      `
     });
+
     res.status(200).json({ success: true });
   } catch (error) {
+    console.error('Email error:', error);
     res.status(500).json({ error: 'Failed to send verification code' });
-  }
-});
-
-router.post('/verify-code', async (req, res) => {
-  const { email, code } = req.body;
-
-  try {
-    const storedCode = verificationCodes.get(email);
-    if (storedCode && storedCode === code) {
-      verificationCodes.delete(email); // Clean up used code
-      res.status(200).json({ success: true });
-    } else {
-      res.status(400).json({ error: 'Invalid verification code' });
-    }
-  } catch (error) {
-    res.status(500).json({ error: 'Verification failed' });
   }
 });
 

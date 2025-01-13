@@ -78,7 +78,9 @@ export const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
       return;
     }
 
+    const code = Math.floor(100000 + Math.random() * 900000).toString();
     setIsSubmitting(true);
+    
     try {
       const response = await fetch('/api/send-verification', {
         method: 'POST',
@@ -87,8 +89,7 @@ export const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
         },
         body: JSON.stringify({
           email,
-          code: verificationCode,
-          type: 'verification'
+          code
         })
       });
 
