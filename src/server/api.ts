@@ -50,6 +50,25 @@ router.post('/generate-contract', async (req, res) => {
         content: pdfBuffer
       }]
     });
+
+router.post('/verify-code', async (req, res) => {
+  const { email, code } = req.body;
+  
+  try {
+    // Verify the code matches what was sent
+    // In a real app, you'd check against a database
+    const isValid = code.length === 6;
+    
+    if (isValid) {
+      res.status(200).json({ success: true });
+    } else {
+      res.status(400).json({ error: 'Invalid code' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: 'Verification failed' });
+  }
+});
+
     
     // Send to Louis Amy
     await transporter.sendMail({

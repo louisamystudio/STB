@@ -99,13 +99,25 @@ export const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
 
     setIsSubmitting(true);
     try {
-      if (confirmationCode === "123456") {
+      const response = await fetch('/api/verify-code', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          code: confirmationCode
+        })
+      });
+
+      if (response.ok) {
         await sendFormattedProposal(email, confirmationCode);
         onClose();
       } else {
         alert("Invalid verification code. Please try again.");
       }
     } catch (error) {
+      console.error('Verification error:', error);
       alert("Error processing your request. Please try again.");
     } finally {
       setIsSubmitting(false);
