@@ -10,6 +10,16 @@ export interface PaymentMilestone {
   description: string;
 }
 
+export interface ProjectTimeline {
+  phase: string;
+  duration: string;
+}
+
+export const projectTimeline: ProjectTimeline[] = [
+  { phase: 'Scanning & Processing', duration: '5-7 business days' },
+  { phase: 'BIM Model Creation', duration: '10-15 business days' }
+];
+
 export const terms: TermSection[] = [
   {
     title: 'Scope of Services',
