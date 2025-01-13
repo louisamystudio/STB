@@ -1,4 +1,5 @@
 import React from 'react';
+import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { Header } from '@/components/layout/Header';
 import { Introduction } from '@/components/sections/Introduction';
 import { PhysicalToDigital } from '@/components/sections/PhysicalToDigital';
