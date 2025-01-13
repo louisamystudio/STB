@@ -6,12 +6,31 @@ import crypto from 'crypto';
 const router = express.Router();
 
 // Store verification codes with expiration and attempts
-const verificationCodes = new Map<string, {
-  code: string,
-  expiresAt: Date,
-  attempts: number,
-  verified: boolean
-}>();
+import crypto from 'crypto';
+
+interface VerificationAttempt {
+  code: string;
+  expiresAt: Date;
+  attempts: number;
+  verified: boolean;
+  hash: string;
+}
+
+const verificationCodes = new Map<string, VerificationAttempt>();
+
+// Cleanup expired codes every 5 minutes
+setInterval(() => {
+  const now = new Date();
+  for (const [email, data] of verificationCodes.entries()) {
+    if (now > data.expiresAt) {
+      verificationCodes.delete(email);
+    }
+  }
+}, 5 * 60 * 1000);
+
+const hashCode = (code: string): string => {
+  return crypto.createHash('sha256').update(code).digest('hex');
+}
 
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",

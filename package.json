@@ -16,11 +16,13 @@
     "@tailwindcss/typography": "^0.5.10",
     "@types/three": "^0.171.0",
     "@vitejs/plugin-react-swc": "^3.7.2",
+    "express-rate-limit": "^7.5.0",
     "framer-motion": "^10.17.9",
     "html-pdf-node": "^1.0.8",
     "nodemailer": "^6.9.16",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "sanitize-html": "^2.14.0",
     "three": "^0.160.0"
   },
   "devDependencies": {

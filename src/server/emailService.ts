@@ -1,5 +1,12 @@
 
 import nodemailer from 'nodemailer';
+import { rateLimit } from 'express-rate-limit';
+import sanitizeHtml from 'sanitize-html';
+
+const emailLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 5 // limit each IP to 5 requests per windowMs
+});
 
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
@@ -10,7 +17,8 @@ const transporter = nodemailer.createTransport({
     pass: process.env.SMTP_PASS
   },
   tls: {
-    rejectUnauthorized: false
+    rejectUnauthorized: true,
+    minVersion: "TLSv1.2"
   }
 });
 
