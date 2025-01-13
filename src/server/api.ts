@@ -23,6 +23,15 @@ const transporter = nodemailer.createTransport({
   }
 });
 
+// Verify transporter connection
+transporter.verify((error, success) => {
+  if (error) {
+    console.error('SMTP connection error:', error);
+  } else {
+    console.log('Server is ready to send emails');
+  }
+});
+
 router.post('/send-verification', async (req, res) => {
   const { email, code } = req.body;
   const expiresAt = new Date(Date.now() + 10 * 60 * 1000);
