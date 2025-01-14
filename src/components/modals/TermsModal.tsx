@@ -54,7 +54,7 @@ export const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [emailError, setEmailError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
-  const [verificationData, setVerificationData] = useState({ code: '', expiresAt: new Date() });
+  const [verificationData, setVerificationData] = useState<{code: string; expiresAt: Date}>({ code: '', expiresAt: new Date() });
 
   const generateVerificationCode = () => ({
     code: Math.floor(100000 + Math.random() * 900000).toString(),
