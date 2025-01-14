@@ -1,6 +1,6 @@
 
 import express from 'express';
-import { sendVerificationEmail } from './emailService';
+import { sendVerificationEmail, generateVerificationCode } from './emailService';
 
 const router = express.Router();
 
@@ -13,17 +13,15 @@ const verificationCodes = new Map<string, VerificationCode>();
 
 router.post('/send-verification', async (req, res) => {
   try {
-    console.log('Received verification request:', req.body);
     const { email } = req.body;
     
     if (!email || !email.trim() || !email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
       return res.status(400).json({ error: 'Invalid email address' });
     }
 
-    const code = Math.floor(100000 + Math.random() * 900000).toString();
-    const expiresAt = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
-
+    const { code, expiresAt } = generateVerificationCode();
     const emailResult = await sendVerificationEmail(email, code);
+    
     if (!emailResult.success) {
       throw new Error(emailResult.error || 'Failed to send email');
     }
@@ -48,13 +46,13 @@ router.post('/verify-code', (req, res) => {
     return res.status(400).json({ error: 'No verification code found for this email' });
   }
 
-  if (storedData.code !== code) {
-    return res.status(400).json({ error: 'Invalid verification code' });
-  }
-
   if (new Date() > storedData.expiresAt) {
     verificationCodes.delete(email);
     return res.status(400).json({ error: 'Verification code has expired' });
+  }
+
+  if (storedData.code !== code) {
+    return res.status(400).json({ error: 'Invalid verification code' });
   }
 
   verificationCodes.delete(email);
