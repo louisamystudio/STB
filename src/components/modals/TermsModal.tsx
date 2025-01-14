@@ -113,6 +113,8 @@ export const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
 
   const handleAcceptTerms = async () => {
     setEmailError('');
+    setSuccessMessage('');
+    
     if (!email || !confirmationCode) {
       setEmailError("Please fill in all required fields");
       return;
@@ -135,15 +137,20 @@ export const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
         })
       });
 
+      const data = await response.json();
+      
       if (response.ok) {
+        setSuccessMessage('Verification successful!');
         await sendFormattedProposal(email, confirmationCode);
-        onClose();
+        setTimeout(() => {
+          onClose();
+        }, 1500);
       } else {
-        alert("Invalid verification code. Please try again.");
+        setEmailError(data.error || "Invalid verification code. Please try again.");
       }
     } catch (error) {
       console.error('Verification error:', error);
-      alert("Error processing your request. Please try again.");
+      setEmailError("Error processing your request. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
