@@ -1,0 +1,84 @@
+To find and address potential bugs in your email verification code, let's review and enhance some areas that could cause issues. Here's a detailed examination with examples from your current codebase:
+
+1. Validation Logic in API
+In the src/server/api.ts file, ensure that the email and code from the request body are validated correctly. Also, check the logic for retrieving storedData.
+
+router.post('/verify-code', (req: Request<{}, {}, VerificationRequest>, res: Response) => {
+  const { email, code } = req.body;
+  // Ensure email and code are provided and not just whitespace
+  if (!email?.trim() || !code?.trim()) {
+    return res.status(400).json({ error: 'Email and verification code are required' });
+  }
+  const storedData = verificationCodes.get(email);
+  if (!storedData) {
+    return res.status(400).json({ error: 'No verification code found for this email' });
+  }
+  if (storedData.code !== code) {
+    return res.status(400).json({ error: 'Invalid verification code' });
+  }
+  // Checking the expiry of the verification code
+  const now = new Date();
+  if (now > storedData.expiresAt) {
+    verificationCodes.delete(email);
+    return res.status(400).json({ error: 'Verification code has expired' });
+  }
+  verificationCodes.delete(email);
+  res.json({ success: true });
+});
+2. Error Handling in Email Service
+In src/server/emailService.ts, ensure proper error handling is in place, especially for the transport configuration. If any SMTP settings are missing, it should throw an error before attempting to send the email.
+
+const sendVerificationEmail = async (email: string, code: string): Promise<{ success: boolean; error?: string }> => {
+  try {
+    const requiredEnvVars = ['SMTP_USER', 'SMTP_PASS', 'SMTP_HOST', 'SMTP_PORT'];
+    const missingVars = requiredEnvVars.filter(varName => !process.env[varName]);
+    
+    if (missingVars.length > 0) {
+      throw new Error(`Missing required environment variables: ${missingVars.join(', ')}`);
+    }
+    const expiryTime = new Date(Date.now() + 10 * 60 * 1000).toLocaleTimeString();
+    const result = await transporter.sendMail({
+      from: `"Louis Amy AE Studio" <${process.env.SMTP_USER}>`,
+      to: email,
+      subject: 'Your Verification Code - Louis Amy AE Studio',
+      html: sanitizeHtml(`
+        <div>
+          <p>Your verification code is: <strong>${code}</strong></p>
+          <p>It will expire at ${expiryTime}</p>
+        </div>
+      `)
+    });
+    console.log('Verification email sent:', result.messageId);
+    return { success: true };
+  } catch (error) {
+    console.error('Email sending error:', error);
+    return { success: false, error: 'Failed to send verification code' };
+  }
+};
+3. Client-side Handling
+In the src/components/modals/TermsModal.tsx, ensure that client-side functions properly handle any returned errors from your API calls.
+
+Make sure that you update the handleSendVerification and handleAcceptTerms functions to provide clear feedback based on the API responses.
+
+const handleSendVerification = async () => {
+  try {
+    const response = await fetch('/api/send-verification', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email })
+    });
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error || 'Failed to send verification code');
+    }
+    setVerificationSent(true);
+  } catch (error) {
+    setEmailError(error instanceof Error ? error.message : 'Error sending verification code. Please try again.');
+  }
+};
+Summary
+After making these changes, thoroughly test the verification functionality to observe how it behaves with both valid and invalid inputs. Ensure the console logs are monitored during testing to catch any errors that might occur.
+
+Implement these checks, and it should significantly reduce the likelihood of bugs in your email verification process. If you encounter any specific errors during your tests, please let me know!
