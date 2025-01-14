@@ -63,7 +63,12 @@ export const sendVerificationEmail = async (email: string, code: string) => {
     console.log('Verification email sent:', result.messageId);
     return true;
   } catch (error) {
-    console.error('Email sending error:', error);
+    console.error('Email sending error:', {
+      error: error.message,
+      stack: error.stack,
+      timestamp: new Date().toISOString(),
+      email: email
+    });
     return false;
   }
 };

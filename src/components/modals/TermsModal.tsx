@@ -104,8 +104,12 @@ export const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
       setTimeout(() => setSuccessMessage(''), 3000);
     } catch (error) {
       setVerificationSent(false);
-      console.error('Verification error:', error);
-      setEmailError('Error sending verification code. Please try again.');
+      console.error('Verification error:', {
+        error: error instanceof Error ? error.message : String(error),
+        timestamp: new Date().toISOString(),
+        email
+      });
+      setEmailError(error instanceof Error ? error.message : 'Error sending verification code. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
