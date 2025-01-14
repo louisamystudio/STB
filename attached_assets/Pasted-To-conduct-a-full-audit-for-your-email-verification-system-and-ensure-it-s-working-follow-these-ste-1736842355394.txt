@@ -1,0 +1,128 @@
+To conduct a full audit for your email verification system and ensure it's working, follow these steps:
+
+1. Review the current email sending logic
+Ensure that your email service is set up correctly to send emails, particularly for verification. The relevant code is in the src/server/emailService.ts file. Here's a reminder of how it works:
+
+import nodemailer from 'nodemailer';
+import { rateLimit } from 'express-rate-limit';
+export const emailLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 5,
+  message: 'Too many verification attempts, please try again later',
+  standardHeaders: true,
+  legacyHeaders: false
+});
+const CODE_EXPIRY_MINUTES = 10;
+const transporter = nodemailer.createTransport({
+  host: process.env.SMTP_HOST || 'smtp.gmail.com',
+  port: parseInt(process.env.SMTP_PORT || '587'),
+  secure: false,
+  auth: {
+    user: process.env.SMTP_USER,
+    pass: process.env.SMTP_PASS
+  }
+});
+export const generateVerificationCode = () => {
+  const code = Math.floor(100000 + Math.random() * 900000).toString();
+  const expiresAt = new Date(Date.now() + CODE_EXPIRY_MINUTES * 60 * 1000);
+  return { code, expiresAt };
+};
+export const sendVerificationEmail = async (email: string, code: string): Promise<{ success: boolean; error?: string }> => {
+  try {
+    await transporter.sendMail({
+      from: `"Louis Amy AE Studio" <${process.env.SMTP_USER}>`,
+      to: email,
+      subject: 'Your Verification Code - Louis Amy AE Studio',
+      html: `
+        <div style="font-family: Arial, sans-serif; padding: 20px;">
+          <h2>Verification Code</h2>
+          <p>Your verification code is: <strong>${code}</strong></p>
+          <p>This code will expire in ${CODE_EXPIRY_MINUTES} minutes.</p>
+          <p>If you didn't request this code, please ignore this email.</p>
+        </div>
+      `
+    });
+    return { success: true };
+  } catch (error) {
+    console.error('Email sending error:', error);
+    return { 
+      success: false, 
+      error: 'Failed to send verification code'
+    };
+  }
+};
+Make sure that your SMTP configuration is correct and test sending an email directly to confirm functionality.
+
+2. Frontend Confirmation
+In the TermsModal component (src/components/modals/TermsModal.tsx), you've implemented the logic for sending a verification email and handling the verification code input. Ensure that this part of the code correctly interacts with the backend.
+
+Check the handleSendVerification and handleAcceptTerms functions:
+
+const handleSendVerification = async () => {
+  // ... your existing logic
+};
+const handleAcceptTerms = async () => {
+  // ... your existing logic
+};
+Test these functions in your local environment to ensure they are properly sending requests and handling responses.
+
+3. API Routes Review
+Make sure that the API routes for sending verification emails and verifying codes are correctly implemented in src/server/api.ts. Here's a reminder of how they should look:
+
+import express from 'express';
+import { sendVerificationEmail, generateVerificationCode } from './emailService';
+const router = express.Router();
+const verificationCodes = new Map<string, { code: string; expiresAt: Date }>();
+router.post('/send-verification', async (req, res) => {
+  try {
+    const { email } = req.body;
+    
+    if (!email || !email.trim() || !email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+      return res.status(400).json({ error: 'Invalid email address' });
+    }
+    const { code, expiresAt } = generateVerificationCode();
+    const emailResult = await sendVerificationEmail(email, code);
+    
+    if (!emailResult.success) {
+      throw new Error(emailResult.error || 'Failed to send email');
+    }
+    verificationCodes.set(email, { code, expiresAt });
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Verification request error:', error);
+    res.status(500).json({ error: error instanceof Error ? error.message : 'Failed to send verification code' });
+  }
+});
+router.post('/verify-code', (req, res) => {
+  const { email, code } = req.body;
+  
+  if (!email?.trim() || !code?.trim()) {
+    return res.status(400).json({ error: 'Email and verification code are required' });
+  }
+  const storedData = verificationCodes.get(email);
+  if (!storedData) {
+    return res.status(400).json({ error: 'No verification code found for this email' });
+  }
+  if (new Date() > storedData.expiresAt) {
+    verificationCodes.delete(email);
+    return res.status(400).json({ error: 'Verification code has expired' });
+  }
+  if (storedData.code !== code) {
+    return res.status(400).json({ error: 'Invalid verification code' });
+  }
+  verificationCodes.delete(email);
+  res.json({ success: true });
+});
+export default router;
+4. Testing the Flow
+Start your application. Use the command:
+npm run dev
+Test Email Verification:
+Open your application.
+Simulate sending a verification email and check your inbox.
+Input the verification code using the modal you've set up and validate the process on the frontend.
+5. Fix the React Hooks Warning
+Make sure all useState hooks are declared at the top of your TermsModal component to adhere to React's rules.
+
+Conclusion
+With these steps, your email verification system should be fully audited and operational. Test each step to ensure everything is functioning properly. If you encounter specific issues or need more assistance, feel free to ask!
