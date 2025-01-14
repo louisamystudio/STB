@@ -138,6 +138,11 @@ export const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
         return;
       }
 
+      if (confirmationCode !== verificationData.code) {
+        setEmailError("Invalid verification code. Please try again.");
+        return;
+      }
+
       const response = await fetch('/api/verify-code', {
         method: 'POST',
         headers: {
@@ -145,7 +150,7 @@ export const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
         },
         body: JSON.stringify({
           email,
-          code: confirmationCode
+          code: verificationData.code
         })
       });
 
