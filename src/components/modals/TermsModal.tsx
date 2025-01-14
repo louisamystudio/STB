@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -55,10 +56,6 @@ export const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
   const [emailError, setEmailError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const [verificationData, setVerificationData] = useState({ code: '', expiresAt: new Date() });
-
-  if (!isOpen) {
-    return null;
-  }
 
   const generateVerificationCode = () => ({
     code: Math.floor(100000 + Math.random() * 900000).toString(),
@@ -165,6 +162,10 @@ export const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
     console.log(`Sending proposal to ${email} with code ${code}`);
     return new Promise(resolve => setTimeout(resolve, 1000));
   };
+
+  if (!isOpen) {
+    return null;
+  }
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
