@@ -4,12 +4,7 @@ import { sendVerificationEmail, generateVerificationCode } from './emailService'
 
 const router = express.Router();
 
-interface VerificationCode {
-  code: string;
-  expiresAt: Date;
-}
-
-const verificationCodes = new Map<string, VerificationCode>();
+const verificationCodes = new Map<string, { code: string; expiresAt: Date }>();
 
 router.post('/send-verification', async (req, res) => {
   try {
