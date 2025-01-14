@@ -2,11 +2,9 @@ import express from 'express';
 import nodemailer from 'nodemailer';
 import { generatePDF } from './pdfGenerator';
 import crypto from 'crypto';
+import { emailLimiter } from './emailService';
 
 const router = express.Router();
-
-// Store verification codes with expiration and attempts
-import crypto from 'crypto';
 
 interface VerificationAttempt {
   code: string;
@@ -32,29 +30,44 @@ const hashCode = (code: string): string => {
   return crypto.createHash('sha256').update(code).digest('hex');
 }
 
-const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 587,
-  secure: false,
-  auth: {
-    user: process.env.EMAIL_USER || '',
-    pass: process.env.EMAIL_PASSWORD || ''
-  }
-});
+const sendVerificationEmail = async (email: string, code: string): Promise<boolean> => {
+  try {
+    const transporter = nodemailer.createTransport({
+      host: "smtp.gmail.com",
+      port: 587,
+      secure: false,
+      auth: {
+        user: process.env.EMAIL_USER || '',
+        pass: process.env.EMAIL_PASSWORD || ''
+      }
+    });
 
-// Log configuration status without exposing credentials
-console.log('Email configuration status:', {
-  configured: !!(process.env.EMAIL_USER && process.env.EMAIL_PASSWORD)
-});
+    // Log configuration status without exposing credentials
+    console.log('Email configuration status:', {
+      configured: !!(process.env.EMAIL_USER && process.env.EMAIL_PASSWORD)
+    });
 
-// Verify transporter connection
-transporter.verify((error, success) => {
-  if (error) {
+    // Verify transporter connection
+    await transporter.verify();
+    await transporter.sendMail({
+      from: process.env.EMAIL_USER,
+      to: email,
+      subject: 'Your Verification Code - Louis Amy AE Studio',
+      html: `
+        <div style="font-family: 'Montserrat', sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+          <h2 style="font-family: 'Italiana', serif; color: #333333;">Louis Amy AE Studio</h2>
+          <p>Your verification code is: <strong>${code}</strong></p>
+          <p>This code will expire in 10 minutes.</p>
+        </div>
+      `
+    });
+    return true;
+  } catch (error) {
     console.error('SMTP connection error:', error);
-  } else {
-    console.log('Server is ready to send emails');
+    return false;
   }
-});
+};
+
 
 router.post('/send-verification', emailLimiter, async (req, res) => {
   const { email, code } = req.body;
@@ -76,17 +89,6 @@ router.post('/send-verification', emailLimiter, async (req, res) => {
       attempts: 0,
       verified: false,
       hash: hashCode(code)
-    });
-      from: process.env.EMAIL_USER,
-      to: email,
-      subject: 'Your Verification Code - Louis Amy AE Studio',
-      html: `
-        <div style="font-family: 'Montserrat', sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
-          <h2 style="font-family: 'Italiana', serif; color: #333333;">Louis Amy AE Studio</h2>
-          <p>Your verification code is: <strong>${code}</strong></p>
-          <p>This code will expire in 10 minutes.</p>
-        </div>
-      `
     });
 
     res.status(200).json({ success: true });
@@ -139,42 +141,6 @@ router.post('/verify-code', async (req, res) => {
         timestamp: new Date().toISOString(),
         auditTrail
       }
-    });
-
-    // Send to client
-    await transporter.sendMail({
-      from: '"Louis Amy AE Studio" <info@louisamy.com>',
-      to: email,
-      subject: "Your Signed Contract - Louis Amy AE Studio",
-      html: `
-        <div style="font-family: 'Montserrat', sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
-          <h1 style="font-family: 'Italiana', serif; color: #333333;">Louis Amy AE Studio</h1>
-          <p>Thank you for verifying your agreement. Please find your signed contract attached.</p>
-        </div>
-      `,
-      attachments: [{
-        filename: 'LouisAmy-Contract.pdf',
-        content: pdfBuffer
-      }]
-    });
-
-    // Send copy to Louis Amy
-    await transporter.sendMail({
-      from: '"Louis Amy AE Studio System" <info@louisamy.com>',
-      to: "info@louisamy.com", 
-      subject: `New Contract Signed - ${email}`,
-      html: `
-        <div style="font-family: 'Montserrat', sans-serif;">
-          <h2>New Contract Signed</h2>
-          <p>Client: ${email}</p>
-          <p>Signed: ${new Date().toLocaleString()}</p>
-          <p>IP Address: ${req.ip}</p>
-        </div>
-      `,
-      attachments: [{
-        filename: 'client-contract.pdf',
-        content: pdfBuffer
-      }]
     });
 
     res.status(200).json({ success: true });

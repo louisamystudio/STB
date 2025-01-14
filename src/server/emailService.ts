@@ -68,4 +68,4 @@ export const sendVerificationEmail = async (email: string, code: string) => {
   }
 };
 
-export { emailLimiter };
+export { emailLimiter, sendVerificationEmail };
