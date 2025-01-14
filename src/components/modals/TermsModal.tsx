@@ -45,7 +45,6 @@ export const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
   isOpen,
   onClose,
 }) => {
-  const CODE_EXPIRY_MINUTES = 10;
   const [openAccordionId, setOpenAccordionId] = useState<string | null>(null);
   const [email, setEmail] = useState("");
   const [confirmationCode, setConfirmationCode] = useState("");
@@ -55,6 +54,8 @@ export const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
   const [emailError, setEmailError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const [verificationData, setVerificationData] = useState<{code: string; expiresAt: Date}>({ code: '', expiresAt: new Date() });
+  
+  const CODE_EXPIRY_MINUTES = 10;
 
   const generateVerificationCode = () => ({
     code: Math.floor(100000 + Math.random() * 900000).toString(),
