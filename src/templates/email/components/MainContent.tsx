@@ -1,7 +1,7 @@
+
 import React from 'react';
 import { brandConfig } from '@/config/brand';
 import { Service } from '@/types/services';
-import { ServiceItem } from './ServiceItem';
 
 interface MainContentProps {
   services: Service[];
@@ -22,7 +22,10 @@ export const MainContent: React.FC<MainContentProps> = ({ services }) => (
       
       <div className="service-grid" style={brandConfig.styles.serviceGrid}>
         {services.map(service => (
-          <ServiceItem key={service.id} service={service} />
+          <div key={service.id} className="service-item" style={brandConfig.styles.serviceItem}>
+            <h3 style={brandConfig.styles.serviceTitle}>{service.title}</h3>
+            <p style={brandConfig.styles.serviceDescription}>{service.description}</p>
+          </div>
         ))}
       </div>
     </td>
