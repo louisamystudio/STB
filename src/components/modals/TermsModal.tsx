@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -76,7 +75,8 @@ export const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
       return;
     }
 
-    const code = Math.floor(100000 + Math.random() * 900000).toString();
+    const newVerificationData = generateVerificationCode();
+    setVerificationData(newVerificationData);
     setIsSubmitting(true);
 
     try {
@@ -87,7 +87,7 @@ export const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
         },
         body: JSON.stringify({
           email,
-          code
+          code: newVerificationData.code
         })
       });
 
