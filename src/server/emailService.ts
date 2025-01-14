@@ -25,10 +25,13 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-export const sendVerificationEmail = async (email: string, code: string): Promise<boolean> => {
+export const sendVerificationEmail = async (email: string, code: string): Promise<{ success: boolean; error?: string }> => {
   try {
-    if (!process.env.SMTP_USER || !process.env.SMTP_PASS || !process.env.SMTP_HOST || !process.env.SMTP_PORT) {
-      throw new Error('Email configuration is incomplete');
+    const requiredEnvVars = ['SMTP_USER', 'SMTP_PASS', 'SMTP_HOST', 'SMTP_PORT'];
+    const missingVars = requiredEnvVars.filter(varName => !process.env[varName]);
+    
+    if (missingVars.length > 0) {
+      throw new Error(`Missing required environment variables: ${missingVars.join(', ')}`);
     }
 
     const result = await transporter.sendMail({
