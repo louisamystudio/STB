@@ -1,0 +1,40 @@
+ite] connected.
+Warning: React has detected a change in the order of Hooks called by TermsModal. This will lead to bugs and errors if not fixed. For more information, read the Rules of Hooks: https://reactjs.org/link/rules-of-hooks
+
+   Previous render            Next render
+   ------------------------------------------------------
+1. useState                   useState
+2. useState                   useState
+3. useState                   useState
+4. useState                   useState
+5. useState                   useState
+6. useState                   useState
+7. useState                   useState
+8. useState                   useState
+9. undefined                  useState
+   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    at TermsModal (https://7d82d5c1-5f39-4db0-a1f5-8dde9ee335ab-00-1sfjulygtdv0x.kirk.replit.dev/src/components/modals/TermsModal.tsx:78:30)
+    at footer
+    at Footer (https://7d82d5c1-5f39-4db0-a1f5-8dde9ee335ab-00-1sfjulygtdv0x.kirk.replit.dev/src/components/sections/Footer.tsx:16:39)
+    at div
+    at div
+    at ErrorBoundary (https://7d82d5c1-5f39-4db0-a1f5-8dde9ee335ab-00-1sfjulygtdv0x.kirk.replit.dev/src/components/ErrorBoundary.tsx:59:9)
+    at App (https://7d82d5c1-5f39-4db0-a1f5-8dde9ee335ab-00-1sfjulygtdv0x.kirk.replit.dev/src/App.tsx:39:5)
+Rendered more hooks than during the previous render.
+Rendered more hooks than during the previous render.
+The above error occurred in the <TermsModal> component:
+
+    at TermsModal (https://7d82d5c1-5f39-4db0-a1f5-8dde9ee335ab-00-1sfjulygtdv0x.kirk.replit.dev/src/components/modals/TermsModal.tsx:78:30)
+    at footer
+    at Footer (https://7d82d5c1-5f39-4db0-a1f5-8dde9ee335ab-00-1sfjulygtdv0x.kirk.replit.dev/src/components/sections/Footer.tsx:16:39)
+    at div
+    at div
+    at ErrorBoundary (https://7d82d5c1-5f39-4db0-a1f5-8dde9ee335ab-00-1sfjulygtdv0x.kirk.replit.dev/src/components/ErrorBoundary.tsx:59:9)
+    at App (https://7d82d5c1-5f39-4db0-a1f5-8dde9ee335ab-00-1sfjulygtdv0x.kirk.replit.dev/src/App.tsx:39:5)
+
+React will try to recreate this component tree from scratch using the error boundary you provided, ErrorBoundary.
+Uncaught error: 
+Error {}
+ 
+Object {componentStack: "↵    at TermsModal…"}
