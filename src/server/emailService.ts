@@ -1,15 +1,24 @@
+
 import nodemailer, { createTransport } from 'nodemailer';
 import { rateLimit } from 'express-rate-limit';
 import sanitizeHtml from 'sanitize-html';
-import { Request, Response } from 'express';
 
-const emailLimiter = rateLimit({
+export const emailLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 5,
   message: 'Too many verification attempts, please try again later',
   standardHeaders: true,
   legacyHeaders: false
 });
+
+const requiredEnvVars = ['SMTP_USER', 'SMTP_PASS', 'SMTP_HOST', 'SMTP_PORT'];
+
+const validateEnvVars = () => {
+  const missingVars = requiredEnvVars.filter(varName => !process.env[varName]);
+  if (missingVars.length > 0) {
+    throw new Error(`Missing required environment variables: ${missingVars.join(', ')}`);
+  }
+};
 
 const transporter = createTransport({
   host: process.env.SMTP_HOST,
@@ -24,38 +33,38 @@ const transporter = createTransport({
   }
 });
 
-export const sendVerificationEmail = async (email: string, code: string): Promise<boolean> => {
+export const sendVerificationEmail = async (email: string, code: string): Promise<{ success: boolean; error?: string }> => {
   try {
+    validateEnvVars();
+
+    const expiryTime = new Date(Date.now() + 10 * 60 * 1000).toLocaleTimeString();
     const result = await transporter.sendMail({
-      from: process.env.SMTP_USER,
+      from: `"Louis Amy AE Studio" <${process.env.SMTP_USER}>`,
       to: email,
-      subject: 'Your Verification Code - Louis Amy Studio',
-      html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-          <h2 style="color: #333;">Verification Code</h2>
+      subject: 'Your Verification Code - Louis Amy AE Studio',
+      html: sanitizeHtml(`
+        <div style="font-family: Arial, sans-serif; padding: 20px;">
+          <h2>Verification Code</h2>
           <p>Your verification code is: <strong>${code}</strong></p>
-          <p>This code will expire in 10 minutes.</p>
+          <p>This code will expire at ${expiryTime}</p>
           <p>If you didn't request this code, please ignore this email.</p>
         </div>
-      `
+      `)
     });
 
     console.log('Verification email sent:', result.messageId);
-    return true;
+    return { success: true };
   } catch (error) {
-    const errorDetails = {
+    console.error('Email sending error:', {
       message: error instanceof Error ? error.message : String(error),
       timestamp: new Date().toISOString(),
-      email,
-      type: 'EMAIL_SEND_ERROR'
+      email
+    });
+    return { 
+      success: false, 
+      error: error instanceof Error && error.message.includes('SMTP') 
+        ? 'Email service temporarily unavailable' 
+        : 'Failed to send verification code'
     };
-    console.error('Email sending error:', errorDetails);
-
-    if (error instanceof Error && error.message.includes('SMTP')) {
-      throw new Error('Email service temporarily unavailable');
-    }
-    throw new Error('Failed to send verification code');
   }
 };
-
-export { emailLimiter };
