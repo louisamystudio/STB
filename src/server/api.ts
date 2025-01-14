@@ -13,6 +13,7 @@ const verificationCodes = new Map<string, VerificationCode>();
 
 router.post('/send-verification', async (req, res) => {
   try {
+    console.log('Received verification request:', req.body);
     const { email } = req.body;
     
     if (!email || !email.trim() || !email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {

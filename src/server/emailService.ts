@@ -1,4 +1,3 @@
-
 import nodemailer, { createTransport } from 'nodemailer';
 import { rateLimit } from 'express-rate-limit';
 import sanitizeHtml from 'sanitize-html';
@@ -21,8 +20,8 @@ const validateEnvVars = () => {
 };
 
 const transporter = createTransport({
-  host: process.env.SMTP_HOST,
-  port: parseInt(process.env.SMTP_PORT || '587'),
+  host: process.env.SMTP_HOST || 'smtp.gmail.com',
+  port: parseInt(process.env.SMTP_PORT || "587"),
   secure: false,
   auth: {
     user: process.env.SMTP_USER,
