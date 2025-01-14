@@ -121,6 +121,11 @@ export const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
       setEmailError("Please fill in all required fields");
       return;
     }
+
+    if (!verificationData.code) {
+      setEmailError("Please request a new verification code");
+      return;
+    }
     if (!confirmationCode.match(/^\d{6}$/)) {
       setEmailError("Please enter a valid 6-digit verification code");
       return;
@@ -128,6 +133,11 @@ export const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
 
     setIsSubmitting(true);
     try {
+      if (new Date() > verificationData.expiresAt) {
+        setEmailError("Verification code has expired. Please request a new one.");
+        return;
+      }
+
       const response = await fetch('/api/verify-code', {
         method: 'POST',
         headers: {
