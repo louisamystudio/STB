@@ -24,7 +24,7 @@
     "express": "^4.21.2",
     "express-rate-limit": "^7.5.0",
     "framer-motion": "^10.17.9",
-    "html-pdf-node": "^1.0.8",
+    "html-pdf-node": "^1.0.7",
     "jspdf": "^2.5.2",
     "nodemailer": "^6.9.16",
     "react": "^18.2.0",
