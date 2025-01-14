@@ -30,12 +30,23 @@ router.post('/verify-code', (req: Request<{}, {}, VerificationRequest>, res: Res
   const { email, code } = req.body;
   const storedCode = verificationCodes.get(email);
 
-  if (storedCode && storedCode === code) {
-    verificationCodes.delete(email);
-    res.json({ success: true });
-  } else {
-    res.status(400).json({ error: 'Invalid verification code' });
+  const storedData = verificationCodes.get(email);
+  
+  if (!storedData) {
+    return res.status(400).json({ error: 'No verification code found for this email' });
   }
+  
+  if (storedData.code !== code) {
+    return res.status(400).json({ error: 'Invalid verification code' });
+  }
+  
+  if (new Date() > storedData.expiresAt) {
+    verificationCodes.delete(email);
+    return res.status(400).json({ error: 'Verification code has expired' });
+  }
+  
+  verificationCodes.delete(email);
+  res.json({ success: true });
 });
 
 export default router;

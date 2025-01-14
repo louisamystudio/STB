@@ -58,11 +58,14 @@ export const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
     return null;
   }
 
-  const generateVerificationCode = () => {
-    return Math.floor(100000 + Math.random() * 900000).toString();
-  };
+  const CODE_EXPIRY_MINUTES = 10;
+  
+  const generateVerificationCode = () => ({
+    code: Math.floor(100000 + Math.random() * 900000).toString(),
+    expiresAt: new Date(Date.now() + CODE_EXPIRY_MINUTES * 60 * 1000)
+  });
 
-  const verificationCode = generateVerificationCode();
+  const [verificationData, setVerificationData] = useState({ code: '', expiresAt: new Date() });
 
   const handleSendVerification = async () => {
     setEmailError('');
