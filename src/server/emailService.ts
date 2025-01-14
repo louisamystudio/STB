@@ -1,4 +1,3 @@
-
 import nodemailer from 'nodemailer';
 import { rateLimit } from 'express-rate-limit';
 import sanitizeHtml from 'sanitize-html';
@@ -35,17 +34,9 @@ transporter.verify((error) => {
 export const sendVerificationEmail = async (email: string, code: string) => {
   try {
     if (!process.env.SMTP_USER || !process.env.SMTP_PASS || !process.env.SMTP_HOST || !process.env.SMTP_PORT) {
-      console.error('SMTP configuration incomplete');
-      throw new Error('Email configuration is incomplete. Please check your environment variables.');
+      throw new Error('Email configuration is incomplete');
     }
 
-    if (!email || !code) {
-      throw new Error('Email and verification code are required');
-    }
-
-    if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
-      throw new Error('Invalid email format');
-    }
     const result = await transporter.sendMail({
       from: `"Louis Amy AE Studio" <${process.env.SMTP_USER}>`,
       to: email,
@@ -60,16 +51,16 @@ export const sendVerificationEmail = async (email: string, code: string) => {
         </div>
       `)
     });
+
     console.log('Verification email sent:', result.messageId);
     return true;
   } catch (error) {
     console.error('Email sending error:', {
-      error: error.message,
-      stack: error.stack,
+      message: error instanceof Error ? error.message : String(error),
       timestamp: new Date().toISOString(),
       email: email
     });
-    return false;
+    throw error;
   }
 };
 
