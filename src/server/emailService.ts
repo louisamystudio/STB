@@ -1,10 +1,12 @@
+
 import nodemailer from 'nodemailer';
 import { rateLimit } from 'express-rate-limit';
 import sanitizeHtml from 'sanitize-html';
+import { Request, Response } from 'express';
 
 const emailLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 5, // 5 requests per window
+  windowMs: 15 * 60 * 1000,
+  max: 5,
   message: 'Too many verification attempts, please try again later',
   standardHeaders: true,
   legacyHeaders: false
@@ -23,15 +25,7 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-transporter.verify((error) => {
-  if (error) {
-    console.error('SMTP connection error:', error);
-  } else {
-    console.log('Email server ready');
-  }
-});
-
-export const sendVerificationEmail = async (email: string, code: string) => {
+export const sendVerificationEmail = async (email: string, code: string): Promise<boolean> => {
   try {
     if (!process.env.SMTP_USER || !process.env.SMTP_PASS || !process.env.SMTP_HOST || !process.env.SMTP_PORT) {
       throw new Error('Email configuration is incomplete');
@@ -64,4 +58,4 @@ export const sendVerificationEmail = async (email: string, code: string) => {
   }
 };
 
-export { emailLimiter, sendVerificationEmail };
+export { emailLimiter };
