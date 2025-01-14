@@ -4,8 +4,11 @@ import { rateLimit } from 'express-rate-limit';
 import sanitizeHtml from 'sanitize-html';
 
 const emailLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 5
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 5, // 5 requests per window
+  message: 'Too many verification attempts, please try again later',
+  standardHeaders: true,
+  legacyHeaders: false
 });
 
 const transporter = nodemailer.createTransport({
@@ -35,9 +38,17 @@ transporter.verify((error) => {
 
 export const sendVerificationEmail = async (email: string, code: string) => {
   try {
-    if (!process.env.SMTP_USER || !process.env.SMTP_PASS || !process.env.SMTP_HOST) {
+    if (!process.env.SMTP_USER || !process.env.SMTP_PASS || !process.env.SMTP_HOST || !process.env.SMTP_PORT) {
       console.error('SMTP configuration incomplete');
-      return {success: false, error: 'Email configuration error'};
+      throw new Error('Email configuration is incomplete. Please check your environment variables.');
+    }
+
+    if (!email || !code) {
+      throw new Error('Email and verification code are required');
+    }
+
+    if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+      throw new Error('Invalid email format');
     }
     const result = await transporter.sendMail({
       from: `"Louis Amy AE Studio" <${process.env.SMTP_USER}>`,
