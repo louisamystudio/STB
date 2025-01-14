@@ -1,0 +1,145 @@
+To implement a robust email verification system that includes checks for verification code existence, expiration validation, and efficient state management, you can follow these steps using the existing TermsModal component as a part of your email verification workflow.
+
+Step 1: Update the Verification Logic
+We will enhance the verification code handling in the TermsModal to include the features you've requested, ensuring client-side validation and preventing unnecessary API calls.
+
+Here's the updated code for the TermsModal.tsx component:
+
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+// AccordionItem definition remains unchanged...
+export const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
+  isOpen,
+  onClose,
+}) => {
+  const [openAccordionId, setOpenAccordionId] = useState<string | null>(null);
+  const [email, setEmail] = useState("");
+  const [confirmationCode, setConfirmationCode] = useState("");
+  const [emailError, setEmailError] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
+  const [verificationData, setVerificationData] = useState<{ code: string; expiresAt: Date } | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const CODE_EXPIRY_MINUTES = 10;
+  // This function generates a verification code and expiration time
+  const generateVerificationCode = (): { code: string; expiresAt: Date } => {
+    const code = Math.floor(100000 + Math.random() * 900000).toString();
+    const expiresAt = new Date(Date.now() + CODE_EXPIRY_MINUTES * 60 * 1000);
+    return { code, expiresAt };
+  };
+  // Function to send verification email
+  const handleSendVerification = async () => {
+    setEmailError('');
+    setSuccessMessage('');
+    if (!email) {
+      setEmailError("Please enter your email address");
+      return;
+    }
+    const newVerificationData = generateVerificationCode();
+    setVerificationData(newVerificationData);
+    setIsSubmitting(true);
+    try {
+      const response = await fetch('/api/send-verification', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, code: newVerificationData.code }),
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to send verification code');
+      }
+      setSuccessMessage('Verification code sent successfully!');
+      // Clear the success message after 3 seconds
+      setTimeout(() => setSuccessMessage(''), 3000);
+    } catch (error) {
+      console.error('Error sending verification code:', error);
+      setEmailError("Error sending verification code. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+  // Function to handle code acceptance
+  const handleAcceptTerms = async () => {
+    setEmailError('');
+    setSuccessMessage('');
+    // Client-side validation of the code
+    if (!email || !confirmationCode) {
+      setEmailError("Please fill in all required fields");
+      return;
+    }
+    if (verificationData && new Date() > verificationData.expiresAt) {
+      setEmailError("Verification code has expired. Please request a new one.");
+      return;
+    }
+    if (verificationData?.code !== confirmationCode) {
+      setEmailError("Invalid verification code. Please try again.");
+      return;
+    }
+    setIsSubmitting(true);
+    try {
+      const response = await fetch('/api/verify-code', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, code: verificationData.code }),
+      });
+      const data = await response.json();
+      if (response.ok) {
+        setSuccessMessage('Verification successful!');
+        // Close the modal after a timeout
+        setTimeout(() => onClose(), 1500);
+      } else {
+        setEmailError(data.error || "Verification failed. Please try again.");
+      }
+    } catch (error) {
+      console.error('Error verifying code:', error);
+      setEmailError("Error processing your request. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+  useEffect(() => {
+    if (!isOpen) {
+      // Clear state when modal is closed
+      setEmail("");
+      setConfirmationCode("");
+      setEmailError('');
+      setSuccessMessage('');
+      setVerificationData(null);
+    }
+  }, [isOpen]);
+  if (!isOpen) {
+    return null;
+  }
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+      <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="p-6">
+          {/* Modal Header */}
+          <h2 className="text-2xl font-bold text-[#333333]">Terms of Agreement</h2>
+          <button onClick={onClose} className="text-2xl text-[#333333]">&times;</button>
+          {/* Input fields and buttons go here... */}
+          {/* Example Button to Send Verification */}
+          <button onClick={handleSendVerification} disabled={isSubmitting}>
+            Send Verification Code
+          </button>
+          {/* Input for verification code */}
+          <input 
+            type="text" 
+            value={confirmationCode} 
+            onChange={(e) => setConfirmationCode(e.target.value)} 
+            placeholder="Enter verification code"
+          />
+          <button onClick={handleAcceptTerms} disabled={isSubmitting}>
+            Accept Terms
+          </button>
+          {/* Additional UI feedback */}
+          {emailError && <div className="text-red-600">{emailError}</div>}
+          {successMessage && <div className="text-green-600">{successMessage}</div>}
+        </div>
+      </div>
+    </div>
+  );
+};
