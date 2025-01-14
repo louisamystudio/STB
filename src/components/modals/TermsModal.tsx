@@ -45,6 +45,7 @@ export const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
   isOpen,
   onClose,
 }) => {
+  const CODE_EXPIRY_MINUTES = 10;
   const [openAccordionId, setOpenAccordionId] = useState<string | null>(null);
   const [email, setEmail] = useState("");
   const [confirmationCode, setConfirmationCode] = useState("");
@@ -53,19 +54,16 @@ export const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [emailError, setEmailError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
+  const [verificationData, setVerificationData] = useState({ code: '', expiresAt: new Date() });
 
   if (!isOpen) {
     return null;
   }
 
-  const CODE_EXPIRY_MINUTES = 10;
-  
   const generateVerificationCode = () => ({
     code: Math.floor(100000 + Math.random() * 900000).toString(),
     expiresAt: new Date(Date.now() + CODE_EXPIRY_MINUTES * 60 * 1000)
   });
-
-  const [verificationData, setVerificationData] = useState({ code: '', expiresAt: new Date() });
 
   const handleSendVerification = async () => {
     setEmailError('');
@@ -83,7 +81,7 @@ export const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
 
     const code = Math.floor(100000 + Math.random() * 900000).toString();
     setIsSubmitting(true);
-    
+
     try {
       const response = await fetch('/api/send-verification', {
         method: 'POST',
@@ -121,7 +119,7 @@ export const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
   const handleAcceptTerms = async () => {
     setEmailError('');
     setSuccessMessage('');
-    
+
     if (!email || !confirmationCode) {
       setEmailError("Please fill in all required fields");
       return;
@@ -145,7 +143,7 @@ export const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
       });
 
       const data = await response.json();
-      
+
       if (response.ok) {
         setSuccessMessage('Verification successful!');
         await sendFormattedProposal(email, confirmationCode);
