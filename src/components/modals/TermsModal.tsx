@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface AccordionItemProps {
@@ -45,22 +45,35 @@ export const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
   isOpen,
   onClose,
 }) => {
+  // Group all useState declarations together
   const [openAccordionId, setOpenAccordionId] = useState<string | null>(null);
   const [email, setEmail] = useState("");
   const [confirmationCode, setConfirmationCode] = useState("");
   const [accepted, setAccepted] = useState(false);
   const [verificationSent, setVerificationSent] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [emailError, setEmailError] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
-  const [verificationData, setVerificationData] = useState<{code: string; expiresAt: Date}>({ code: '', expiresAt: new Date() });
-  
+  const [emailError, setEmailError] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+  const [verificationData, setVerificationData] = useState<{code: string; expiresAt: Date}>({ code: "", expiresAt: new Date() });
+
   const CODE_EXPIRY_MINUTES = 10;
 
   const generateVerificationCode = () => ({
     code: Math.floor(100000 + Math.random() * 900000).toString(),
     expiresAt: new Date(Date.now() + CODE_EXPIRY_MINUTES * 60 * 1000)
   });
+
+  useEffect(() => {
+    if (!isOpen) {
+      setEmail("");
+      setConfirmationCode("");
+      setEmailError("");
+      setSuccessMessage("");
+      setVerificationData({ code: "", expiresAt: new Date() });
+      setVerificationSent(false);
+      setAccepted(false);
+    }
+  }, [isOpen]);
 
   const handleSendVerification = async () => {
     setEmailError('');
