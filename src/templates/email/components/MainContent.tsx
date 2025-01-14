@@ -1,60 +1,65 @@
 
 import React from 'react';
-import { brandConfig } from '@/config/brand';
-import { Service } from '@/types/services';
+import { VerificationEmailData } from '../../../types/email';
 
 interface MainContentProps {
-  services: Service[];
+  data: VerificationEmailData;
 }
 
-export const MainContent: React.FC<MainContentProps> = React.memo(({ services }) => (
-  <tr>
-    <td className="content" style={{
-      padding: '20px',
-      backgroundColor: brandConfig.colors.background,
-      fontFamily: brandConfig.fonts.secondary
+export const MainContent: React.FC<MainContentProps> = ({ data }) => {
+  return (
+    <div style={{
+      backgroundColor: '#ffffff',
+      padding: '30px',
+      borderRadius: '8px',
+      margin: '20px 0'
     }}>
       <h2 style={{
-        fontFamily: brandConfig.fonts.primary,
-        color: brandConfig.colors.secondary,
-        marginBottom: '1rem'
-      }}>
-        Scan to BIM Services
-      </h2>
+        color: '#333333',
+        marginBottom: '20px',
+        fontFamily: 'Italiana, serif'
+      }}>Verification Required</h2>
+      
       <p style={{
-        color: brandConfig.colors.text.secondary,
-        marginBottom: '2rem'
+        color: '#666666',
+        marginBottom: '15px',
+        fontSize: '16px'
       }}>
-        Transform your existing buildings into precise digital assets with our state-of-the-art 
-        Scan to BIM services. Using advanced laser scanning technology, we create accurate 
-        Building Information Models that empower your renovation, documentation, and facility 
-        management needs.
+        Hello {data.recipientName},
       </p>
       
-      <div className="service-grid" style={{
-        display: 'grid',
-        gap: '1rem',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))'
+      <div style={{
+        backgroundColor: '#f5f5f5',
+        padding: '20px',
+        borderRadius: '6px',
+        textAlign: 'center',
+        margin: '25px 0'
       }}>
-        {services.map(service => (
-          <div key={service.id} className="service-item" style={{
-            padding: '1rem',
-            backgroundColor: brandConfig.colors.text.light,
-            borderRadius: '4px'
-          }}>
-            <h3 style={{
-              fontFamily: brandConfig.fonts.primary,
-              color: brandConfig.colors.secondary,
-              marginBottom: '0.5rem'
-            }}>{service.title}</h3>
-            <p style={{
-              color: brandConfig.colors.text.secondary
-            }}>{service.description}</p>
-          </div>
-        ))}
+        <span style={{
+          fontSize: '32px',
+          fontWeight: 'bold',
+          color: '#F04E3E',
+          letterSpacing: '4px'
+        }}>
+          {data.code}
+        </span>
+        
+        <p style={{
+          color: '#666666',
+          fontSize: '14px',
+          marginTop: '10px'
+        }}>
+          This code will expire in {data.expiresIn} minutes
+        </p>
       </div>
-    </td>
-  </tr>
-));
-
-MainContent.displayName = 'MainContent';
+      
+      <p style={{
+        color: '#333333',
+        fontSize: '14px',
+        marginTop: '20px'
+      }}>
+        Please enter this code to verify your email and complete the process.
+      </p>
+    </div>
+  );
+};

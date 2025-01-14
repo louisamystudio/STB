@@ -1,4 +1,3 @@
-
 import express, { Request, Response } from 'express';
 import { sendVerificationEmail } from './emailService';
 
@@ -7,16 +6,20 @@ const router = express.Router();
 interface VerificationRequest {
   email: string;
   code: string;
+  expiresAt: Date;
 }
 
-const verificationCodes = new Map<string, string>();
+const verificationCodes = new Map<string, VerificationRequest>();
 
 router.post('/send-verification', async (req: Request<{}, {}, VerificationRequest>, res: Response) => {
   try {
     const { email } = req.body;
     const code = Math.floor(100000 + Math.random() * 900000).toString();
+    const expiresAt = new Date();
+    expiresAt.setMinutes(expiresAt.getMinutes() + 10); //Verification code expires in 10 minutes
 
-    verificationCodes.set(email, code);
+    const verificationRequest: VerificationRequest = { email, code, expiresAt };
+    verificationCodes.set(email, verificationRequest);
     await sendVerificationEmail(email, code);
 
     res.json({ success: true });
@@ -28,23 +31,26 @@ router.post('/send-verification', async (req: Request<{}, {}, VerificationReques
 
 router.post('/verify-code', (req: Request<{}, {}, VerificationRequest>, res: Response) => {
   const { email, code } = req.body;
-  const storedCode = verificationCodes.get(email);
-
   const storedData = verificationCodes.get(email);
-  
+
+  if (!email?.trim() || !code?.trim()) {
+    return res.status(400).json({ error: 'Email and verification code are required' });
+  }
+
   if (!storedData) {
     return res.status(400).json({ error: 'No verification code found for this email' });
   }
-  
+
   if (storedData.code !== code) {
     return res.status(400).json({ error: 'Invalid verification code' });
   }
-  
-  if (new Date() > storedData.expiresAt) {
+
+  const now = new Date();
+  if (now > storedData.expiresAt) {
     verificationCodes.delete(email);
     return res.status(400).json({ error: 'Verification code has expired' });
   }
-  
+
   verificationCodes.delete(email);
   res.json({ success: true });
 });

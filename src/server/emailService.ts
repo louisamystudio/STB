@@ -63,12 +63,21 @@ export const sendVerificationEmail = async (email: string, code: string): Promis
     console.log('Verification email sent:', result.messageId);
     return true;
   } catch (error) {
-    console.error('Email sending error:', {
+    const errorDetails = {
       message: error instanceof Error ? error.message : String(error),
       timestamp: new Date().toISOString(),
-      email: email
-    });
-    throw error;
+      email,
+      code,
+      type: 'EMAIL_SEND_ERROR'
+    };
+    
+    console.error('Email sending error:', errorDetails);
+    
+    if (error instanceof Error && error.message.includes('SMTP')) {
+      throw new Error('Email service temporarily unavailable');
+    }
+    
+    throw new Error('Failed to send verification code');
   }
 };
 
